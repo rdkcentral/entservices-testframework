@@ -1,0 +1,146 @@
+name: tf-main-wf-part2
+
+on:
+  push:
+    branches: [ main, develop, 'sprint/**', 'release/**' ]
+  pull_request:
+    branches: [ main, develop, 'sprint/**', 'release/**' ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  cloudstore-L1:
+    uses: rdkcentral/entservices-cloudstore/.github/workflows/L1-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  cloudstore-L2:
+    uses: rdkcentral/entservices-cloudstore/.github/workflows/L2-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  migration-L1:
+    uses: rdkcentral/entservices-migration/.github/workflows/L1-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  migration-L2:
+    uses: rdkcentral/entservices-migration/.github/workflows/L2-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  ocicontainer-L1:
+    uses: rdkcentral/entservices-ocicontainer/.github/workflows/L1-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  ocicontainer-L2:
+    uses: rdkcentral/entservices-ocicontainer/.github/workflows/L2-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  persistentstore-L1:
+    uses: rdkcentral/entservices-persistentstore/.github/workflows/L1-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  persistentstore-L2:
+    uses: rdkcentral/entservices-persistentstore/.github/workflows/L2-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  sharedstorage-L1:
+    uses: rdkcentral/entservices-sharedstorage/.github/workflows/L1-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  sharedstorage-L2:
+    uses: rdkcentral/entservices-sharedstorage/.github/workflows/L2-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  telemetry-L1:
+    uses: rdkcentral/entservices-telemetry/.github/workflows/L1-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  telemetry-L2:
+    uses: rdkcentral/entservices-telemetry/.github/workflows/L2-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  usbdevice-L1:
+    uses: rdkcentral/entservices-usbdevice/.github/workflows/L1-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  usbdevice-L2:
+    uses: rdkcentral/entservices-usbdevice/.github/workflows/L2-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  usbmassstorage-L1:
+    uses: rdkcentral/entservices-usbmassstorage/.github/workflows/L1-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  usbmassstorage-L2:
+    uses: rdkcentral/entservices-usbmassstorage/.github/workflows/L2-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  usersettings-L1:
+    uses: rdkcentral/entservices-usersettings/.github/workflows/L1-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  usersettings-L2:
+    uses: rdkcentral/entservices-usersettings/.github/workflows/L2-tests.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
+  usersettings-L2-oop:
+    uses: rdkcentral/entservices-usersettings/.github/workflows/L2-tests-oop.yml@develop
+    with:
+      caller_source: testframework
+    secrets:
+      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
+
