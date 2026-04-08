@@ -226,12 +226,12 @@ index 0000000..aabed49
 +    virtual Core::hresult GetContentAccessToken(string& token /* @out */, uint32_t& expires /* @out */) = 0;
 +    /**********************getContentAccessToken() - end****************************/
 
-	/**********************clearContentAccessToken() - start****************************/
-	// @text clearContentAccessToken
-	// @brief Clears the content access token from the secured persistent location
-	// @param SuccessMsgResult - out
-	virtual Core::hresult ClearContentAccessToken(SuccessMsgResult& setStat /* @out */) = 0;
-	/**********************clearContentAccessToken() - end****************************/
++    /**********************clearContentAccessToken() - start****************************/
++    // @text clearContentAccessToken
++    // @brief Clears the content access token from the secured persistent location
++    // @param SuccessMsgResult - out
++    virtual Core::hresult ClearContentAccessToken(SuccessMsgResult& setStat /* @out */) = 0;
++    /**********************clearContentAccessToken() - end****************************/
 +
 +    /**********************getServiceAccountId() - start****************************/
 +    struct EXTERNAL GetServiceAccountIdResult {
