@@ -35,6 +35,7 @@ public:
     MOCK_METHOD(void, t2_uninit, (), (override));
     MOCK_METHOD(T2ERROR, t2_event_s, (const char* marker, const char* value), (override));
     MOCK_METHOD(T2ERROR, t2_event_d, (const char* marker, int value), (override));
+    MOCK_METHOD(T2ERROR, t2_event_f, (char* marker, double value), (override));
 
     MOCK_METHOD(hresult, Register, (INotification *notification), (override));
     MOCK_METHOD(hresult, Unregister, (INotification *notification), (override));

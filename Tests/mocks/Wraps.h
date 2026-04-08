@@ -59,6 +59,8 @@ public:
     virtual int stat(const char* path, struct stat* info) =0;
     virtual int open(const char* pathname, int flags, mode_t mode) = 0;
     virtual FILE *fopen(const char *pathname, const char *mode) = 0;    
+    virtual int fclose(FILE *stream) = 0;
+    virtual char *fgets(char *s, int size, FILE *stream) = 0;
     virtual int umount(const char* path) = 0;
     virtual int rmdir(const char* pathname) = 0;
     virtual time_t time(time_t* arg) = 0;
@@ -119,6 +121,8 @@ public:
     static int stat(const char* path, struct stat* info);
     static int open(const char* pathname, int flags, mode_t mode);
     FILE *fopen(const char *pathname, const char *mode);    
+    int fclose(FILE *stream);
+    char *fgets(char *s, int size, FILE *stream);
     static int umount(const char* path);
     static int rmdir(const char* pathname);
     static time_t time(time_t* arg);

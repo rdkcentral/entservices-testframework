@@ -72,6 +72,8 @@ public:
     MOCK_METHOD(int, stat, (const char* path, struct stat* info), (override));
     MOCK_METHOD(int, open, (const char* pathname, int flags, mode_t mode),(override));
     MOCK_METHOD(FILE*, fopen, (const char *pathname, const char *mode),(override));    
+    MOCK_METHOD(int, fclose, (FILE *stream), (override));
+    MOCK_METHOD(char*, fgets, (char *s, int size, FILE *stream), (override));
     MOCK_METHOD(int, umount, (const char* path), (override));
     MOCK_METHOD(int, rmdir, (const char* pathname), (override));
     MOCK_METHOD(time_t, time, (time_t* arg), (override));

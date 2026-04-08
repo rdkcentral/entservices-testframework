@@ -243,6 +243,16 @@ extern "C" FILE *__wrap_fopen(const char *pathname, const char *mode)
     return Wraps::getInstance().fopen(pathname, mode);
 }
 
+extern "C" int __wrap_fclose(FILE *stream)
+{
+    return Wraps::getInstance().fclose(stream);
+}
+
+extern "C" char *__wrap_fgets(char *s, int size, FILE *stream)
+{
+    return Wraps::getInstance().fgets(s, size, stream);
+}
+
 
 WrapsImpl* Wraps::impl = nullptr;
 
@@ -518,15 +528,19 @@ void Wraps::curl_easy_cleanup(CURL* handle)
 
 FILE *Wraps::fopen(const char *pathname, const char *mode)
 {
-    FILE *result = nullptr;
-    if (impl != nullptr)
-    {
-        result = impl->fopen(pathname, mode);
-    }
-    else
-    {
-        result =::fopen(pathname, mode);
-    }
-    return result;
+    EXPECT_NE(impl, nullptr);
+    return impl->fopen(pathname, mode);
+}
+
+int Wraps::fclose(FILE *stream)
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->fclose(stream);
+}
+
+char *Wraps::fgets(char *s, int size, FILE *stream)
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->fgets(s, size, stream);
 }
 

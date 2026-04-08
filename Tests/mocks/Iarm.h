@@ -54,6 +54,7 @@ public:
     virtual IARM_Result_t IARM_Bus_Call(const char* ownerName, const char* methodName, void* arg, size_t argLen) = 0;
     virtual IARM_Result_t IARM_Bus_BroadcastEvent(const char *ownerName, IARM_EventId_t eventId, void *arg, size_t argLen) = 0;
     virtual IARM_Result_t IARM_Bus_RegisterCall(const char* methodName, IARM_BusCall_t handler) = 0;
+    virtual IARM_Result_t IARM_Bus_RegisterEvent(IARM_EventId_t maxEventId) = 0;
     virtual IARM_Result_t IARM_Bus_Call_with_IPCTimeout(const char *ownerName,  const char *methodName, void *arg, size_t argLen, int timeout) = 0;
 };
 
@@ -75,6 +76,7 @@ public:
     static IARM_Result_t IARM_Bus_Call(const char* ownerName, const char* methodName, void* arg, size_t argLen);
     static IARM_Result_t IARM_Bus_BroadcastEvent(const char *ownerName, IARM_EventId_t eventId, void *arg, size_t argLen) ;
     static IARM_Result_t IARM_Bus_RegisterCall(const char* methodName, IARM_BusCall_t handler);
+    static IARM_Result_t IARM_Bus_RegisterEvent(IARM_EventId_t maxEventId);
     static IARM_Result_t IARM_Bus_Call_with_IPCTimeout(const char *ownerName,  const char *methodName, void *arg, size_t argLen, int timeout);
 };
 
@@ -89,6 +91,7 @@ extern IARM_Result_t (*IARM_Bus_RemoveEventHandler)(const char*,IARM_EventId_t,I
 extern IARM_Result_t (*IARM_Bus_Call)(const char*,const char*,void*,size_t);
 extern IARM_Result_t (*IARM_Bus_BroadcastEvent)(const char *,IARM_EventId_t,void *,size_t);
 extern IARM_Result_t (*IARM_Bus_RegisterCall)(const char*,IARM_BusCall_t);
+extern IARM_Result_t (*IARM_Bus_RegisterEvent)(IARM_EventId_t);
 extern IARM_Result_t (*IARM_Bus_Call_with_IPCTimeout)(const char*,const char*,void*,size_t,int);
 
 #define IARM_BUS_COMMON_API_SysModeChange "SysModeChange"
@@ -249,11 +252,14 @@ typedef struct _IARM_Bus_MFRLib_SetBLPattern_Param_t {
     mfrBlPattern_t pattern;
 } IARM_Bus_MFRLib_SetBLPattern_Param_t;
 
+#ifndef IARM_BUS_MFRLIB_GETSERIALIZEDDATA_DEFINED
+#define IARM_BUS_MFRLIB_GETSERIALIZEDDATA_DEFINED
 typedef struct _IARM_Bus_MFRLib_GetSerializedData_Param_t {
     mfrSerializedType_t type;
     char buffer[1280];
     int bufLen;
 } IARM_Bus_MFRLib_GetSerializedData_Param_t;
+#endif /* IARM_BUS_MFRLIB_GETSERIALIZEDDATA_DEFINED */
 
 #define PWRMGR_MAX_REBOOT_REASON_LENGTH 100
 
@@ -434,6 +440,11 @@ typedef struct _IARM_BUS_PWRMgr_WareHouseOpn_EventData_t {
 #define IARM_BUS_PWRMGR_API_SetWakeupSrcConfig "setWakeupSrcConfig"
 #define IARM_BUS_PWRMGR_API_GetWakeupSrcConfig "getWakeupSrcConfig" /*!< gets wakup configuration*/
 
+/* The block below duplicates types from sysMgr/include/sysMgr.h.
+ * Guard it so that when sysMgr.h is included first (e.g. in sysmgr tests)
+ * the compiler sees only one definition of each type. */
+#ifndef _IARM_BUS_SYSMGR_H
+
 #define IARM_BUS_SYSMGR_NAME "SYSMgr"
 #define IARM_BUS_SYSMGR_API_GetSystemStates "GetSystemStates"
 
@@ -518,6 +529,7 @@ typedef enum _SYSMgr_SystemState_t {
     IARM_BUS_SYSMGR_SYSSTATE_FIRMWARE_UPDATE_STATE, //43, Added as part of RDK-19978, As the IARM
     IARM_BUS_SYSMGR_SYSSTATE_USB_DETECTED, //44
     IARM_BUS_SYSMGR_SYSSTATE_LOG_UPLOAD, //45
+    IARM_BUS_SYSMGR_SYSSTATE_RED_RECOV_UPDATE_STATE, //46
 } IARM_Bus_SYSMgr_SystemState_t;
 
 typedef enum _SYSMgr_FirmwareUpdateState_t {
@@ -624,10 +636,14 @@ typedef struct _IARM_Bus_SYSMgr_GetSystemStates_Param_t {
     state_property bootup;
     state_property dst_offset;
     state_property rf_connected;
+    state_property partnerid_changed;
     state_property ip_mode;
     state_property qam_ready_status;
     state_property firmware_update_state;
+    state_property red_recov_state;
 } IARM_Bus_SYSMgr_GetSystemStates_Param_t;
+
+#endif /* !_IARM_BUS_SYSMGR_H */
 
 #define IARM_BUS_DSMGR_NAME "DSMgr"
 
