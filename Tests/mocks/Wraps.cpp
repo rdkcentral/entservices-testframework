@@ -528,8 +528,16 @@ void Wraps::curl_easy_cleanup(CURL* handle)
 
 FILE *Wraps::fopen(const char *pathname, const char *mode)
 {
-    EXPECT_NE(impl, nullptr);
-    return impl->fopen(pathname, mode);
+    FILE *result = nullptr;
+    if (impl != nullptr)
+    {
+        result = impl->fopen(pathname, mode);
+    }
+    else
+    {
+        result =::fopen(pathname, mode);
+    }
+    return result;
 }
 
 int Wraps::fclose(FILE *stream)
