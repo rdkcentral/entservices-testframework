@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000..aabed49
 --- /dev/null
 +++ b/apis/AuthService/IAuthService.h
-@@ -0,0 +1,485 @@
+@@ -0,0 +1,492 @@
 +/*
 + * If not stated otherwise in this file or this component's LICENSE file the
 + * following copyright and licenses apply:
