@@ -37,11 +37,21 @@
 #endif
 
 /* Logging macros - silently discard in stub builds (avoids -Werror=format-zero-length) */
-#define XLOGD_INFO(fmt, ...)   do { (void)sizeof(fmt); } while(0)
-#define XLOGD_DEBUG(fmt, ...)  do { (void)sizeof(fmt); } while(0)
-#define XLOGD_ERROR(fmt, ...)  do { (void)sizeof(fmt); } while(0)
-#define XLOGD_WARN(fmt, ...)   do { (void)sizeof(fmt); } while(0)
-#define XLOGD_FATAL(fmt, ...)  do { (void)sizeof(fmt); } while(0)
+#define XLOGD_INFO(fmt, ...)              do { (void)sizeof(fmt); } while(0)
+#define XLOGD_DEBUG(fmt, ...)             do { (void)sizeof(fmt); } while(0)
+#define XLOGD_ERROR(fmt, ...)             do { (void)sizeof(fmt); } while(0)
+#define XLOGD_WARN(fmt, ...)              do { (void)sizeof(fmt); } while(0)
+#define XLOGD_FATAL(fmt, ...)             do { (void)sizeof(fmt); } while(0)
+#define XLOGD_TELEMETRY(fmt, ...)         do { (void)sizeof(fmt); } while(0)
+#define XLOGD_INFO_OPTS(opts, fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#define XLOGD_NO_LF(fmt, ...)             do { (void)sizeof(fmt); } while(0)
+#define XLOGD_OUTPUT(fmt, ...)            do { (void)sizeof(fmt); } while(0)
+
+#define XLOGD_AUTOMATION_INFO(fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#define XLOGD_AUTOMATION_DEBUG(fmt, ...)  do { (void)sizeof(fmt); } while(0)
+#define XLOGD_AUTOMATION_ERROR(fmt, ...)  do { (void)sizeof(fmt); } while(0)
+#define XLOGD_AUTOMATION_WARN(fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#define XLOGD_AUTOMATION_TELEMETRY(fmt, ...) do { (void)sizeof(fmt); } while(0)
 
 #define XLOG_INFO(fmt, ...)    do { (void)sizeof(fmt); } while(0)
 #define XLOG_DEBUG(fmt, ...)   do { (void)sizeof(fmt); } while(0)
