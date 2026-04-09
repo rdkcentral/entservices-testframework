@@ -33,8 +33,8 @@ typedef int xr_mq_t;
 #define XR_MQ_INVALID ((xr_mq_t)-1)
 
 typedef struct {
+    uint32_t max_msg;      /* field name used by ctrlm source (must be first — matches designated init order) */
     size_t   max_msg_size;
-    uint32_t max_msg;      /* field name used by ctrlm source */
 } xr_mq_attr_t;
 
 xr_mq_t xr_mq_create(const xr_mq_attr_t *attr);
