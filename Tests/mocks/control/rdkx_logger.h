@@ -37,12 +37,29 @@
 #endif
 
 /* Stub types and functions used by xlog_fprintf */
-#define XLOG_OPTS_DEFAULT    0
-#define XLOG_COLOR_NONE      0
-#define XLOG_COLOR_BLU       0
-#define XLOG_LINE_NONE       0
-#define XLOG_LEVEL_INFO      0
+#ifndef XLOG_OPTS_DEFAULT
+#define XLOG_OPTS_DEFAULT     0
+#endif
+
+#ifndef XLOG_COLOR_NONE
+#define XLOG_COLOR_NONE       0
+#endif
+
+#ifndef XLOG_COLOR_BLU
+#define XLOG_COLOR_BLU        0
+#endif
+
+#ifndef XLOG_LINE_NONE
+#define XLOG_LINE_NONE        0
+#endif
+
+#ifndef XLOG_LEVEL_INFO
+#define XLOG_LEVEL_INFO       0
+#endif
+
+#ifndef XLOG_BUF_SIZE_DEFAULT
 #define XLOG_BUF_SIZE_DEFAULT 0
+#endif
 
 typedef struct {
    int options;
@@ -54,7 +71,9 @@ typedef struct {
    int size_max;
 } xlog_args_t;
 
+#ifndef xlog_fprintf
 #define xlog_fprintf(args, output, fmt, ...) do { (void)(args); } while(0)
+#endif
 
 /* Logging macros - silently discard in stub builds (avoids -Werror=format-zero-length) */
 #define XLOGD_INFO(fmt, ...)              do { (void)sizeof(fmt); } while(0)
