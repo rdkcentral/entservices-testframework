@@ -63,12 +63,38 @@ using std::tuple;
 #define XLOG_COLOR_BLU        0
 #endif
 
+#ifndef XLOG_COLOR_GRN
+#define XLOG_COLOR_GRN        0
+#endif
+
 #ifndef XLOG_LINE_NONE
 #define XLOG_LINE_NONE        0
 #endif
 
+typedef int xlog_level_t;
+
+#ifndef XLOG_LEVEL_DEBUG
+#define XLOG_LEVEL_DEBUG      0
+#endif
+
 #ifndef XLOG_LEVEL_INFO
-#define XLOG_LEVEL_INFO       0
+#define XLOG_LEVEL_INFO       1
+#endif
+
+#ifndef XLOG_LEVEL_WARN
+#define XLOG_LEVEL_WARN       2
+#endif
+
+#ifndef XLOG_LEVEL_ERROR
+#define XLOG_LEVEL_ERROR      3
+#endif
+
+#ifndef XLOG_LEVEL_FATAL
+#define XLOG_LEVEL_FATAL      4
+#endif
+
+#ifndef XLOG_LEVEL_TELEMETRY
+#define XLOG_LEVEL_TELEMETRY  5
 #endif
 
 #ifndef XLOG_BUF_SIZE_DEFAULT
@@ -86,10 +112,33 @@ typedef struct {
 } xlog_args_t;
 
 #ifndef xlog_fprintf
-#define xlog_fprintf(args, output, fmt, ...) do { (void)(args); } while(0)
+#define xlog_fprintf(args, output, fmt, ...) do { (void)(args); (void)(output); (void)sizeof(fmt); } while(0)
+#endif
+
+#ifndef xlog_printf
+#define xlog_printf(args, fmt, ...) do { (void)(args); (void)sizeof(fmt); } while(0)
+#endif
+
+#ifndef xlog_init
+#define xlog_init(id, path, options, console, syslog) (0)
+#endif
+
+#ifndef xlog_level_set_all
+#define xlog_level_set_all(level) do { (void)(level); } while(0)
+#endif
+
+#ifndef xlog_level_get
+#define xlog_level_get(id) (XLOG_LEVEL_INFO)
+#endif
+
+#ifndef xlog_term
+#define xlog_term() do { } while(0)
 #endif
 
 /* Logging macros - silently discard in stub builds (avoids -Werror=format-zero-length) */
+#ifndef XLOGD
+#define XLOGD(level, opts, color, size, fmt, ...) do { (void)(level); (void)(opts); (void)(color); (void)(size); (void)sizeof(fmt); } while(0)
+#endif
 #ifndef XLOGD_INFO
 #define XLOGD_INFO(fmt, ...)              do { (void)sizeof(fmt); } while(0)
 #endif
@@ -109,10 +158,10 @@ typedef struct {
 #define XLOGD_TELEMETRY(fmt, ...)         do { (void)sizeof(fmt); } while(0)
 #endif
 #ifndef XLOGD_INFO_OPTS
-#define XLOGD_INFO_OPTS(opts, fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#define XLOGD_INFO_OPTS(opts, fmt, ...)   do { (void)(opts); (void)sizeof(fmt); } while(0)
 #endif
 #ifndef XLOGD_NO_LF
-#define XLOGD_NO_LF(fmt, ...)             do { (void)sizeof(fmt); } while(0)
+#define XLOGD_NO_LF(level, fmt, ...)      do { (void)(level); (void)sizeof(fmt); } while(0)
 #endif
 #ifndef XLOGD_OUTPUT
 #define XLOGD_OUTPUT(fmt, ...)            do { (void)sizeof(fmt); } while(0)
@@ -145,6 +194,12 @@ typedef struct {
 #endif
 #ifndef XLOG_WARN
 #define XLOG_WARN(fmt, ...)    do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOG_RAW
+#define XLOG_RAW(fmt, ...)     do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOG_FLUSH
+#define XLOG_FLUSH()           do { } while(0)
 #endif
 
 #endif /* _RDKX_LOGGER_H_ */
