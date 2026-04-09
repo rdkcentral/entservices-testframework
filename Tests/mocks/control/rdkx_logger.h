@@ -19,8 +19,6 @@
 #ifndef _RDKX_LOGGER_H_
 #define _RDKX_LOGGER_H_
 
-#include <stdio.h>
-
 /* Log option flags */
 #define XLOG_OPTS_DATE      (1 << 0)
 #define XLOG_OPTS_TIME      (1 << 1)
@@ -38,16 +36,16 @@
 #define XLOG_MODULE_ID XLOG_MODULE_ID_CTRLM
 #endif
 
-/* Logging macros - map to printf for stub builds */
-#define XLOGD_INFO(...)   printf(__VA_ARGS__)
-#define XLOGD_DEBUG(...)  printf(__VA_ARGS__)
-#define XLOGD_ERROR(...)  printf(__VA_ARGS__)
-#define XLOGD_WARN(...)   printf(__VA_ARGS__)
-#define XLOGD_FATAL(...)  printf(__VA_ARGS__)
+/* Logging macros - silently discard in stub builds (avoids -Werror=format-zero-length) */
+#define XLOGD_INFO(fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#define XLOGD_DEBUG(fmt, ...)  do { (void)sizeof(fmt); } while(0)
+#define XLOGD_ERROR(fmt, ...)  do { (void)sizeof(fmt); } while(0)
+#define XLOGD_WARN(fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#define XLOGD_FATAL(fmt, ...)  do { (void)sizeof(fmt); } while(0)
 
-#define XLOG_INFO(...)    printf(__VA_ARGS__)
-#define XLOG_DEBUG(...)   printf(__VA_ARGS__)
-#define XLOG_ERROR(...)   printf(__VA_ARGS__)
-#define XLOG_WARN(...)    printf(__VA_ARGS__)
+#define XLOG_INFO(fmt, ...)    do { (void)sizeof(fmt); } while(0)
+#define XLOG_DEBUG(fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#define XLOG_ERROR(fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#define XLOG_WARN(fmt, ...)    do { (void)sizeof(fmt); } while(0)
 
 #endif /* _RDKX_LOGGER_H_ */
