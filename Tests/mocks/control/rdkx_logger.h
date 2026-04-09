@@ -19,6 +19,15 @@
 #ifndef _RDKX_LOGGER_H_
 #define _RDKX_LOGGER_H_
 
+#ifdef __cplusplus
+#include <map>
+#include <tuple>
+// ctrlm expects these to be in the global namespace, so we need to pull them in here
+using std::get;
+using std::map;
+using std::tuple;
+#endif
+
 /* Log option flags */
 #define XLOG_OPTS_DATE      (1 << 0)
 #define XLOG_OPTS_TIME      (1 << 1)
