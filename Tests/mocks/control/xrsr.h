@@ -172,6 +172,7 @@ typedef struct {
 typedef struct {
     const char *vsdk_config;
     const char *host_name;
+    bool        networked_standby;
     int         dummy;
 } xrsr_config_t;
 

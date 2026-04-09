@@ -90,6 +90,8 @@ extern IARM_Result_t (*IARM_Bus_Call)(const char*,const char*,void*,size_t);
 extern IARM_Result_t (*IARM_Bus_BroadcastEvent)(const char *,IARM_EventId_t,void *,size_t);
 extern IARM_Result_t (*IARM_Bus_RegisterCall)(const char*,IARM_BusCall_t);
 extern IARM_Result_t (*IARM_Bus_Call_with_IPCTimeout)(const char*,const char*,void*,size_t,int);
+/* ctrlm-main uses IARM_Bus_RegisterEvent as a plain function (defined in stubs_iarm.cpp) */
+extern IARM_Result_t IARM_Bus_RegisterEvent(IARM_EventId_t maxEventId);
 
 #define IARM_BUS_COMMON_API_SysModeChange "SysModeChange"
 

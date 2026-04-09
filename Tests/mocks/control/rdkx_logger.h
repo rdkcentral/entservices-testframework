@@ -163,8 +163,9 @@ typedef struct {
 #ifndef XLOGD_NO_LF
 #define XLOGD_NO_LF(level, fmt, ...)      do { (void)(level); (void)sizeof(fmt); } while(0)
 #endif
+/* XLOGD_OUTPUT is used as an output-handle VALUE (second arg to xlog_fprintf), not a logging macro */
 #ifndef XLOGD_OUTPUT
-#define XLOGD_OUTPUT(fmt, ...)            do { (void)sizeof(fmt); } while(0)
+#define XLOGD_OUTPUT NULL
 #endif
 
 #ifndef XLOGD_AUTOMATION_INFO
