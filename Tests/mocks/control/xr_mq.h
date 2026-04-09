@@ -27,13 +27,14 @@
 extern "C" {
 #endif
 
-typedef void *xr_mq_t;
+/* xr_mq_t is an integer (OS queue descriptor), not a pointer */
+typedef int xr_mq_t;
 
-#define XR_MQ_INVALID ((xr_mq_t)NULL)
+#define XR_MQ_INVALID ((xr_mq_t)-1)
 
 typedef struct {
     size_t   max_msg_size;
-    uint32_t max_msg_qty;
+    uint32_t max_msg;      /* field name used by ctrlm source */
 } xr_mq_attr_t;
 
 xr_mq_t xr_mq_create(const xr_mq_attr_t *attr);

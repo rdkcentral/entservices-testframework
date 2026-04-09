@@ -181,7 +181,8 @@ bool             xrsr_open(const xrsr_route_t *routes, unsigned int route_qty, c
 void             xrsr_close(void);
 bool             xrsr_route(const xrsr_route_t *routes, unsigned int route_qty, const xrsr_handlers_t *handlers, xrsr_src_t src);
 void             xrsr_session_terminate(void);
-xrsr_config_t   *xrsr_config_get(void);
+/* xrsr_config_get fills caller-supplied struct, returns bool success */
+bool             xrsr_config_get(xrsr_config_t *config);
 void             xrsr_power_mode_set(xrsr_power_mode_t power_mode);
 void             xrsr_privacy_mode_set(bool enable);
 const char      *xrsr_src_str(xrsr_src_t src);
