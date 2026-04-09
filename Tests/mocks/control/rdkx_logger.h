@@ -76,25 +76,61 @@ typedef struct {
 #endif
 
 /* Logging macros - silently discard in stub builds (avoids -Werror=format-zero-length) */
+#ifndef XLOGD_INFO
 #define XLOGD_INFO(fmt, ...)              do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_DEBUG
 #define XLOGD_DEBUG(fmt, ...)             do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_ERROR
 #define XLOGD_ERROR(fmt, ...)             do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_WARN
 #define XLOGD_WARN(fmt, ...)              do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_FATAL
 #define XLOGD_FATAL(fmt, ...)             do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_TELEMETRY
 #define XLOGD_TELEMETRY(fmt, ...)         do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_INFO_OPTS
 #define XLOGD_INFO_OPTS(opts, fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_NO_LF
 #define XLOGD_NO_LF(fmt, ...)             do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_OUTPUT
 #define XLOGD_OUTPUT(fmt, ...)            do { (void)sizeof(fmt); } while(0)
+#endif
 
+#ifndef XLOGD_AUTOMATION_INFO
 #define XLOGD_AUTOMATION_INFO(fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_AUTOMATION_DEBUG
 #define XLOGD_AUTOMATION_DEBUG(fmt, ...)  do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_AUTOMATION_ERROR
 #define XLOGD_AUTOMATION_ERROR(fmt, ...)  do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_AUTOMATION_WARN
 #define XLOGD_AUTOMATION_WARN(fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOGD_AUTOMATION_TELEMETRY
 #define XLOGD_AUTOMATION_TELEMETRY(fmt, ...) do { (void)sizeof(fmt); } while(0)
+#endif
 
+#ifndef XLOG_INFO
 #define XLOG_INFO(fmt, ...)    do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOG_DEBUG
 #define XLOG_DEBUG(fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOG_ERROR
 #define XLOG_ERROR(fmt, ...)   do { (void)sizeof(fmt); } while(0)
+#endif
+#ifndef XLOG_WARN
 #define XLOG_WARN(fmt, ...)    do { (void)sizeof(fmt); } while(0)
+#endif
 
 #endif /* _RDKX_LOGGER_H_ */
