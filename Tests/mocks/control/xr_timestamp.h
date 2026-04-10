@@ -22,18 +22,20 @@
 #include <stdint.h>
 #include <time.h>
 
-typedef struct {
-    struct timespec tv;
-} rdkx_timestamp_t;
+/* Use timespec-compatible layout so ctrlm can assign directly between types. */
+typedef struct timespec rdkx_timestamp_t;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void   rdkx_timestamp_get(rdkx_timestamp_t *timestamp);
-void   rdkx_timestamp_get_realtime(rdkx_timestamp_t *timestamp);
-double rdkx_timestamp_subtract(const rdkx_timestamp_t *a, const rdkx_timestamp_t *b);
-int    rdkx_timestamp_cmp(const rdkx_timestamp_t *a, const rdkx_timestamp_t *b);
+void             rdkx_timestamp_get(rdkx_timestamp_t *timestamp);
+void             rdkx_timestamp_get_realtime(rdkx_timestamp_t *timestamp);
+double           rdkx_timestamp_subtract(const rdkx_timestamp_t *a, const rdkx_timestamp_t *b);
+signed long long rdkx_timestamp_subtract_us(rdkx_timestamp_t a, rdkx_timestamp_t b);
+signed long long rdkx_timestamp_subtract_ms(rdkx_timestamp_t a, rdkx_timestamp_t b);
+void             rdkx_timestamp_add_ms(rdkx_timestamp_t *timestamp, unsigned long milliseconds);
+int              rdkx_timestamp_cmp(const rdkx_timestamp_t *a, const rdkx_timestamp_t *b);
 
 #ifdef __cplusplus
 }
