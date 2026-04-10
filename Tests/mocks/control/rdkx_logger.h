@@ -19,17 +19,15 @@
 #ifndef _RDKX_LOGGER_H_
 #define _RDKX_LOGGER_H_
 
-#include <string>
-
-/* The real rdkx_logger.h pulls in std:: namespace indirectly; replicate that here */
-using namespace std;
-
 #ifdef __cplusplus
+#include <string>
 #include <map>
 #include <tuple>
+/* The real rdkx_logger.h pulls in std:: namespace indirectly; replicate only the needed names here */
 // ctrlm expects these to be in the global namespace, so we need to pull them in here
 using std::get;
 using std::map;
+using std::string;
 using std::tuple;
 #endif
 
