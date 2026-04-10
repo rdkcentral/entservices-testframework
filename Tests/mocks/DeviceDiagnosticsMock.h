@@ -39,7 +39,7 @@ public:
     MOCK_METHOD(void, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));
-    MOCK_METHOD(Core::hresult, GetPreviousRebootInfo,(Exchange::IDeviceDiagnostics::RebootInfo& rebootInfo, bool& success), (override));
+    MOCK_METHOD(Core::hresult, GetPreviousRebootInfo, (RebootInfo& rebootInfo, bool& success),(override));
 };
 
 class DeviceDiagnosticsNotificationMock : public IDeviceDiagnostics::INotification {
