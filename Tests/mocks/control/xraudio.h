@@ -23,10 +23,14 @@ typedef enum {
 } xraudio_encoding_t;
 
 typedef struct {
-    xraudio_encoding_t encoding;
-    uint16_t           sample_rate;
-    uint8_t            sample_size;
-    uint8_t            channel_qty;
+    xraudio_encoding_t type;
+} xraudio_encoding_info_t;
+
+typedef struct {
+    xraudio_encoding_info_t encoding;
+    uint16_t                sample_rate;
+    uint8_t                 sample_size;
+    uint8_t                 channel_qty;
 } xraudio_output_format_t;
 
 typedef enum {
@@ -34,7 +38,7 @@ typedef enum {
     XRAUDIO_RESULT_ERROR = 1
 } xraudio_result_t;
 
-xraudio_result_t xraudio_container_header_parse_wave(const uint8_t *header, size_t size, xraudio_output_format_t *format);
+int32_t xraudio_container_header_parse_wave(int audio_fd, const uint8_t *header, size_t size, xraudio_output_format_t *format, uint32_t *data_length);
 
 #ifdef __cplusplus
 }
