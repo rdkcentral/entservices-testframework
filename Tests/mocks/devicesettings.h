@@ -944,7 +944,11 @@ public:
     void enableARC(dsAudioARCTypes_t type, bool enable);
     uint32_t getDolbyVolumeMode() const;
     void setStereoMode(const std::string &mode, bool persist);
-    void setAudioDucking(dsAudioDuckingAction_t action, dsAudioDuckingType_t type, float level);
+    void setAudioDucking(dsAudioDuckingAction_t action, dsAudioDuckingType_t type, float level) {
+        (void)action;
+        (void)type;
+        (void)level;
+    }
 
 
 
