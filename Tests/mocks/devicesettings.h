@@ -1440,7 +1440,7 @@ public:
     static void setImpl(ManagerImpl* newImpl);
     static Manager& getInstance();
 
-    static bool IsInitialized;
+    inline static bool IsInitialized = false;
     static void Initialize();
     static void DeInitialize();
 };
