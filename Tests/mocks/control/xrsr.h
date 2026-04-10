@@ -56,11 +56,27 @@ enum {
     XRSR_AUDIO_FORMAT_ADPCM          = (1 << 4),
     XRSR_AUDIO_FORMAT_ADPCM_FRAME    = (1 << 5),
     XRSR_AUDIO_FORMAT_OPUS           = (1 << 6),
-    XRSR_AUDIO_FORMAT_OPUS_XVP       = (1 << 7)
+    XRSR_AUDIO_FORMAT_OPUS_XVP       = (1 << 7),
+    XRSR_AUDIO_FORMAT_MAX            = (1 << 8)
 };
 
 typedef struct {
+    uint32_t size_packet;
+    uint32_t size_header;
+    uint32_t offset_step_size_index;
+    uint32_t offset_predicted_sample_lsb;
+    uint32_t offset_predicted_sample_msb;
+    uint32_t offset_sequence_value;
+    uint32_t shift_sequence_value;
+    uint32_t sequence_value_min;
+    uint32_t sequence_value_max;
+} xrsr_audio_format_adpcm_frame_t;
+
+typedef struct {
     int type;
+    union {
+        xrsr_audio_format_adpcm_frame_t adpcm_frame;
+    } value;
 } xrsr_audio_format_t;
 
 typedef enum {
@@ -144,19 +160,35 @@ typedef struct xrsr_session_config_update_t xrsr_session_config_update_t;
 typedef void (*xrsr_session_config_cb_t)(const uuid_t uuid, xrsr_session_config_in_t *config_in);
 typedef xrsr_session_config_cb_t xrsr_callback_session_config_t;
 typedef bool (*xrsr_handler_send_t)(const void *data, size_t size, void *user_data);
-typedef void (*xrsr_session_audio_cb_t)(const uint8_t *buffer, size_t size, void *user_data);
+typedef void (*xrsr_session_audio_cb_t)(int bytes_sent, void *user_data);
 
 typedef struct {
+    bool     valid;
     uint32_t packets_processed;
     uint32_t packets_lost;
     uint32_t samples_processed;
     uint32_t samples_lost;
+    uint32_t decoder_failures;
+    uint32_t samples_buffered_max;
     double   snr_peak;
     double   snr_mean;
+} xrsr_audio_stats_t;
+
+typedef struct {
+    bool               result;
+    int                stream_end_reason;
+    xrsr_audio_stats_t audio_stats;
 } xrsr_stream_stats_t;
 
 typedef struct {
     xrsr_session_end_reason_t session_end_reason;
+    int                       ret_code_protocol;
+    int                       ret_code_library;
+    int                       ret_code_internal;
+    const char               *server_ip;
+    int                       time_dns;
+    int                       time_connect;
+    int                       stream_end_reason;
     xrsr_stream_stats_t       stream_stats;
 } xrsr_session_stats_t;
 
@@ -242,6 +274,11 @@ typedef struct {
 } xrsr_capture_config_t;
 
 typedef enum {
+    XRSR_AUDIO_CONTAINER_NONE = 0,
+    XRSR_AUDIO_CONTAINER_WAV  = 1
+} xrsr_audio_container_t;
+
+typedef enum {
     XRSR_SESSION_REQUEST_TYPE_INVALID    = 0,
     XRSR_SESSION_REQUEST_TYPE_TEXT       = 1,
     XRSR_SESSION_REQUEST_TYPE_AUDIO_FILE = 2,
@@ -284,14 +321,18 @@ void        xrsr_close(void);
 bool        xrsr_route(xrsr_route_t *routes);
 void        xrsr_session_terminate(xrsr_src_t src);
 bool        xrsr_config_get(xrsr_config_t *config);
-void        xrsr_power_mode_set(xrsr_power_mode_t power_mode);
-void        xrsr_privacy_mode_set(bool enable);
+bool        xrsr_power_mode_set(xrsr_power_mode_t power_mode);
+bool        xrsr_privacy_mode_set(bool enable);
 bool        xrsr_privacy_mode_get(bool *enable);
 void        xrsr_mask_pii_set(bool enable);
-bool        xrsr_session_request(xrsr_src_t src, xrsr_audio_format_t format, xrsr_session_request_t request, const uuid_t uuid, bool low_latency, bool low_cpu_util);
+bool        xrsr_session_request(xrsr_src_t src, xrsr_audio_format_t format, xrsr_session_request_t request, const uuid_t *uuid, bool low_latency, bool low_cpu_util);
 bool        xrsr_session_audio_fd_set(xrsr_src_t src, int audio_fd, xrsr_audio_format_t format, xrsr_session_audio_cb_t callback, void *user_data);
 void        xrsr_session_audio_stream_start(xrsr_src_t src);
 void        xrsr_session_keyword_info_set(xrsr_src_t src, uint32_t pre_keyword_sample_qty, uint32_t keyword_sample_qty);
+bool        xrsr_session_capture_start(xrsr_audio_container_t container, const char *file_path, bool raw_mic_enable);
+bool        xrsr_session_capture_stop(void);
+bool        xrsr_capture_config_set(const xrsr_capture_config_t *capture_config);
+const char *xrsr_audio_container_str(xrsr_audio_container_t container);
 const char *xrsr_src_str(xrsr_src_t src);
 const char *xrsr_session_end_reason_str(xrsr_session_end_reason_t reason);
 
