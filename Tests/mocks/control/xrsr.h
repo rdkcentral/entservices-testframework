@@ -22,10 +22,14 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <openssl/ssl.h>
 #include <uuid/uuid.h>
 #include "xr_timestamp.h"
 
+/* Minimal opaque placeholders to avoid requiring OpenSSL dev headers in mocks. */
+typedef struct xrsr_x509_stub X509;
+typedef struct xrsr_evp_pkey_stub EVP_PKEY;
+typedef struct xrsr_x509_stack_stub X509_STACK;
+#define STACK_OF(type) type##_STACK
 #ifdef __cplusplus
 extern "C" {
 #endif
