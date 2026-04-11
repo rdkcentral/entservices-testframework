@@ -49,6 +49,12 @@
 #define TEST_COMPLETION_TIMEOUT                  600000                  /* Overall L2 Test completion timeout in milliseconds. */
 #endif
 
+// Declare __gcov_flush as weak symbol so we can call it when coverage is enabled
+// without causing linking errors when coverage is disabled
+#ifdef __GNUC__
+extern "C" void __gcov_flush(void) __attribute__((weak));
+#endif
+
 
 #define FILESYSTEM_SYNC_DELAY_MS         100                            /* Delay for filesystem operations to complete (milliseconds). */
 #define PLUGIN_INIT_DELAY_MS             500                            /* Delay for plugin initialization (milliseconds). */
@@ -434,6 +440,16 @@ int main(int argc, char **argv)
     }
 
     L2testobj->releaseClient();
+    
+    // Flush gcov coverage data before Thunder shutdown to ensure data is written
+    // even if shutdown causes a segfault
+    #ifdef __GNUC__
+    if (__gcov_flush) {
+        __gcov_flush();
+        L2TEST_LOG("Coverage data flushed");
+    }
+    #endif
+    
     L2TEST_LOG("Stopping Thunder...");
     L2testobj->StopThunder();
     return (status == Core::ERROR_NONE ? EXIT_SUCCESS_CODE : EXIT_TEST_EXECUTION_FAILURE);

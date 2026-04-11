@@ -30,6 +30,12 @@
     fprintf(stderr, "\033[v_secure_system1;32m[%s:%d](%s)<PID:%d><TID:%d>" x "\n\033[0m", __FILE__, __LINE__, __FUNCTION__, getpid(), gettid(), ##__VA_ARGS__); \
     fflush(stderr);
 
+// Declare __gcov_flush as weak symbol so we can call it when coverage is enabled
+// without causing linking errors when coverage is disabled
+#ifdef __GNUC__
+extern "C" void __gcov_flush(void) __attribute__((weak));
+#endif
+
 using namespace WPEFramework;
 
 namespace WPEFramework {
@@ -77,6 +83,15 @@ Core::hresult L2Tests::PerformL2Tests(const string& parameters, string& response
 
     int status = RUN_ALL_TESTS();
     TEST_LOG("Completed running L2 tests and running status = %d\n", status);
+
+    // Flush gcov coverage data immediately after tests complete, before Thunder shutdown
+    // This ensures coverage data is written even if Thunder crashes during cleanup
+    #ifdef __GNUC__
+    if (__gcov_flush) {
+        __gcov_flush();
+        TEST_LOG("Coverage data flushed from Thunder process\n");
+    }
+    #endif
 
     // Optionally, return status as a JSON string
     std::ostringstream oss;
