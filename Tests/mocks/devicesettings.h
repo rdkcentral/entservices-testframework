@@ -306,18 +306,6 @@ typedef struct _dsVideoPortResolution_t {
     bool interlaced; /**< The associated scan mode(@a true if interlaced, @a false if progressive). */
 } dsVideoPortResolution_t;
 
-typedef struct
-{
-   dsVideoCodecHevcProfiles_t profile;  /*!< HEVC Profiles. See dsVideoCodecHevcProfiles_t */
-   float level;                         /*!< level for the specieis HEVC profile */
-} dsVideoCodecProfileSupport_t;
-
-typedef struct
-{
-    unsigned int num_entries;                  /*!< Number of entries */
-    dsVideoCodecProfileSupport_t entries[10];  /*!< Contains a list of the supported Codex profiles */
-} dsVideoCodecInfo_t;
-
 typedef enum
 {
     dsVIDEO_CODEC_MPEGHPART2 = (0x01 << 0),     /*!< Also known HEVC, H.265 */
@@ -333,6 +321,18 @@ typedef enum
     dsVIDEO_CODEC_HEVC_PROFILE_MAINSTILLPICTURE = (0x01 << 2),  /*!< HECV Main Still Picture profile */
     dsVIDEO_CODEC_HEVC_MAX  = (0x01 << 3)                       /*!< Out of range  */
 } dsVideoCodecHevcProfiles_t;
+
+typedef struct
+{
+   dsVideoCodecHevcProfiles_t profile;  /*!< HEVC Profiles. See dsVideoCodecHevcProfiles_t */
+   float level;                         /*!< level for the specieis HEVC profile */
+} dsVideoCodecProfileSupport_t;
+
+typedef struct
+{
+    unsigned int num_entries;                  /*!< Number of entries */
+    dsVideoCodecProfileSupport_t entries[10];  /*!< Contains a list of the supported Codex profiles */
+} dsVideoCodecInfo_t;
 
 typedef enum _dsHDRStandard_t {
     dsHDRSTANDARD_NONE = 0x0,
