@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000..aabed49
 --- /dev/null
 +++ b/apis/AuthService/IAuthService.h
-@@ -0,0 +1,485 @@
+@@ -0,0 +1,492 @@
 +/*
 + * If not stated otherwise in this file or this component's LICENSE file the
 + * following copyright and licenses apply:
@@ -60,8 +60,8 @@ index 0000000..aabed49
 +        virtual void ServiceAccessTokenChanged() = 0;
 +        // @text onPartnerIdChanged
 +        // @brief The Partner ID has changed.
-+        // @param oldPartnerId Previous partner ID
-+        // @param newPartnerId New partner ID
++        // @param oldPartnerId old partner ID
++        // @param newPartnerId new partner ID
 +        virtual void OnPartnerIdChanged(const string& oldPartnerId, const string& newPartnerId) = 0;
 +        // @text onContentAccessTokenChanged
 +        // @brief Indication for the clients that the Content Access Token is now changed so retrieve the token freshly
@@ -220,9 +220,10 @@ index 0000000..aabed49
 +
 +    /**********************getContentAccessToken() - start****************************/
 +    // @text getContentAccessToken
-+    // @brief Retrieves the content access token from the secured persistent location
++    // @brief Retrieves the content access token from the secure persistent location
 +    // @param token - out - string
 +    // @param expires - out - uint32_t
++    // @return Core::hresult - status/error code indicating success or failure of the operation
 +    virtual Core::hresult GetContentAccessToken(string& token /* @out */, uint32_t& expires /* @out */) = 0;
 +    /**********************getContentAccessToken() - end****************************/
 +
@@ -405,7 +406,14 @@ index 0000000..aabed49
 +    // @brief Clears the authorization token
 +    // @param SuccessMsgResult - out - struct
 +    virtual uint32_t ClearAuthToken(SuccessMsgResult& setStat /* @out */) = 0;
-+    /**********************clearAuthToken() - start****************************/
++    /**********************clearAuthToken() - end****************************/
++
++    /**********************clearContentAccessToken() - start****************************/
++    // @text clearContentAccessToken
++    // @brief Clears the content access token from the secure persistent location
++    // @param SuccessMsgResult - out - struct
++    virtual Core::hresult ClearContentAccessToken(SuccessMsgResult& setStat /* @out */) = 0;
++    /**********************clearContentAccessToken() - end****************************/
 +
 +    /**********************clearSessionToken() - start****************************/
 +    // @text clearSessionToken
