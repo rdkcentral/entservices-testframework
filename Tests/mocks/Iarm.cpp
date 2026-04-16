@@ -48,6 +48,20 @@ IARM_Result_t IarmBus::IARM_Bus_Connect()
     return impl->IARM_Bus_Connect();
 }
 
+IARM_Result_t IarmBus::IARM_Bus_Disconnect()
+{
+    TEST_LOG("Inside IARM_Bus_Disconnect");
+    EXPECT_NE(impl, nullptr);
+    return impl->IARM_Bus_Disconnect();
+}
+
+IARM_Result_t IarmBus::IARM_Bus_Term()
+{
+    TEST_LOG("Inside IARM_Bus_Term");
+    EXPECT_NE(impl, nullptr);
+    return impl->IARM_Bus_Term();
+}
+
 IARM_Result_t IarmBus::IARM_Bus_IsConnected(const char* memberName, int* isRegistered)
 {
     TEST_LOG("Inside IARM_Bus_IsConnected");
@@ -106,6 +120,8 @@ IARM_Result_t IarmBus::IARM_Bus_Call_with_IPCTimeout(const char *ownerName,  con
 
 IARM_Result_t (*IARM_Bus_Init)(const char*) = &IarmBus::IARM_Bus_Init;
 IARM_Result_t (*IARM_Bus_Connect)() = &IarmBus::IARM_Bus_Connect;
+IARM_Result_t (*IARM_Bus_Disconnect)() = &IarmBus::IARM_Bus_Disconnect;
+IARM_Result_t (*IARM_Bus_Term)() = &IarmBus::IARM_Bus_Term;
 IARM_Result_t (*IARM_Bus_IsConnected)(const char*,int*) = &IarmBus::IARM_Bus_IsConnected;
 IARM_Result_t (*IARM_Bus_RegisterEventHandler)(const char*,IARM_EventId_t,IARM_EventHandler_t) = &IarmBus::IARM_Bus_RegisterEventHandler;
 IARM_Result_t (*IARM_Bus_UnRegisterEventHandler)(const char*,IARM_EventId_t) = &IarmBus::IARM_Bus_UnRegisterEventHandler;
