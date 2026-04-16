@@ -180,6 +180,7 @@ target_include_directories(${PROJECT_NAME}
         ../mocks/libusb
         ${CMAKE_CURRENT_SOURCE_DIR}/../../OCIContainer/stubs
         ../../../Thunder/Source/plugins
+        ../mocks/civetweb
         )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
