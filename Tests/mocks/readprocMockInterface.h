@@ -26,6 +26,7 @@
 #define PROC_FILLSTATUS      0x0020 // read status
 #define PROC_FILLMEM         0x0001 // read statm
 #define PROC_FILLSTAT        0x0040 // read stat
+#define PROC_FILLCOM         0x0200 // fill cmdline
 
 typedef struct proc_t {
 // 1st 16 bytes
@@ -34,6 +35,7 @@ int
         ppid;           // stat,status     pid of parent process
 char
         cmd[16];        // stat,status     basename of executable file in call to exec(2)
+char **cmdline;     // cmdline          the complete command line for the process, including arguments (see also: comm)
 
 } proc_t;
 
@@ -67,7 +69,3 @@ public:
 extern PROCTAB* (*openproc)(int, ...);
 extern void (*closeproc)(PROCTAB*);
 extern proc_t* (*readproc)(PROCTAB*, proc_t*);
-
-
-
-
