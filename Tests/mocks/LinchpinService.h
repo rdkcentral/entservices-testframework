@@ -22,6 +22,7 @@
 #include <string>
 #include <cstdint>
 #include <core/core.h>
+#include <core/JSON.h>
 
 // Forward declaration to avoid pulling in the full IEventSender header
 class IEventSender;

@@ -44,22 +44,22 @@ public:
     virtual ~LinchpinServiceImplMock() = default;
 
     MOCK_METHOD(WPEFramework::Core::hresult, Connect,
-        (WPEFramework::string& connectionId, int& lastStatusCode), (override));
+        (std::string& connectionId, int& lastStatusCode), (override));
 
     MOCK_METHOD(void, Disconnect, (), (override));
 
     MOCK_METHOD(bool, IsConnected, (), (override));
 
     MOCK_METHOD(WPEFramework::Core::hresult, Subscribe,
-        (Topic topic, WPEFramework::string& connectionStatus, int& lastStatusCode), (override));
+        (Topic topic, std::string& connectionStatus, int& lastStatusCode), (override));
 
     MOCK_METHOD(WPEFramework::Core::hresult, Unsubscribe,
         (Topic topic), (override));
 
     MOCK_METHOD(bool, FetchMessage,
-        (const WPEFramework::string& topic, WPEFramework::Core::JSON::JsonObject& response), (override));
+        (const std::string& topic, WPEFramework::Core::JSON::JsonObject& response), (override));
 
     MOCK_METHOD(WPEFramework::Core::hresult, Publish,
-        (const WPEFramework::string& topic, const WPEFramework::string& payloadType,
-         const WPEFramework::string& payload), (override));
+        (const std::string& topic, const std::string& payloadType,
+         const std::string& payload), (override));
 };
