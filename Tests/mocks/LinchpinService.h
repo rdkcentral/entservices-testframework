@@ -21,6 +21,11 @@
 
 #include <string>
 #include <cstdint>
+
+#ifndef MODULE_NAME
+#define MODULE_NAME TestMocklib
+#endif
+
 #include <core/core.h>
 #include <core/JSON.h>
 
