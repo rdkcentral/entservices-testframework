@@ -116,17 +116,8 @@ else(L2_TEST_OOP_RPC)
             rdkshell.cpp
             opkgMock.cpp
             PowerManagerMock.cpp
-			tr181api.cpp
-        )
-
-    else(RDK_SERVICES_L1_TEST)
-        list(APPEND MODULE_SOURCES
-	    devicesettings.cpp
-            systemaudioplatform.cpp
-	    tvSettings.cpp
             tr181api.cpp
-            EssRMgr.cpp
-            ${GENERATED_PROTO_SRC}
+            LinchpinService.cpp
             ${GENERATED_GRPC_SRC}
             SecureStorageServerMock.cpp
             Dobby.cpp
