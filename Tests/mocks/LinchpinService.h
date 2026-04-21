@@ -19,6 +19,9 @@
 
 #pragma once
 
+#ifndef LINCHPINBROKER_LINCHPINSERVICE_H
+#define LINCHPINBROKER_LINCHPINSERVICE_H
+
 #include <string>
 #include <cstdint>
 
@@ -101,3 +104,5 @@ public:
 
 } // namespace Plugin
 } // namespace WPEFramework
+
+#endif // LINCHPINBROKER_LINCHPINSERVICE_H
