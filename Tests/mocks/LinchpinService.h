@@ -51,7 +51,7 @@ public:
     virtual bool IsConnected() = 0;
     virtual Core::hresult Subscribe(Topic topic, string& connectionStatus, int& lastStatusCode) = 0;
     virtual Core::hresult Unsubscribe(Topic topic) = 0;
-    virtual bool FetchMessage(const string& topic, Core::JSON::JsonObject& response) = 0;
+    virtual bool FetchMessage(const string& topic, JsonObject& response) = 0;
     virtual Core::hresult Publish(const string& topic, const string& payloadType, const string& payload) = 0;
 };
 
@@ -90,7 +90,7 @@ public:
     bool IsConnected();
     Core::hresult Subscribe(Topic topic, string& connectionStatus, int& lastStatusCode);
     Core::hresult Unsubscribe(Topic topic);
-    bool FetchMessage(const string& topic, Core::JSON::JsonObject& response);
+    bool FetchMessage(const string& topic, JsonObject& response);
     Core::hresult Publish(const string& topic, const string& payloadType, const string& payload);
 };
 

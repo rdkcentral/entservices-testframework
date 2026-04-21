@@ -77,7 +77,7 @@ Core::hresult LinchpinService::Unsubscribe(Topic topic)
     return impl->Unsubscribe(topic);
 }
 
-bool LinchpinService::FetchMessage(const string& topic, Core::JSON::JsonObject& response)
+bool LinchpinService::FetchMessage(const string& topic, JsonObject& response)
 {
     EXPECT_NE(impl, nullptr);
     return impl->FetchMessage(topic, response);

@@ -57,7 +57,7 @@ public:
         (Topic topic), (override));
 
     MOCK_METHOD(bool, FetchMessage,
-        (const std::string& topic, WPEFramework::Core::JSON::JsonObject& response), (override));
+        (const std::string& topic, JsonObject& response), (override));
 
     MOCK_METHOD(WPEFramework::Core::hresult, Publish,
         (const std::string& topic, const std::string& payloadType,
