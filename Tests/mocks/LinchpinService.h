@@ -80,8 +80,8 @@ protected:
     static LinchpinServiceImpl* impl;
 
 public:
-    LinchpinService(const std::string& url,
-                    const std::string& credentials,
+    LinchpinService(std::string url,
+                    std::string credentials,
                     uint32_t operationTimeout,
                     uint32_t retryInterval,
                     uint64_t maximumRetryTimeoutInMs,

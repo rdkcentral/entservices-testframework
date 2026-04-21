@@ -34,8 +34,8 @@ void LinchpinService::setImpl(LinchpinServiceImpl* newImpl)
     impl = newImpl;
 }
 
-LinchpinService::LinchpinService(const std::string& /* url */,
-                                  const std::string& /* credentials */,
+LinchpinService::LinchpinService(std::string /* url */,
+                                  std::string /* credentials */,
                                   uint32_t /* operationTimeout */,
                                   uint32_t /* retryInterval */,
                                   uint64_t /* maximumRetryTimeoutInMs */,
