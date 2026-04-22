@@ -22,6 +22,13 @@
 #include <gmock/gmock.h>
 #include "LinchpinService.h"
 
+// Ensure any subsequent include of the real LinchpinService header from
+// rdkservices-cpc/LinchpinBroker/LinchpinService/inc is skipped in this
+// translation unit after the mock type has been provided.
+#ifndef LINCHPINBROKER_LINCHPINSERVICE_H
+#define LINCHPINBROKER_LINCHPINSERVICE_H
+#endif
+
 /**
  * @brief GMock implementation of LinchpinServiceImpl.
  *
