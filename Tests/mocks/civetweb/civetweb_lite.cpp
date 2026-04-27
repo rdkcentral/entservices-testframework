@@ -24,11 +24,11 @@
  *
  * These stubs are compiled into the LinchpinWebSocketClient OBJECT target
  * when building with RDK_SERVICES_L1_TEST=ON, replacing the real civetweb_lite
- * shared library so that WPEFrameworkLinchpinBrokerImplementation.so can be
+ * shared library so that WPEFrameworkLinchpinClientProxyImplementation.so can be
  * built and linked without the real civetweb_lite being present.
  *
  * All stubs are no-ops or return safe sentinel values.  Tests exercise the
- * LinchpinBroker plugin through the LinchpinService mock (LinchpinService.h /
+ * LinchpinClientProxy plugin through the LinchpinService mock (LinchpinService.h /
  * LinchpinServiceMock.h) which operates at a higher level than these C-API
  * symbols, so no behavioural expectations are placed on them.
  */

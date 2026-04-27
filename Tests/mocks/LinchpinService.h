@@ -19,8 +19,8 @@
 
 #pragma once
 
-#ifndef LINCHPINBROKER_LINCHPINSERVICE_H
-#define LINCHPINBROKER_LINCHPINSERVICE_H
+#ifndef LINCHPINCLIENTPROXY_LINCHPINSERVICE_H
+#define LINCHPINCLIENTPROXY_LINCHPINSERVICE_H
 
 #include <string>
 #include <cstdint>
@@ -44,7 +44,7 @@ namespace Plugin {
 
 /**
  * @brief Abstract interface for LinchpinService — mirrors the public API of the real
- *        LinchpinService class (LinchpinBroker/LinchpinService/inc/LinchpinService.h).
+ *        LinchpinService class (LinchpinClientProxy/LinchpinService/inc/LinchpinService.h).
  *
  *        Used by LinchpinServiceImplMock (LinchpinServiceMock.h) to provide a
  *        controllable test double for L1 unit tests of ConnectionHandler and
@@ -105,4 +105,4 @@ public:
 } // namespace Plugin
 } // namespace WPEFramework
 
-#endif // LINCHPINBROKER_LINCHPINSERVICE_H
+#endif // LINCHPINCLIENTPROXY_LINCHPINSERVICE_H
