@@ -243,6 +243,16 @@ extern "C" FILE *__wrap_fopen(const char *pathname, const char *mode)
     return Wraps::getInstance().fopen(pathname, mode);
 }
 
+extern "C" int __wrap_fclose(FILE *stream)
+{
+    return Wraps::getInstance().fclose(stream);
+}
+
+extern "C" char *__wrap_fgets(char *s, int size, FILE *stream)
+{
+    return Wraps::getInstance().fgets(s, size, stream);
+}
+
 
 WrapsImpl* Wraps::impl = nullptr;
 
@@ -528,5 +538,17 @@ FILE *Wraps::fopen(const char *pathname, const char *mode)
         result =::fopen(pathname, mode);
     }
     return result;
+}
+
+int Wraps::fclose(FILE *stream)
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->fclose(stream);
+}
+
+char *Wraps::fgets(char *s, int size, FILE *stream)
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->fgets(s, size, stream);
 }
 
