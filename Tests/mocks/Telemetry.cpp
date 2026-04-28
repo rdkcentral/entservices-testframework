@@ -54,7 +54,14 @@ T2ERROR TelemetryApi::t2_event_d(const char* marker, int value)
     EXPECT_NE(impl, nullptr);
     return impl->t2_event_d(marker, value);
 }
+
+T2ERROR TelemetryApi::t2_event_f(char* marker, double value)
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->t2_event_f(marker, value);
+}
 void (*t2_init)(char*) = &TelemetryApi::t2_init;
 void (*t2_uninit)(void) = &TelemetryApi::t2_uninit;
 T2ERROR (*t2_event_s)(const char*,const char*) = &TelemetryApi::t2_event_s;
 T2ERROR (*t2_event_d)(const char*,int) = &TelemetryApi::t2_event_d;
+T2ERROR (*t2_event_f)(char*,double) = &TelemetryApi::t2_event_f;
