@@ -39,6 +39,7 @@ public:
     virtual void t2_uninit(void) = 0;
     virtual T2ERROR t2_event_s(const char* marker, const char* value) = 0;
     virtual T2ERROR t2_event_d(const char* marker, int value) = 0;
+    virtual T2ERROR t2_event_f(char* marker, double value) = 0;
 };
 
 class TelemetryApi {
@@ -52,10 +53,12 @@ public:
     static void t2_uninit(void);
     static T2ERROR t2_event_s(const char* marker, const char* value);
     static T2ERROR t2_event_d(const char* marker, int value);
+    static T2ERROR t2_event_f(char* marker, double value);
 };
 
 extern void (*t2_init)(char*);
 extern void (*t2_uninit)(void);
 extern  T2ERROR (*t2_event_s)(const char*,const char*);
 extern  T2ERROR (*t2_event_d)(const char*,int);
+extern  T2ERROR (*t2_event_f)(char*,double);
 
