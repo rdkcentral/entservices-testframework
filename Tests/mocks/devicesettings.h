@@ -72,6 +72,16 @@ typedef enum _dsAudioPortType_t {
     dsAUDIOPORT_TYPE_MAX /**< Maximum index for audio port type. */
 } dsAudioPortType_t;
 
+typedef enum _dsAudioDuckingAction_t {
+    dsAUDIO_DUCKINGACTION_START = 0,
+    dsAUDIO_DUCKINGACTION_STOP  = 1
+} dsAudioDuckingAction_t;
+
+typedef enum _dsAudioDuckingType_t {
+    dsAUDIO_DUCKINGTYPE_ABSOLUTE = 0,
+    dsAUDIO_DUCKINGTYPE_RELATIVE = 1
+} dsAudioDuckingType_t;
+
 typedef enum _dsVideoPortType_t {
     dsVIDEOPORT_TYPE_RF = 0,      ///< RF modulator (channel 3/4) video output          
     dsVIDEOPORT_TYPE_BB,          ///< Baseband (composite, RCA) video output            
@@ -934,6 +944,11 @@ public:
     void enableARC(dsAudioARCTypes_t type, bool enable);
     uint32_t getDolbyVolumeMode() const;
     void setStereoMode(const std::string &mode, bool persist);
+    void setAudioDucking(dsAudioDuckingAction_t action, dsAudioDuckingType_t type, float level) {
+        (void)action;
+        (void)type;
+        (void)level;
+    }
 
 
 
@@ -1420,6 +1435,8 @@ protected:
     static ManagerImpl* impl;
 
 public:
+    static bool IsInitialized;
+
     Manager();
 
     static void setImpl(ManagerImpl* newImpl);
