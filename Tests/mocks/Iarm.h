@@ -237,7 +237,7 @@ typedef enum _DeepSleep_WakeupReason_t {
 
 #define IARM_BUS_COMMON_API_PowerPreChange "PowerPreChange"
 
-typedef struct {
+typedef struct _IARM_Bus_CommonAPI_PowerPreChange_Param_t {
     IARM_Bus_PWRMgr_PowerState_t newState;
     IARM_Bus_PWRMgr_PowerState_t curState;
 } IARM_Bus_CommonAPI_PowerPreChange_Param_t;
