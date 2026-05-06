@@ -99,7 +99,7 @@ endif (MOCKACCESSOR_LIBRARIES)
 target_link_directories(${MODULE_NAME} PUBLIC ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/lib/wpeframework/plugins)
 target_link_libraries(${MODULE_NAME} PRIVATE ${NAMESPACE}Plugins::${NAMESPACE}Plugins gtest_main gmock gtest)
 
-set(ENTSERVICES_INC ${CMAKE_INSTALL_PREFIX}/include/wpeframework/helpers)
+set(ENTSERVICES_INC ../../../../entservices-helpers/helpers)
 
 target_include_directories(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/include/wpeframework/helpers)
 target_include_directories(${MODULE_NAME} PRIVATE ./)
