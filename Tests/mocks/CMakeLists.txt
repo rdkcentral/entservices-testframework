@@ -125,6 +125,14 @@ else(L2_TEST_OOP_RPC)
             Omi.cpp
 	    HdmiCec.cpp
 	    )
+    endif()
+
+    if(RDK_SERVICE_CPC_L2_TEST AND NOT RDK_SERVICES_L1_TEST)
+        list(APPEND MODULE_SOURCES
+            devicesettings.cpp
+            )
+    endif()
+
     if(RDK_SERVICE_CPC_L2_TEST)
         list(APPEND MODULE_SOURCES
             sec_security.cpp
@@ -135,8 +143,6 @@ else(L2_TEST_OOP_RPC)
             KeyProvisionClient.cpp
             SecApiProvisioner.cpp
             )
-    endif()
-
     endif()
 
     add_library(${MODULE_NAME} SHARED ${MODULE_SOURCES})
