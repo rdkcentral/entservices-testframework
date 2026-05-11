@@ -130,11 +130,17 @@ else(L2_TEST_OOP_RPC)
     if(RDK_SERVICE_CPC_L2_TEST AND NOT RDK_SERVICES_L1_TEST)
         list(APPEND MODULE_SOURCES
             devicesettings.cpp
+            HdmiCec.cpp
+            Dobby.cpp
+            tr181api.cpp
+            Omi.cpp
             )
     endif()
 
     if(RDK_SERVICE_CPC_L2_TEST)
         list(APPEND MODULE_SOURCES
+            tvSettings.cpp
+            EssRMgr.cpp
             sec_security.cpp
             KeyProvisionObject.cpp
             KeyProvisionResult.cpp
