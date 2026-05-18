@@ -164,6 +164,27 @@ typedef enum _dsAudioInput_t
     dsAUDIO_INPUT_MAX            /**< Out of range */
 } dsAudioInput_t;
 
+typedef enum _dsAudioEncoding_t{
+    dsAUDIO_ENC_NONE = 0,   ///< No digital audio output
+    dsAUDIO_ENC_DISPLAY,    ///< Platform-selected digital audio encoding format
+    dsAUDIO_ENC_PCM,        ///< PCM digital audio encoding format
+    dsAUDIO_ENC_AC3,        ///< AC-3 digital audio encoding format
+    dsAUDIO_ENC_EAC3,       ///< DD+/E-AC-3 digital audio encoding format
+    dsAUDIO_ENC_MAX         ///< Out of range
+} dsAudioEncoding_t;
+
+typedef enum _dsAudioDuckingAction_t{
+    dsAUDIO_DUCKINGACTION_START,    ///< Audio ducking start
+    dsAUDIO_DUCKINGACTION_STOP,     ///< Audio ducking stop
+    dsAudio_DUCKINGACTION_MAX,      ///< Out of range
+} dsAudioDuckingAction_t;
+
+typedef enum _dsAudioDuckingType_t{
+    dsAUDIO_DUCKINGTYPE_ABSOLUTE,   ///< Audio ducking absolute
+    dsAUDIO_DUCKINGTYPE_RELATIVE,   ///< Audio ducking relative
+    dsAudio_DUCKINGTYPE_MAX,        ///< Out of range
+} dsAudioDuckingType_t;
+
 typedef enum _dsHdcpProtocolVersion_t {
     dsHDCP_VERSION_1X = 0, /**< HDCP Protocol version 1.x */
     dsHDCP_VERSION_2X, /**< HDCP Protocol version 2.x */
@@ -284,6 +305,34 @@ typedef struct _dsVideoPortResolution_t {
     dsVideoFrameRate_t frameRate; /**< The associated frame rate.                               */
     bool interlaced; /**< The associated scan mode(@a true if interlaced, @a false if progressive). */
 } dsVideoPortResolution_t;
+
+typedef enum
+{
+    dsVIDEO_CODEC_MPEGHPART2 = (0x01 << 0),     /*!< Also known HEVC, H.265 */
+    dsVIDEO_CODEC_MPEG4PART10 = (0x01 << 1),    /*!< Also known as H.264, MPEG4 AVC */
+    dsVIDEO_CODEC_MPEG2 = (0x01 << 2),          /*!< Also known as H.222/H.262 */
+    dsVIDEO_CODEC_MAX   = (0x01 << 3)           /*!< Out of range */
+} dsVideoCodingFormat_t;
+
+typedef enum
+{
+    dsVIDEO_CODEC_HEVC_PROFILE_MAIN = (0x01 << 0),              /*!< 8-bit HEVC video profile. */
+    dsVIDEO_CODEC_HEVC_PROFILE_MAIN10 = (0x01 << 1),            /*!< 10-bit HEVC video profile. */
+    dsVIDEO_CODEC_HEVC_PROFILE_MAINSTILLPICTURE = (0x01 << 2),  /*!< HECV Main Still Picture profile */
+    dsVIDEO_CODEC_HEVC_MAX  = (0x01 << 3)                       /*!< Out of range  */
+} dsVideoCodecHevcProfiles_t;
+
+typedef struct
+{
+   dsVideoCodecHevcProfiles_t profile;  /*!< HEVC Profiles. See dsVideoCodecHevcProfiles_t */
+   float level;                         /*!< level for the specieis HEVC profile */
+} dsVideoCodecProfileSupport_t;
+
+typedef struct
+{
+    unsigned int num_entries;                  /*!< Number of entries */
+    dsVideoCodecProfileSupport_t entries[10];  /*!< Contains a list of the supported Codex profiles */
+} dsVideoCodecInfo_t;
 
 typedef enum _dsHDRStandard_t {
     dsHDRSTANDARD_NONE = 0x0,
@@ -722,6 +771,26 @@ public:
     AudioStereoMode(int id);    
 };
 
+class AudioEncoding {
+public:
+    AudioEncoding() : _id(dsAUDIO_ENC_NONE) {}
+    explicit AudioEncoding(int id) : _id(id) {}
+    int getId() const { return _id; }
+private:
+    int _id;
+};
+
+class AspectRatio {
+public:
+    AspectRatio() : _id(dsVIDEO_ASPECT_RATIO_16x9), _name("16x9") {}
+    AspectRatio(int id, const std::string& name) : _id(id), _name(name) {}
+    int getId() const { return _id; }
+    const std::string& getName() const { return _name; }
+private:
+    int _id;
+    std::string _name;
+};
+
 }
 
 namespace device {
@@ -842,6 +911,10 @@ public:
     
     virtual void setStereoMode(const std::string &mode, bool persist) = 0;
 
+    virtual void setAudioDucking(dsAudioDuckingAction_t action, dsAudioDuckingType_t type, const unsigned char level) = 0;
+    virtual const AudioEncoding& getEncoding() const = 0;
+    virtual void setEncoding(const int encoding) = 0;
+    virtual void setEncoding(const std::string& encoding) = 0;
 
 };
 
@@ -934,6 +1007,11 @@ public:
     void enableARC(dsAudioARCTypes_t type, bool enable);
     uint32_t getDolbyVolumeMode() const;
     void setStereoMode(const std::string &mode, bool persist);
+
+    void setAudioDucking(dsAudioDuckingAction_t action, dsAudioDuckingType_t type, const unsigned char level);
+    const AudioEncoding& getEncoding() const;
+    void setEncoding(const int encoding);
+    void setEncoding(const std::string& encoding);
 
 
 
@@ -1097,6 +1175,8 @@ public:
     virtual const VideoDFC& getDFC() = 0;
     virtual void getHDRCapabilities(int* capabilities) = 0;
     virtual void getSettopSupportedResolutions(std::list<std::string>& resolutions) = 0;
+    virtual unsigned int getSupportedVideoCodingFormats() const = 0;
+    virtual dsVideoCodecInfo_t getVideoCodecInfo(dsVideoCodingFormat_t format) const = 0;
 };
 
 class VideoDevice {
@@ -1118,7 +1198,8 @@ public:
     void setDFC(std::string zoomSetting);
     void getHDRCapabilities(int* capabilities);
     void getSettopSupportedResolutions(std::list<std::string>& resolutions);
-    
+    unsigned int getSupportedVideoCodingFormats() const;
+    dsVideoCodecInfo_t getVideoCodecInfo(dsVideoCodingFormat_t format) const;
 };
 
 }
@@ -1268,6 +1349,7 @@ namespace device{
                 virtual void setAllmEnabled(bool enable) = 0;
                 virtual void setAVIContentType(int contentType) = 0;
                 virtual void setAVIScanInformation(int scanInfo) = 0;
+                virtual const AspectRatio& getAspectRatio() = 0;
             };
         class Display {
     protected:
@@ -1283,6 +1365,7 @@ namespace device{
        void setAllmEnabled(bool enable);
        void setAVIContentType(int contentType);
        void setAVIScanInformation(int scanInfo);
+       const AspectRatio& getAspectRatio();
 
 };
 
@@ -1330,6 +1413,10 @@ public:
     virtual int getQuantizationRange() const = 0;
     virtual bool IsOutputHDR() = 0;
 
+    virtual bool isEnabled() const = 0;
+    virtual void enable() = 0;
+    virtual void disable() = 0;
+
 
 };
 
@@ -1375,6 +1462,9 @@ public:
     int getColorDepth() const;
     int getQuantizationRange() const;
     bool IsOutputHDR();
+    bool isEnabled() const;
+    void enable();
+    void disable();
 
 };
 
