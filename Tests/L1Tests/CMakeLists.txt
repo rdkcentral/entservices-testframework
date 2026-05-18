@@ -163,6 +163,12 @@ if(PLUGIN_BLUETOOTH)
     target_link_libraries(${PROJECT_NAME} "${ENTSERVICES_REPO_L1TEST_LIB_PATH}/libWPEFrameworkL1TestsBT.so")
 endif()
 
+#PLUGIN_HELPERS
+if(PLUGIN_HELPERS)
+    message(STATUS "linking libWPEFrameworkL1TestsHelpers to RdkServicesL1Test target")
+    target_link_libraries(${PROJECT_NAME} "${ENTSERVICES_REPO_L1TEST_LIB_PATH}/libWPEFrameworkL1TestsHelpers.so")
+endif()
+
 include(GoogleTest)
 include_directories(${TEST_INC})
 
