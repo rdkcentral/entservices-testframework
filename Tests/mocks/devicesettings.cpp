@@ -442,6 +442,30 @@ void AudioOutputPort::setStereoMode(const std::string &mode, bool persist)
     return impl->setStereoMode(mode, persist);
 }
 
+void AudioOutputPort::setAudioDucking(dsAudioDuckingAction_t action, dsAudioDuckingType_t type, const unsigned char level)
+{
+    EXPECT_NE(impl, nullptr);
+    impl->setAudioDucking(action, type, level);
+}
+
+const AudioEncoding& AudioOutputPort::getEncoding() const
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->getEncoding();
+}
+
+void AudioOutputPort::setEncoding(const int encoding)
+{
+    EXPECT_NE(impl, nullptr);
+    impl->setEncoding(encoding);
+}
+
+void AudioOutputPort::setEncoding(const std::string& encoding)
+{
+    EXPECT_NE(impl, nullptr);
+    impl->setEncoding(encoding);
+}
+
 CompositeInputImpl* CompositeInput::impl = nullptr;
 
 CompositeInput::CompositeInput() {}
@@ -807,6 +831,11 @@ void Display::setAVIScanInformation(int scanInfo) {
     EXPECT_NE(impl, nullptr);
     impl->setAVIScanInformation(scanInfo);
 }
+const AspectRatio& Display::getAspectRatio()
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->getAspectRatio();
+}
 
 VideoOutputPortImpl* VideoOutputPort::impl = nullptr;
 
@@ -921,6 +950,24 @@ Display& VideoOutputPort::getDisplay() {
 bool VideoOutputPort::isActive() {
     EXPECT_NE(impl, nullptr);
     return impl->isActive();
+}
+
+bool VideoOutputPort::isEnabled() const
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->isEnabled();
+}
+
+void VideoOutputPort::enable()
+{
+    EXPECT_NE(impl, nullptr);
+    impl->enable();
+}
+
+void VideoOutputPort::disable()
+{
+    EXPECT_NE(impl, nullptr);
+    impl->disable();
 }
 
 VideoOutputPortConfigImpl* VideoOutputPortConfig::impl = nullptr;
@@ -1441,6 +1488,16 @@ void VideoDevice::setDFC(std::string zoomSetting)
 {
     EXPECT_NE(impl, nullptr);
     return impl->setDFC(zoomSetting);
+}
+unsigned int VideoDevice::getSupportedVideoCodingFormats() const
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->getSupportedVideoCodingFormats();
+}
+dsVideoCodecInfo_t VideoDevice::getVideoCodecInfo(dsVideoCodingFormat_t format) const
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->getVideoCodecInfo(format);
 }
 void VideoOutputPort::setResolution(std::string resolution, bool persist, bool isIgnoreEdid)
 {
