@@ -98,10 +98,9 @@ endif (MOCKACCESSOR_LIBRARIES)
 
 target_link_directories(${MODULE_NAME} PUBLIC ${CMAKE_INSTALL_PREFIX}/lib ${CMAKE_INSTALL_PREFIX}/lib/wpeframework/plugins)
 target_link_libraries(${MODULE_NAME} PRIVATE ${NAMESPACE}Plugins::${NAMESPACE}Plugins gtest_main gmock gtest)
-
 set(ENTSERVICES_INC ../../../../entservices-deviceanddisplay/helpers ../../../../entservices-infra/helpers ../../../../entservices-mediaanddrm/helpers ../../../../entservices-softwareupdate/helpers ../../../../entservices-inputoutput/helpers ../../../../entservices-peripherals/helpers ../../../../entservices-connectivity/helpers)
+set(ENTSERVICES_INC ../../../../entservices-helpers/helpers)
 
-target_include_directories(${MODULE_NAME} PRIVATE ../../../helpers)
 target_include_directories(${MODULE_NAME} PRIVATE ./)
 target_include_directories(${MODULE_NAME} PRIVATE ../../mocks)
 target_include_directories(${MODULE_NAME} PRIVATE ../../mocks/thunder)
