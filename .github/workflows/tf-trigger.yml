@@ -15,320 +15,228 @@ jobs:
     uses: rdkcentral/entservices-infra/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   infra-L2:
     uses: rdkcentral/entservices-infra/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   softwareupdate-L1:
     uses: rdkcentral/entservices-softwareupdate/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   softwareupdate-L2:
     uses: rdkcentral/entservices-softwareupdate/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   firmwareupdate-L1:
     uses: rdkcentral/entservices-firmwareupdate/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   firmwareupdate-L2:
     uses: rdkcentral/entservices-firmwareupdate/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   casting-L1:
     uses: rdkcentral/entservices-casting/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   mediaanddrm-L1:
     uses: rdkcentral/entservices-mediaanddrm/.github/workflows/L1-tests.yml@feature/RDKEMW-12936
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   mediaanddrm-L2:
     uses: rdkcentral/entservices-mediaanddrm/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
       
   peripherals-L1:
     uses: rdkcentral/entservices-peripherals/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}  
   
   ledcontrol-L2:
     uses: rdkcentral/entservices-ledcontrol/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
   
   frontpanel-L1:
     uses: rdkcentral/entservices-frontpanel/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   hdmicecsource-L1:
     uses: rdkcentral/entservices-hdmicecsource/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   hdmicecsource-L2:
     uses: rdkcentral/entservices-hdmicecsource/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   hdmicecsink-L1:
     uses: rdkcentral/entservices-hdmicecsink/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   hdmicecsink-L2:
     uses: rdkcentral/entservices-hdmicecsink/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   hdcpprofile-L1:
     uses: rdkcentral/entservices-hdcpprofile/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   hdcpprofile-L2:
     uses: rdkcentral/entservices-hdcpprofile/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   avinput-L1:
     uses: rdkcentral/entservices-avinput/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   avinput-L2:
     uses: rdkcentral/entservices-avinput/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   linearplaybackcontrol-L1:
     uses: rdkcentral/entservices-linearplaybackcontrol/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   linearplaybackcontrol-L2:
     uses: rdkcentral/entservices-linearplaybackcontrol/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   playerinfo-L1:
     uses: rdkcentral/entservices-playerinfo/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   playerinfo-L2:
     uses: rdkcentral/entservices-playerinfo/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   screencapture-L1:
     uses: rdkcentral/entservices-screencapture/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   screencapture-L2:
     uses: rdkcentral/entservices-screencapture/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   unifiedcasmanagement-L1:
     uses: rdkcentral/entservices-unifiedcasmanagement/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   unifiedcasmanagement-L2:
     uses: rdkcentral/entservices-unifiedcasmanagement/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   devicediagnostics-L1:
     uses: rdkcentral/entservices-devicediagnostics/.github/workflows/L1-tests.yml@feature/RDKEMW-14703
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   devicediagnostics-L2:
     uses: rdkcentral/entservices-devicediagnostics/.github/workflows/L2-tests.yml@feature/RDKEMW-14703
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   deviceinfo-L1:
     uses: rdkcentral/entservices-deviceinfo/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   deviceinfo-L2:
     uses: rdkcentral/entservices-deviceinfo/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   displayinfo-L1:
     uses: rdkcentral/entservices-displayinfo/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   displaysettings-L2:
     uses: rdkcentral/entservices-displaysettings/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   framerate-L1:
     uses: rdkcentral/entservices-framerate/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   framerate-L2:
     uses: rdkcentral/entservices-framerate/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   powermanager-L1:
     uses: rdkcentral/entservices-powermanager/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   powermanager-L2:
     uses: rdkcentral/entservices-powermanager/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   powermanager-L2-oop:
     uses: rdkcentral/entservices-powermanager/.github/workflows/L2-tests-oop.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   systemmode-L2:
     uses: rdkcentral/entservices-systemmode/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   systemservices-L1:
     uses: rdkcentral/entservices-systemservices/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   systemservices-L2:
     uses: rdkcentral/entservices-systemservices/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   userpreferences-L1:
     uses: rdkcentral/entservices-userpreferences/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   userpreferences-L2:
     uses: rdkcentral/entservices-userpreferences/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   warehouse-L1:
     uses: rdkcentral/entservices-warehouse/.github/workflows/L1-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
 
   warehouse-L2:
     uses: rdkcentral/entservices-warehouse/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-    secrets:
-      RDKCM_RDKE: ${{ secrets.RDKCM_RDKE }}
