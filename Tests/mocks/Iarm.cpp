@@ -48,20 +48,6 @@ IARM_Result_t IarmBus::IARM_Bus_Connect()
     return impl->IARM_Bus_Connect();
 }
 
-IARM_Result_t IarmBus::IARM_Bus_Disconnect()
-{
-    TEST_LOG("Inside IARM_Bus_Disconnect");
-    EXPECT_NE(impl, nullptr);
-    return impl->IARM_Bus_Disconnect();
-}
-
-IARM_Result_t IarmBus::IARM_Bus_Term()
-{
-    TEST_LOG("Inside IARM_Bus_Term");
-    EXPECT_NE(impl, nullptr);
-    return impl->IARM_Bus_Term();
-}
-
 IARM_Result_t IarmBus::IARM_Bus_IsConnected(const char* memberName, int* isRegistered)
 {
     TEST_LOG("Inside IARM_Bus_IsConnected");
