@@ -112,6 +112,27 @@ IARM_Result_t IarmBus::IARM_Bus_RegisterCall(const char* methodName, IARM_BusCal
     return impl->IARM_Bus_RegisterCall(methodName, handler);
 }
 
+IARM_Result_t IarmBus::IARM_Bus_Disconnect()
+{
+    TEST_LOG("Inside IARM_Bus_Disconnect");
+    EXPECT_NE(impl, nullptr);
+    return impl->IARM_Bus_Disconnect();
+}
+
+IARM_Result_t IarmBus::IARM_Bus_Term()
+{
+    TEST_LOG("Inside IARM_Bus_Term");
+    EXPECT_NE(impl, nullptr);
+    return impl->IARM_Bus_Term();
+}
+
+IARM_Result_t IarmBus::IARM_Bus_RegisterEvent(IARM_EventId_t maxEventId)
+{
+    TEST_LOG("Inside IARM_Bus_RegisterEvent");
+    EXPECT_NE(impl, nullptr);
+    return impl->IARM_Bus_RegisterEvent(maxEventId);
+}
+
 IARM_Result_t IarmBus::IARM_Bus_Call_with_IPCTimeout(const char *ownerName,  const char *methodName, void *arg, size_t argLen, int timeout)
 {
     EXPECT_NE(impl, nullptr);
@@ -129,5 +150,6 @@ IARM_Result_t (*IARM_Bus_RemoveEventHandler)(const char*,IARM_EventId_t,IARM_Eve
 IARM_Result_t (*IARM_Bus_Call)(const char*,const char*,void*,size_t) = &IarmBus::IARM_Bus_Call;
 IARM_Result_t (*IARM_Bus_BroadcastEvent)(const char *ownerName, IARM_EventId_t eventId, void *arg, size_t argLen) = &IarmBus::IARM_Bus_BroadcastEvent;
 IARM_Result_t (*IARM_Bus_RegisterCall)(const char*,IARM_BusCall_t) = &IarmBus::IARM_Bus_RegisterCall;
+IARM_Result_t (*IARM_Bus_RegisterEvent)(IARM_EventId_t) = &IarmBus::IARM_Bus_RegisterEvent;
 IARM_Result_t (*IARM_Bus_Call_with_IPCTimeout)(const char*,const char*,void*,size_t,int) = &IarmBus::IARM_Bus_Call_with_IPCTimeout;
 
