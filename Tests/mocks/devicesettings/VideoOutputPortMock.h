@@ -58,4 +58,7 @@ public:
     MOCK_METHOD(int, getColorDepth, (), (const, override));
     MOCK_METHOD(int, getQuantizationRange, (), (const, override));
     MOCK_METHOD(bool, IsOutputHDR, (), (override));
+    MOCK_METHOD(bool, isEnabled, (), (const, override));
+    MOCK_METHOD(void, enable, (), (override));
+    MOCK_METHOD(void, disable, (), (override));
 };

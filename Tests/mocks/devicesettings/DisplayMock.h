@@ -33,4 +33,5 @@ public:
     MOCK_METHOD(void, setAllmEnabled, (bool enable), (override));
     MOCK_METHOD(void, setAVIContentType, (int contentType), (override));
     MOCK_METHOD(void, setAVIScanInformation, (int scanInfo), (override));
+    MOCK_METHOD(const device::AspectRatio&, getAspectRatio, (), (override));
 };
