@@ -231,8 +231,16 @@ typedef enum _DeepSleep_WakeupReason_t {
     DEEPSLEEP_WAKEUPREASON_CEC,
     DEEPSLEEP_WAKEUPREASON_PRESENCE,
     DEEPSLEEP_WAKEUPREASON_VOICE,
-    DEEPSLEEP_WAKEUPREASON_UNKNOWN
+    DEEPSLEEP_WAKEUPREASON_UNKNOWN,
+    DEEPSLEEP_WAKEUPREASON_MAX
 } DeepSleep_WakeupReason_t;
+
+#define IARM_BUS_COMMON_API_PowerPreChange "PowerPreChange"
+
+typedef struct _IARM_Bus_CommonAPI_PowerPreChange_Param_t {
+    IARM_Bus_PWRMgr_PowerState_t newState;
+    IARM_Bus_PWRMgr_PowerState_t curState;
+} IARM_Bus_CommonAPI_PowerPreChange_Param_t;
 
 typedef struct _DeepSleepMgr_WakeupKeyCode_Param_t {
     unsigned int keyCode;
