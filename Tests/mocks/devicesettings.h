@@ -72,11 +72,6 @@ typedef enum _dsAudioPortType_t {
     dsAUDIOPORT_TYPE_MAX /**< Maximum index for audio port type. */
 } dsAudioPortType_t;
 
-typedef enum _dsAudioDuckingAction_t {
-    dsAUDIO_DUCKINGACTION_START = 0,
-    dsAUDIO_DUCKINGACTION_STOP  = 1
-} dsAudioDuckingAction_t;
-
 typedef enum _dsVideoPortType_t {
     dsVIDEOPORT_TYPE_RF = 0,      ///< RF modulator (channel 3/4) video output          
     dsVIDEOPORT_TYPE_BB,          ///< Baseband (composite, RCA) video output            
