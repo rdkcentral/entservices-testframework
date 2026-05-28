@@ -77,11 +77,6 @@ typedef enum _dsAudioDuckingAction_t {
     dsAUDIO_DUCKINGACTION_STOP  = 1
 } dsAudioDuckingAction_t;
 
-typedef enum _dsAudioDuckingType_t {
-    dsAUDIO_DUCKINGTYPE_ABSOLUTE = 0,
-    dsAUDIO_DUCKINGTYPE_RELATIVE = 1
-} dsAudioDuckingType_t;
-
 typedef enum _dsVideoPortType_t {
     dsVIDEOPORT_TYPE_RF = 0,      ///< RF modulator (channel 3/4) video output          
     dsVIDEOPORT_TYPE_BB,          ///< Baseband (composite, RCA) video output            
