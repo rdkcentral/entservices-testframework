@@ -16,45 +16,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#ifndef _ITIMERMSG_H_
-#define _ITIMERMSG_H_
+/*
+ * Stub header for systimerifc/itimermsg.h
+ * Required when ENABLE_SYSTIMEMGR_SUPPORT is defined in test builds
+ * where the real systimemgr package is not installed.
+ */
+#pragma once
 
-#ifdef __cplusplus
-extern "C" {
+#ifndef IARM_BUS_SYSTIME_MGR_NAME
+#define IARM_BUS_SYSTIME_MGR_NAME    "SYSTEMTIME"
 #endif
 
-#define IARM_BUS_SYSTIME_MGR_NAME "SystemTimeMgr"
-#define TIMER_STATUS_MSG  "TIMER_STATUS"
-#define POWER_CHANGE_MSG  "POWER_CHANGE"
-#define cTIMER_STATUS_MESSAGE_LENGTH  80
+#ifndef TIMER_STATUS_MSG
+#define TIMER_STATUS_MSG             "TimerStatus"
+#endif
 
-const int cTIMER_STATUS_UPDATE = 0;
+#ifndef cTIMER_STATUS_UPDATE
+#define cTIMER_STATUS_UPDATE         0
+#endif
+
+#ifndef cTIMER_STATUS_MESSAGE_LENGTH
+#define cTIMER_STATUS_MESSAGE_LENGTH 256
+#endif
 
 typedef struct {
-	int event;
-	int quality;
-	char timerSrc[cTIMER_STATUS_MESSAGE_LENGTH];
-	char currentTime[cTIMER_STATUS_MESSAGE_LENGTH];
-	char  message[cTIMER_STATUS_MESSAGE_LENGTH];
-}TimerMsg;
-
-typedef enum {
-	ePUBLISH_TIME_INITIAL =0,
-	ePUBLISH_NTP_FAIL,
-	ePUBLISH_NTP_SUCCESS,
-	ePUBLISH_DTT_SUCCESS,
-	ePUBLISH_SECURE_TIME_SUCCESS,
-	ePUBLISH_DEEP_SLEEP_ON,
-}publishEvent;
-
-typedef enum {
-   eTIMEQUALILTY_POOR =0,
-   eTIMEQUALILTY_GOOD,
-   eTIMEQUALILTY_SECURE,
-   eTIMEQUALILTY_UNKNOWN,
-} qualityOfTime;
-
-#ifdef __cplusplus
-}
-#endif
-#endif// _TIMERMSGIFC_H_
+    char message[cTIMER_STATUS_MESSAGE_LENGTH];
+    char timerSrc[cTIMER_STATUS_MESSAGE_LENGTH];
+    char currentTime[cTIMER_STATUS_MESSAGE_LENGTH];
+} TimerMsg;
