@@ -36,4 +36,6 @@ public:
     MOCK_METHOD(void, setDFC, (std::string zoomSetting), (override));
     // MOCK_METHOD(const VideoDFC&, getDFC, (), (const, override));
      MOCK_METHOD(const device::VideoDFC&, getDFC, (), (override));
+    MOCK_METHOD(unsigned int, getSupportedVideoCodingFormats, (), (const, override));
+    MOCK_METHOD(dsVideoCodecInfo_t, getVideoCodecInfo, (dsVideoCodingFormat_t format), (const, override));
 };

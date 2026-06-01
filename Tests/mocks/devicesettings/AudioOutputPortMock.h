@@ -111,6 +111,10 @@ public:
 
     MOCK_METHOD(const device::AudioOutputPortType&, getType, (), (const, override));
     
+    MOCK_METHOD(void, setAudioDucking, (dsAudioDuckingAction_t action, dsAudioDuckingType_t type, const unsigned char level), (override));
+    MOCK_METHOD(const device::AudioEncoding&, getEncoding, (), (const, override));
+    MOCK_METHOD(void, setEncoding, (const int encoding), (override));
+    MOCK_METHOD(void, setEncoding, (const std::string& encoding), (override));
 
 
 
