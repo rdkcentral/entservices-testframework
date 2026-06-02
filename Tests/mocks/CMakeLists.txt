@@ -118,12 +118,11 @@ else(L2_TEST_OOP_RPC)
             PowerManagerMock.cpp
             tr181api.cpp
             LinchpinService.cpp
+            civetweb/civetweb_lite.cpp
             ${GENERATED_PROTO_SRC}
             ${GENERATED_GRPC_SRC}
             SecureStorageServerMock.cpp
-            Dobby.cpp
             Omi.cpp
-	    HdmiCec.cpp
 	    )
     endif()
 

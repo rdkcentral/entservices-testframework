@@ -30,7 +30,10 @@ namespace Plugin {
 void LinchpinService::setImpl(LinchpinServiceImpl* newImpl)
 {
     // Handles both resetting 'impl' to nullptr and assigning a new value to 'impl'
-    EXPECT_TRUE((nullptr == impl) || (nullptr == newImpl));
+    if (!((nullptr == impl) || (nullptr == newImpl))) {
+        ADD_FAILURE() << "LinchpinService::setImpl called without clearing existing impl";
+        return;
+    }
     impl = newImpl;
 }
 
@@ -49,43 +52,64 @@ LinchpinService::~LinchpinService()
 
 Core::hresult LinchpinService::Connect(string& connectionId, int& lastStatusCode)
 {
-    EXPECT_NE(impl, nullptr);
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::Connect called without impl set";
+        return Core::ERROR_GENERAL;
+    }
     return impl->Connect(connectionId, lastStatusCode);
 }
 
 void LinchpinService::Disconnect()
 {
-    EXPECT_NE(impl, nullptr);
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::Disconnect called without impl set";
+        return;
+    }
     impl->Disconnect();
 }
 
 bool LinchpinService::IsConnected()
 {
-    EXPECT_NE(impl, nullptr);
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::IsConnected called without impl set";
+        return false;
+    }
     return impl->IsConnected();
 }
 
 Core::hresult LinchpinService::Subscribe(Topic topic, string& connectionStatus, int& lastStatusCode)
 {
-    EXPECT_NE(impl, nullptr);
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::Subscribe called without impl set";
+        return Core::ERROR_GENERAL;
+    }
     return impl->Subscribe(topic, connectionStatus, lastStatusCode);
 }
 
 Core::hresult LinchpinService::Unsubscribe(Topic topic)
 {
-    EXPECT_NE(impl, nullptr);
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::Unsubscribe called without impl set";
+        return Core::ERROR_GENERAL;
+    }
     return impl->Unsubscribe(topic);
 }
 
 bool LinchpinService::FetchMessage(const string& topic, JsonObject& response)
 {
-    EXPECT_NE(impl, nullptr);
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::FetchMessage called without impl set";
+        return false;
+    }
     return impl->FetchMessage(topic, response);
 }
 
 Core::hresult LinchpinService::Publish(const string& topic, const string& payloadType, const string& payload)
 {
-    EXPECT_NE(impl, nullptr);
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::Publish called without impl set";
+        return Core::ERROR_GENERAL;
+    }
     return impl->Publish(topic, payloadType, payload);
 }
 

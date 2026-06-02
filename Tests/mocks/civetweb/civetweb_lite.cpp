@@ -126,8 +126,7 @@ int mg_websocket_write(struct mg_connection *conn,
     (void)conn;
     (void)opcode;
     (void)data;
-    (void)data_len;
-    return 0;
+    return static_cast<int>(data_len);
 }
 
 int mg_websocket_client_write(struct mg_connection *conn,
@@ -138,8 +137,7 @@ int mg_websocket_client_write(struct mg_connection *conn,
     (void)conn;
     (void)opcode;
     (void)data;
-    (void)data_len;
-    return 0;
+    return static_cast<int>(data_len);
 }
 
 void mg_close_connection(struct mg_connection *conn)
@@ -159,10 +157,13 @@ int mg_url_encode(const char *src, char *dst, size_t dst_len)
     /* Trivial pass-through — sufficient for test builds where no real
      * network traffic is generated. */
     const size_t src_len = std::strlen(src);
-    const size_t copy_len = (src_len < dst_len - 1u) ? src_len : dst_len - 1u;
-    std::memcpy(dst, src, copy_len);
-    dst[copy_len] = '\0';
-    return static_cast<int>(copy_len);
+    if (src_len >= dst_len) {
+        dst[0] = '\0';
+        return -1;
+    }
+    std::memcpy(dst, src, src_len);
+    dst[src_len] = '\0';
+    return static_cast<int>(src_len);
 }
 
 } /* extern "C" */
