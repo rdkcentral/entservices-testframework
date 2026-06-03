@@ -26,7 +26,7 @@ if(L2_TEST_OOP_RPC)
         target_include_directories(MockAccessor PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_INSTALL_PREFIX}/include/WPEFramework/core
-            ${CMAKE_SOURCE_DIR}/helpers
+            ${CMAKE_SOURCE_DIR}/entservices-helpers/helpers
             ${CMAKE_SOURCE_DIR}/Tests/mocks
             ${CMAKE_SOURCE_DIR}/Tests/mocks/thunder
             ${CMAKE_INSTALL_PREFIX}/include
