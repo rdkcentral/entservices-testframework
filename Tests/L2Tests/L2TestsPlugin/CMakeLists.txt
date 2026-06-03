@@ -109,6 +109,7 @@ target_include_directories(${MODULE_NAME} PRIVATE ../../../Network)
 target_include_directories(${MODULE_NAME} PRIVATE ../../mocks/MockPlugin)
 target_include_directories(${MODULE_NAME} PRIVATE ../../mocks/MockAuthService)
 target_include_directories(${MODULE_NAME} PRIVATE ../../mocks/MockSecManager)
+target_include_directories(${MODULE_NAME} PRIVATE ../../mocks/civetweb)
 target_include_directories(${MODULE_NAME} PRIVATE ${ENTSERVICES_INC})
  
 install(TARGETS ${MODULE_NAME}
