@@ -135,13 +135,6 @@ else(L2_TEST_OOP_RPC)
             Omi.cpp
 			tvSettings.cpp
             EssRMgr.cpp
-            sec_security.cpp
-            KeyProvisionObject.cpp
-            KeyProvisionResult.cpp
-            KeyProvisionDirectorySerializer.cpp
-            CredentialUtils.cpp
-            KeyProvisionClient.cpp
-            SecApiProvisioner.cpp
             )
     endif()
 	
