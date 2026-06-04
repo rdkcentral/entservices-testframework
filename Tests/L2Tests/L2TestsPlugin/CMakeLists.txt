@@ -101,6 +101,7 @@ target_link_libraries(${MODULE_NAME} PRIVATE ${NAMESPACE}Plugins::${NAMESPACE}Pl
 set(ENTSERVICES_INC ../../../../entservices-deviceanddisplay/helpers ../../../../entservices-infra/helpers ../../../../entservices-mediaanddrm/helpers ../../../../entservices-softwareupdate/helpers ../../../../entservices-inputoutput/helpers ../../../../entservices-peripherals/helpers ../../../../entservices-connectivity/helpers)
 set(ENTSERVICES_INC ../../../../entservices-helpers/helpers)
 
+target_include_directories(${MODULE_NAME} PRIVATE ../../../helpers)
 target_include_directories(${MODULE_NAME} PRIVATE ./)
 target_include_directories(${MODULE_NAME} PRIVATE ../../mocks)
 target_include_directories(${MODULE_NAME} PRIVATE ../../mocks/thunder)
