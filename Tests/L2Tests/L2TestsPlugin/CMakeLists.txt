@@ -79,7 +79,7 @@ if(PLUGIN_ACCOUNT)
 endif()
 
 #PLUGIN_BACKUPMANAGER
-if(PLUGIN_BACKUPMANAGER) 
+if(PLUGIN_BACKUPMANAGER)
     target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkL2TestsBackupManager.so)
 endif()
 
