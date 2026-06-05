@@ -1,3 +1,7 @@
+From: Pesala Lakshmi Jwala Priya <plakshmijwalapriya@synamedia.com>
+Date: May 30, 2025
+Source: Comcast
+
 diff --git a/Source/WPEFramework/PluginServer.h b/Source/WPEFramework/PluginServer.h
 index e87933d9a..591385222 100644
 --- a/Source/WPEFramework/PluginServer.h
