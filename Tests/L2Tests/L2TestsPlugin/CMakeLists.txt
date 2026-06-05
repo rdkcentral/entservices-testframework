@@ -73,6 +73,14 @@ if(PLUGIN_BLUETOOTH)
      target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkL2TestsBT.so)
 endif()
 
+if(PLUGIN_ACCOUNT)
+    target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkL2TestsAccount.so)
+endif()
+
+if(PLUGIN_BACKUPMANAGER)
+    target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkL2TestsBackupManager.so)
+endif()
+
 #Added for Contract Verifier tests
 if(CT_VERIFIER_TESTS)
     target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkL2TestsCT.so)
