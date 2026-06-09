@@ -30,6 +30,7 @@ public:
     MOCK_METHOD(uint32_t, GetActivationStatus, (ActivationStatusResult&), (override));
     MOCK_METHOD(uint32_t, SetActivationStatus, (const std::string&, SuccessMsgResult&), (override));
     MOCK_METHOD(uint32_t, ClearAuthToken, (SuccessMsgResult&), (override));
+    MOCK_METHOD(uint32_t, ClearContentAccessToken, (SuccessMsgResult&), (override));
     MOCK_METHOD(uint32_t, ClearSessionToken, (SuccessMsgResult&), (override));
     MOCK_METHOD(uint32_t, ClearServiceAccessToken, (SuccessMsgResult&), (override));
     MOCK_METHOD(uint32_t, ClearLostAndFoundAccessToken, (SuccessMsgResult&), (override));
