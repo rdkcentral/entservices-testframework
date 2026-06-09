@@ -26,7 +26,8 @@ if(L2_TEST_OOP_RPC)
         target_include_directories(MockAccessor PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_INSTALL_PREFIX}/include/WPEFramework/core
-            ${CMAKE_SOURCE_DIR}/helpers
+			${CMAKE_SOURCE_DIR}/helpers
+            ${CMAKE_SOURCE_DIR}/entservices-helpers/helpers
             ${CMAKE_SOURCE_DIR}/Tests/mocks
             ${CMAKE_SOURCE_DIR}/Tests/mocks/thunder
             ${CMAKE_INSTALL_PREFIX}/include
@@ -126,6 +127,18 @@ else(L2_TEST_OOP_RPC)
 	    )
     endif()
 
+    if(RDK_SERVICE_L2_TEST AND NOT RDK_SERVICES_L1_TEST AND NOT RDK_SERVICE_CPC_L2_TEST)
+        list(APPEND MODULE_SOURCES
+            devicesettings.cpp
+            HdmiCec.cpp
+            Dobby.cpp
+            tr181api.cpp
+            Omi.cpp
+			tvSettings.cpp
+            EssRMgr.cpp
+            )
+    endif()
+	
     if(RDK_SERVICE_CPC_L2_TEST AND NOT RDK_SERVICES_L1_TEST)
         list(APPEND MODULE_SOURCES
             devicesettings.cpp

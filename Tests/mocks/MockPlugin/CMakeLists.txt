@@ -34,6 +34,7 @@ add_library(${MODULE_NAME} SHARED
 
 # Include directories
 target_include_directories(${MODULE_NAME} PRIVATE ${IARMBUS_INCLUDE_DIRS} ../../../helpers ../../mocks)
+target_include_directories(${MODULE_NAME} PRIVATE ${IARMBUS_INCLUDE_DIRS} ../../../entservices-helpers/helpers ../../mocks)
 
 # Link libraries
 target_link_libraries(${MODULE_NAME}
