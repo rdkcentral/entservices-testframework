@@ -26,7 +26,8 @@ if(L2_TEST_OOP_RPC)
         target_include_directories(MockAccessor PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_INSTALL_PREFIX}/include/WPEFramework/core
-            ${CMAKE_SOURCE_DIR}/helpers
+			${CMAKE_SOURCE_DIR}/helpers
+            ${CMAKE_SOURCE_DIR}/entservices-helpers/helpers
             ${CMAKE_SOURCE_DIR}/Tests/mocks
             ${CMAKE_SOURCE_DIR}/Tests/mocks/thunder
             ${CMAKE_INSTALL_PREFIX}/include
@@ -116,25 +117,42 @@ else(L2_TEST_OOP_RPC)
             rdkshell.cpp
             opkgMock.cpp
             PowerManagerMock.cpp
-			tr181api.cpp
-        )
-
-    else(RDK_SERVICES_L1_TEST)
-        list(APPEND MODULE_SOURCES
-	    devicesettings.cpp
-            systemaudioplatform.cpp
-	    tvSettings.cpp
             tr181api.cpp
-            EssRMgr.cpp
+            LinchpinService.cpp
+            civetweb/civetweb_lite.cpp
             ${GENERATED_PROTO_SRC}
             ${GENERATED_GRPC_SRC}
             SecureStorageServerMock.cpp
-            Dobby.cpp
             Omi.cpp
-	    HdmiCec.cpp
 	    )
+    endif()
+
+    if(RDK_SERVICE_L2_TEST AND NOT RDK_SERVICES_L1_TEST AND NOT RDK_SERVICE_CPC_L2_TEST)
+        list(APPEND MODULE_SOURCES
+            devicesettings.cpp
+            HdmiCec.cpp
+            Dobby.cpp
+            tr181api.cpp
+            Omi.cpp
+			tvSettings.cpp
+            EssRMgr.cpp
+            )
+    endif()
+	
+    if(RDK_SERVICE_CPC_L2_TEST AND NOT RDK_SERVICES_L1_TEST)
+        list(APPEND MODULE_SOURCES
+            devicesettings.cpp
+            HdmiCec.cpp
+            Dobby.cpp
+            tr181api.cpp
+            Omi.cpp
+            )
+    endif()
+
     if(RDK_SERVICE_CPC_L2_TEST)
         list(APPEND MODULE_SOURCES
+            tvSettings.cpp
+            EssRMgr.cpp
             sec_security.cpp
             KeyProvisionObject.cpp
             KeyProvisionResult.cpp
@@ -143,8 +161,6 @@ else(L2_TEST_OOP_RPC)
             KeyProvisionClient.cpp
             SecApiProvisioner.cpp
             )
-    endif()
-
     endif()
 
     add_library(${MODULE_NAME} SHARED ${MODULE_SOURCES})

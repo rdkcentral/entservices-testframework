@@ -1,3 +1,7 @@
+From: fzahir786 <FaizalHasan_ZahirHussain@comcast.com>
+Date: Jul 30, 2025
+Source: Comcast
+
 diff --git a/Source/WPEFramework/PluginServer.h b/Source/WPEFramework/PluginServer.h
 index 9a5b0cba..85b2060d 100644
 --- a/Source/WPEFramework/PluginServer.h

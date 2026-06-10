@@ -1007,8 +1007,12 @@ public:
     void enableARC(dsAudioARCTypes_t type, bool enable);
     uint32_t getDolbyVolumeMode() const;
     void setStereoMode(const std::string &mode, bool persist);
-
+    void setAudioDucking(dsAudioDuckingAction_t action, dsAudioDuckingType_t type, float level);
     void setAudioDucking(dsAudioDuckingAction_t action, dsAudioDuckingType_t type, const unsigned char level);
+    void setAudioDucking(dsAudioDuckingAction_t action, dsAudioDuckingType_t type, int level) {
+        setAudioDucking(action, type, static_cast<unsigned char>(level));
+    }
+
     const AudioEncoding& getEncoding() const;
     void setEncoding(const int encoding);
     void setEncoding(const std::string& encoding);
@@ -1510,6 +1514,8 @@ protected:
     static ManagerImpl* impl;
 
 public:
+    static bool IsInitialized;
+
     Manager();
 
     static void setImpl(ManagerImpl* newImpl);

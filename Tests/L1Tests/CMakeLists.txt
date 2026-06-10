@@ -114,8 +114,8 @@ if(PLUGIN_DEVICEDIAGNOSTICS OR PLUGIN_USERPREFERENCES OR PLUGIN_WAREHOUSE OR PLU
     target_link_libraries(${PROJECT_NAME} "${ENTSERVICES_REPO_L1TEST_LIB_PATH}/libWPEFrameworkL1TestsDD.so")
 endif()
 
-#PLUGIN_PRIVACY and PLUGIN_PLAYBACKSYNC and PLUGIN_AUTHSERVICE
-if(PLUGIN_PRIVACY OR PLUGIN_PLAYBACKSYNC OR PLUGIN_AUTHSERVICE)
+#PLUGIN_PRIVACY and PLUGIN_PLAYBACKSYNC and PLUGIN_AUTHSERVICE and PLUGIN_LINCHPINCLIENTPROXY
+if(PLUGIN_PRIVACY OR PLUGIN_PLAYBACKSYNC OR PLUGIN_AUTHSERVICE OR PLUGIN_LINCHPINCLIENTPROXY)
     message(STATUS "linking libWPEFrameworkL1TestsCPC to RdkServicesL1Test target")
     target_link_libraries(${PROJECT_NAME} "${ENTSERVICES_REPO_L1TEST_LIB_PATH}/libWPEFrameworkL1TestsCPC.so")
 endif()
@@ -163,6 +163,18 @@ if(PLUGIN_BLUETOOTH)
     target_link_libraries(${PROJECT_NAME} "${ENTSERVICES_REPO_L1TEST_LIB_PATH}/libWPEFrameworkL1TestsBT.so")
 endif()
 
+#PLUGIN_ACCOUNT
+if(PLUGIN_ACCOUNT)
+    message(STATUS "linking libWPEFrameworkL1TestsAccount to RdkServicesL1Test target")
+    target_link_libraries(${PROJECT_NAME} "${ENTSERVICES_REPO_L1TEST_LIB_PATH}/libWPEFrameworkL1TestsAccount.so")
+endif()
+
+#PLUGIN_BACKUPMANAGER
+if(PLUGIN_BACKUPMANAGER)
+    message(STATUS "linking libWPEFrameworkL1TestsBackupManager to RdkServicesL1Test target")
+    target_link_libraries(${PROJECT_NAME} "${ENTSERVICES_REPO_L1TEST_LIB_PATH}/libWPEFrameworkL1TestsBackupManager.so")
+endif()
+
 include(GoogleTest)
 include_directories(${TEST_INC})
 
@@ -180,6 +192,7 @@ target_include_directories(${PROJECT_NAME}
         ../mocks/libusb
         ${CMAKE_CURRENT_SOURCE_DIR}/../../OCIContainer/stubs
         ../../../Thunder/Source/plugins
+        ../mocks/civetweb
         )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
