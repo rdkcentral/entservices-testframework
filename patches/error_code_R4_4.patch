@@ -14,6 +14,10 @@ index e87933d9a..591385222 100644
 +                                response->Error.SetError(Core::ERROR_INVALID_SIGNATURE);
 +                                response->Error.Text = _T("Invalid Parameter");
 +                                break;
++                            case Core::ERROR_ABORTED:
++                                response->Error.SetError(Core::ERROR_ABORTED);
++                                response->Error.Text = _T("Operation aborted");
++                                break;
 +                            case Core::ERROR_INVALID_DEVICENAME:
 +                                response->Error.SetError(Core::ERROR_INVALID_DEVICENAME);
 +                                response->Error.Text = _T("Invalid device name");
@@ -26,10 +30,6 @@ index e87933d9a..591385222 100644
 +                                response->Error.SetError(Core::ERROR_FIRMWAREUPDATE_INPROGRESS);
 +                                response->Error.Text = _T("Firmware update already in progress");
 +                                break;
-+                            case Core::ERROR_ABORTED:
-+                                response->Error.SetError(Core::ERROR_ABORTED);
-+                                response->Error.Text = _T("Operation aborted");
-+                                break;
                              case static_cast<uint32_t>(~0):
                                  response.Release();
                                  break;
@@ -41,17 +41,17 @@ index a9c4360fb..5fcef161d 100644
                      case Core::ERROR_TIMEDOUT:
                          Code = -32000; // Server defined, now mapped to Timed out
                          break;
++                    case Core::ERROR_ABORTED:
++                        Code = -32001; // Operation aborted
++                        break;
 +                    case Core::ERROR_INVALID_DEVICENAME:
-+                        Code = -32001; // Invalid device name
++                        Code = -32002; // Invalid device name
 +                        break;
 +                    case Core::ERROR_INVALID_MOUNTPOINT:
-+                        Code = -32002; // Invalid mount path
++                        Code = -32003; // Invalid mount path
 +                        break;
 +                    case Core::ERROR_FIRMWAREUPDATE_INPROGRESS:
-+                        Code = -32003; // Firmware update inprogress
-+                        break;
-+                    case Core::ERROR_ABORTED:
-+                        Code = -32004; // Operation aborted
++                        Code = -32004; // Firmware update inprogress
 +                        break;
                      default:
                          Code = static_cast<int32_t>(frameworkError);
@@ -67,10 +67,10 @@ index 01e34d398..a5728eebf 100644
 -        ERROR_CODE(ERROR_FAILED_UNREGISTERED, 49) 
 +        ERROR_CODE(ERROR_FAILED_UNREGISTERED, 49) \
 +        ERROR_CODE(ERROR_INVALID_PARAMETER, 54) \
++        ERROR_CODE(ERROR_ABORTED, 58) \
 +        ERROR_CODE(ERROR_INVALID_DEVICENAME, 59) \
 +        ERROR_CODE(ERROR_INVALID_MOUNTPOINT, 60) \
-+        ERROR_CODE(ERROR_FIRMWAREUPDATE_INPROGRESS,61) \
-+        ERROR_CODE(ERROR_ABORTED,62)
++        ERROR_CODE(ERROR_FIRMWAREUPDATE_INPROGRESS,61)
  
      #define ERROR_CODE(CODE, VALUE) CODE = VALUE,
  

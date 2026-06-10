@@ -20,7 +20,7 @@ diff --git a/Source/WPEFramework/PluginServer.h b/Source/WPEFramework/PluginServ
 index bc236e75e..0c22b254a 100644
 --- a/Source/WPEFramework/PluginServer.h
 +++ b/Source/WPEFramework/PluginServer.h
-@@ -1561,6 +1561,10 @@ namespace PluginHost {
+@@ -1565,6 +1565,10 @@ namespace PluginHost {
                                  response->Error.SetError(Core::ERROR_FIRMWAREUPDATE_INPROGRESS);
                                  response->Error.Text = _T("Firmware update already in progress");
                                  break;
@@ -35,12 +35,12 @@ diff --git a/Source/core/JSONRPC.h b/Source/core/JSONRPC.h
 index 5fcef161d..dc9f21521 100644
 --- a/Source/core/JSONRPC.h
 +++ b/Source/core/JSONRPC.h
-@@ -107,6 +107,9 @@ namespace Core {
+@@ -110,6 +110,9 @@ namespace Core {
                      case Core::ERROR_FIRMWAREUPDATE_INPROGRESS:
-                         Code = -32003; // Firmware update inprogress
+                         Code = -32004; // Firmware update inprogress
                          break;
 +                    case Core::ERROR_FIRMWAREUPDATE_UPTODATE:
-+                        Code = -32004; // Firmware upto date
++                        Code = -32005; // Firmware upto date
 +                        break;
                      default:
                          Code = static_cast<int32_t>(frameworkError);
@@ -50,7 +50,7 @@ index aa50b4fb7..1bc3f987d 100644
 --- a/Source/core/Portability.h
 +++ b/Source/core/Portability.h
 @@ -879,7 +879,8 @@ namespace Core {
-         ERROR_CODE(ERROR_INVALID_PARAMETER, 54) \
+         ERROR_CODE(ERROR_ABORTED, 58) \
          ERROR_CODE(ERROR_INVALID_DEVICENAME, 59) \
          ERROR_CODE(ERROR_INVALID_MOUNTPOINT, 60) \
 -        ERROR_CODE(ERROR_FIRMWAREUPDATE_INPROGRESS,61)
