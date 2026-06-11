@@ -6,7 +6,7 @@ diff --git a/Source/WPEFramework/PluginServer.h b/Source/WPEFramework/PluginServ
 index 9a5b0cba..85b2060d 100644
 --- a/Source/WPEFramework/PluginServer.h
 +++ b/Source/WPEFramework/PluginServer.h
-@@ -1496,66 +1496,69 @@ namespace PluginHost {
+@@ -1496,70 +1496,73 @@ namespace PluginHost {
                          result = _jsonrpc->Invoke(channelId, message.Id.Value(), token, method, message.Parameters.Value(), output);
  
                          if (response.IsValid() == true) {
@@ -56,6 +56,10 @@ index 9a5b0cba..85b2060d 100644
 +                                case Core::ERROR_INVALID_PARAMETER:
 +                                    response->Error.SetError(Core::ERROR_INVALID_SIGNATURE);
 +                                    response->Error.Text = _T("Invalid Parameter");
++                                    break;
++                                case Core::ERROR_ABORTED:
++                                    response->Error.SetError(Core::ERROR_ABORTED);
++                                    response->Error.Text = _T("Operation aborted");
 +                                    break;
 +                                case Core::ERROR_INVALID_DEVICENAME:
 +                                    response->Error.SetError(Core::ERROR_INVALID_DEVICENAME);
@@ -111,6 +115,10 @@ index 9a5b0cba..85b2060d 100644
 -                                response->Error.SetError(Core::ERROR_INVALID_SIGNATURE);
 -                                response->Error.Text = _T("Invalid Parameter");
 -                                break;
+-                            case Core::ERROR_ABORTED:
+-                                response->Error.SetError(Core::ERROR_ABORTED);
+-                                response->Error.Text = _T("Operation aborted");
+-                                break;
 -                            case Core::ERROR_INVALID_DEVICENAME:
 -                                response->Error.SetError(Core::ERROR_INVALID_DEVICENAME);
 -                                response->Error.Text = _T("Invalid device name");
@@ -137,8 +145,8 @@ diff --git a/Source/core/JSONRPC.h b/Source/core/JSONRPC.h
 index 5fcef161..503e4b78 100644
 --- a/Source/core/JSONRPC.h
 +++ b/Source/core/JSONRPC.h
-@@ -108,7 +108,24 @@ namespace Core {
-                         Code = -32003; // Firmware update inprogress
+@@ -111,7 +111,24 @@ namespace Core {
+                         Code = -32004; // Operation aborted
                          break;
                      default:
 -                        Code = static_cast<int32_t>(frameworkError);
@@ -173,8 +181,8 @@ index 0084e03c..a50bb431 100644
          ERROR_CODE(ERROR_FAILED_UNREGISTERED, 49) \
 +        ERROR_CODE(ERROR_UNKNOWN_METHOD, 53) \
          ERROR_CODE(ERROR_INVALID_PARAMETER, 54) \
+         ERROR_CODE(ERROR_ABORTED, 58) \
          ERROR_CODE(ERROR_INVALID_DEVICENAME, 59) \
-         ERROR_CODE(ERROR_INVALID_MOUNTPOINT, 60) \
 diff --git a/Source/plugins/JSONRPC.h b/Source/plugins/JSONRPC.h
 index 63329bb2..5cc7b6c9 100644
 --- a/Source/plugins/JSONRPC.h
