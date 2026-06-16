@@ -53,12 +53,13 @@ diff --git a/Source/core/Portability.h b/Source/core/Portability.h
 index 01e34d398..a5728eebf 100644
 --- a/Source/core/Portability.h
 +++ b/Source/core/Portability.h
-@@ -874,7 +874,11 @@ namespace Core {
+@@ -874,7 +874,12 @@ namespace Core {
          ERROR_CODE(ERROR_HIBERNATED, 46) \
          ERROR_CODE(ERROR_INPROC, 47) \
          ERROR_CODE(ERROR_FAILED_REGISTERED, 48) \
 -        ERROR_CODE(ERROR_FAILED_UNREGISTERED, 49) 
 +        ERROR_CODE(ERROR_FAILED_UNREGISTERED, 49) \
++        ERROR_CODE(ERROR_ABORTED, 50) \
 +        ERROR_CODE(ERROR_INVALID_PARAMETER, 54) \
 +        ERROR_CODE(ERROR_INVALID_DEVICENAME, 59) \
 +        ERROR_CODE(ERROR_INVALID_MOUNTPOINT, 60) \
