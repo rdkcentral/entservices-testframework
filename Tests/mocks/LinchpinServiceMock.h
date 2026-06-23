@@ -63,4 +63,8 @@ public:
     MOCK_METHOD(WPEFramework::Core::hresult, Publish,
         (const std::string& topic, const std::string& payloadType,
          const std::string& payload), (override));
+
+    MOCK_METHOD(void, UpdateCredentials, (const std::string& credentials), (override));
+    MOCK_METHOD(void, UpdateUrl, (const std::string& url), (override));
+    MOCK_METHOD(void, ResubscribePendingTopics, (), (override));
 };

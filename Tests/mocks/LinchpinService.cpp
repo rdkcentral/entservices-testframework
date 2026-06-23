@@ -113,5 +113,32 @@ Core::hresult LinchpinService::Publish(const string& topic, const string& payloa
     return impl->Publish(topic, payloadType, payload);
 }
 
+void LinchpinService::UpdateCredentials(const std::string& credentials)
+{
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::UpdateCredentials called without impl set";
+        return;
+    }
+    impl->UpdateCredentials(credentials);
+}
+
+void LinchpinService::UpdateUrl(const std::string& url)
+{
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::UpdateUrl called without impl set";
+        return;
+    }
+    impl->UpdateUrl(url);
+}
+
+void LinchpinService::ResubscribePendingTopics()
+{
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::ResubscribePendingTopics called without impl set";
+        return;
+    }
+    impl->ResubscribePendingTopics();
+}
+
 } // namespace Plugin
 } // namespace WPEFramework
