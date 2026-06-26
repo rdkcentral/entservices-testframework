@@ -140,6 +140,15 @@ set(EMPTY_HEADERS
 
 file(MAKE_DIRECTORY ${EMPTY_HEADERS_DIRS})
 
+# Ensure parent folders exist for every generated placeholder header.
+set(EMPTY_HEADERS_PARENT_DIRS)
+foreach (empty_header ${EMPTY_HEADERS})
+        get_filename_component(header_dir ${empty_header} DIRECTORY)
+        list(APPEND EMPTY_HEADERS_PARENT_DIRS ${header_dir})
+endforeach ()
+list(REMOVE_DUPLICATES EMPTY_HEADERS_PARENT_DIRS)
+file(MAKE_DIRECTORY ${EMPTY_HEADERS_PARENT_DIRS})
+
 file(GLOB_RECURSE EMPTY_HEADERS_AVAILABLE "${BASEDIR}/*")
 if (EMPTY_HEADERS_AVAILABLE)
     message("Skip already generated headers to avoid rebuild")
