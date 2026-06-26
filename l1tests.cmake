@@ -160,9 +160,12 @@ endif ()
 
 include_directories(${EMPTY_HEADERS_DIRS})
 
-find_path(LIBDRM_INCLUDE_DIR drm.h PATH_SUFFIXES libdrm)
+find_path(LIBDRM_INCLUDE_DIR drm.h
+                HINTS /usr/include /usr/local/include
+                PATH_SUFFIXES libdrm)
 if (LIBDRM_INCLUDE_DIR)
         include_directories(${LIBDRM_INCLUDE_DIR})
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${LIBDRM_INCLUDE_DIR}")
 endif ()
 
 message("Adding compiler and linker options for all targets")
