@@ -160,6 +160,11 @@ endif ()
 
 include_directories(${EMPTY_HEADERS_DIRS})
 
+find_path(LIBDRM_INCLUDE_DIR drm.h PATH_SUFFIXES libdrm)
+if (LIBDRM_INCLUDE_DIR)
+        include_directories(${LIBDRM_INCLUDE_DIR})
+endif ()
+
 message("Adding compiler and linker options for all targets")
 
 file(GLOB BASEDIR Tests/mocks)
