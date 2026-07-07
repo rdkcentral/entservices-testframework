@@ -32,8 +32,6 @@ public:
 
     MOCK_METHOD(hresult, Register, (INotification * notification), (override));
     MOCK_METHOD(hresult, Unregister, (INotification * notification), (override));
-    MOCK_METHOD(hresult, ExecuteHardwareTest, (WarehouseSuccess& success), (override));
-    MOCK_METHOD(hresult, GetHardwareTestResults, (bool& success, string& testResults), (override));
     MOCK_METHOD(hresult, InternalReset, (const string& passPhrase, WarehouseSuccessErr& successErr), (override));
     MOCK_METHOD(hresult, IsClean, (const int age, bool &clean, IStringIterator*& files, bool &success, string& error), (override));
     MOCK_METHOD(hresult, LightReset, (WarehouseSuccessErr& successErr), (override));
