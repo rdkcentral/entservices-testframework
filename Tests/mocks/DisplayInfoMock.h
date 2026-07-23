@@ -48,7 +48,7 @@ public:
     MOCK_METHOD(uint32_t, PortName, (string& name), (const, override));
 
 
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfaceNummer), (override));
 
@@ -73,7 +73,7 @@ class HDRPropertiesMock : public IHDRProperties {
     MOCK_METHOD(uint32_t, STBCapabilities, (IHDRIterator*& type ), (const, override));
     MOCK_METHOD(uint32_t, HDRSetting, (HDRType& type), (const, override));
 
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfaceNummer), (override));
 
@@ -92,7 +92,7 @@ class DisplayPropertiesMock : public IDisplayProperties {
     MOCK_METHOD(uint32_t, QuantizationRange, (QuantizationRangeType& qr), (const, override));
     MOCK_METHOD(uint32_t, EOTF, (EotfType& eotf), (const, override));
 
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfaceNummer), (override));
 
@@ -107,7 +107,7 @@ class GraphicsPropertiesMock : public IGraphicsProperties {
     MOCK_METHOD(uint32_t, TotalGpuRam, (uint64_t& total), (const, override));
     MOCK_METHOD(uint32_t, FreeGpuRam, (uint64_t& free), (const, override));
 
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfaceNummer), (override));
 };

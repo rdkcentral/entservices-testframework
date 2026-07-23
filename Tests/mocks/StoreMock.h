@@ -37,7 +37,7 @@ public:
     MOCK_METHOD(Core::hresult, DeleteKey, (const string& ns, const string& key), (override));
     MOCK_METHOD(Core::hresult, DeleteNamespace, (const string& ns), (override));
 
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfaceNummer), (override));
 };
@@ -50,7 +50,7 @@ public:
     MOCK_METHOD(void, ValueChanged, (const string& ns, const string& key, const string& value), (override));
     MOCK_METHOD(void, StorageExceeded, (), (override));
 
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfaceNummer), (override));
 };

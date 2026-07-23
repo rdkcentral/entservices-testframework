@@ -46,7 +46,7 @@ public:
     MOCK_METHOD(hresult, SetOTPEnabled, (const bool& enabled, HdmiCecSourceSuccess& success), (override));
     MOCK_METHOD(hresult, SetVendorId, (const string& vendorid, HdmiCecSourceSuccess& success), (override));
     MOCK_METHOD(hresult, GetDeviceList, (uint32_t& numberofdevices, IHdmiCecSourceDeviceListIterator*& deviceList, bool& success), (override));
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));
     

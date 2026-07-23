@@ -26,7 +26,7 @@ using namespace WPEFramework;
 
 class MockDolbyOutput : public WPEFramework::Exchange::Dolby::IOutput {
 public:
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t), (override));
 
@@ -42,7 +42,7 @@ public:
 };
 class MockAudioCodecIterator : public Exchange::IPlayerProperties::IAudioCodecIterator {
 public:
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t), (override));
 
@@ -55,7 +55,7 @@ public:
 };
 class MockVideoCodecIterator : public Exchange::IPlayerProperties::IVideoCodecIterator {
 public:
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t), (override));
 
@@ -69,7 +69,7 @@ public:
 class MockPlayerProperties : public WPEFramework::Exchange::IPlayerProperties {
 public:
     MOCK_METHOD(void*, QueryInterface, (uint32_t), (override));
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
 
     MOCK_METHOD(uint32_t, AudioCodecs, (Exchange::IPlayerProperties::IAudioCodecIterator*&), (const, override));
@@ -80,7 +80,7 @@ public:
 class MockRemoteConnection : public RPC::IRemoteConnection {
 public:
     MOCK_METHOD(uint32_t, Id, (), (const, override));
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(uint32_t, RemoteId, (), (const, override));
     MOCK_METHOD(void*, Acquire, (uint32_t, const std::string&, uint32_t, uint32_t), (override));
