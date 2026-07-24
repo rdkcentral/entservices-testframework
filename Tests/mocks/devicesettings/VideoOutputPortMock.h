@@ -61,4 +61,5 @@ public:
     MOCK_METHOD(bool, isEnabled, (), (const, override));
     MOCK_METHOD(void, enable, (), (override));
     MOCK_METHOD(void, disable, (), (override));
+    MOCK_METHOD(int, getMatrixCoefficients, (), (const, override));
 };

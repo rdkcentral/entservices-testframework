@@ -91,6 +91,7 @@ class DisplayPropertiesMock : public IDisplayProperties {
     MOCK_METHOD(uint32_t, Colorimetry, (IColorimetryIterator*& colorimetry), (const, override));
     MOCK_METHOD(uint32_t, QuantizationRange, (QuantizationRangeType& qr), (const, override));
     MOCK_METHOD(uint32_t, EOTF, (EotfType& eotf), (const, override));
+    MOCK_METHOD(uint32_t, GetCurrentColorimetry, (ColorimetryTypeInfo& info), (const, override));
 
     MOCK_METHOD(void, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
