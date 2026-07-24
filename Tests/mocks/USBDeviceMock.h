@@ -36,7 +36,7 @@ public:
     MOCK_METHOD(Core::hresult, GetDeviceInfo, (const string &deviceName, USBDeviceInfo& deviceInfo), (const, override));
     MOCK_METHOD(Core::hresult, BindDriver, (const string &deviceName), (const, override));
     MOCK_METHOD(Core::hresult, UnbindDriver, (const string &deviceName), (const, override));
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfaceNummer), (override));
 };

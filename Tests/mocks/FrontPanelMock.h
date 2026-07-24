@@ -39,7 +39,7 @@ public:
     MOCK_METHOD(hresult, SetBlink, (const string& blinkInfo, FrontPanelSuccess &success), (override));
     MOCK_METHOD(hresult, SetBrightness, (const string& index, const uint32_t brightness, FrontPanelSuccess &success), (override));
     MOCK_METHOD(hresult, SetLED, (const string& ledIndicator, const uint32_t brightness, const string& color, const uint32_t red, const uint32_t green, const uint32_t blue, FrontPanelSuccess &success), (override));
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));
 };

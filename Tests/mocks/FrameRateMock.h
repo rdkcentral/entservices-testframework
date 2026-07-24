@@ -42,7 +42,7 @@ public:
     MOCK_METHOD(hresult, SetDisplayFrameRate, (const string& framerate , bool& success), (override));
     MOCK_METHOD(void, OnDisplayFrameratePreChange, (const std::string& frameRate), (override));
     MOCK_METHOD(void, OnDisplayFrameratePostChange, (const std::string& frameRate), (override));
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));
 };

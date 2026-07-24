@@ -58,7 +58,7 @@ public:
     MOCK_METHOD(uint32_t, Configure, (WPEFramework::PluginHost::IShell* service), (override));
 
     // IUnknown interface
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));
 };
@@ -74,7 +74,7 @@ public:
     MOCK_METHOD(hresult, SupportedMS12AudioProfiles, (const std::string& audioPort, WPEFramework::RPC::IStringIterator*& supportedMS12AudioProfiles, bool& success), (const, override));
 
     // IUnknown interface
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));
 };
@@ -92,7 +92,7 @@ public:
     MOCK_METHOD(hresult, SupportedHdcp, (const std::string& videoDisplay, SupportedHDCPVer& supportedHDCPVer), (const, override));
 
     // IUnknown interface
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));
 };

@@ -22,7 +22,7 @@ set(THUNDER_PORT 9998)
 find_package(${NAMESPACE}Plugins REQUIRED)
 find_package(GTest REQUIRED)
 
-set(SRC_FILES Module.cpp L2Tests.cpp L2TestsMock.cpp)
+set(SRC_FILES Module.cpp L2Tests.cpp L2TestsMock.cpp ../../mocks/devicesettings.cpp)
 
 if(PLUGIN_SAMPLEPLUGIN)
     set(SRC_FILES ${SRC_FILES} tests/SamplePlugin_L2test.cpp)

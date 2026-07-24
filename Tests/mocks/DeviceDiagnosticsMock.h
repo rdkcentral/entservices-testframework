@@ -36,7 +36,7 @@ public:
     MOCK_METHOD(hresult, GetMilestones, (IStringIterator * &milestones, bool &success), (override));
     MOCK_METHOD(hresult, LogMilestone, (const string& marker, bool &success), (override));
     MOCK_METHOD(hresult, GetAVDecoderStatus, (AvDecoderStatusResult & AVDecoderStatus), (override));
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));
     MOCK_METHOD(hresult, GetPreviousRebootInfo, (RebootInfo& rebootInfo, bool& success),(override));

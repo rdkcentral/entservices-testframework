@@ -78,10 +78,10 @@ TEST(JSONTest, FloatingPointDeserialized)
     JsonObject object;
     object.FromString(_T("{\"key\":1.2345}"));
     EXPECT_TRUE(object.HasLabel(_T("key")));
-    EXPECT_EQ(Core::JSON::Variant::type::NUMBER, object[_T("key")].Content());
+    EXPECT_EQ(Core::JSON::Variant::type::DOUBLE, object[_T("key")].Content());
     EXPECT_EQ(1, object[_T("key")].Number());
-    EXPECT_EQ(1.0f, object[_T("key")].Float());
-    EXPECT_EQ(1, object[_T("key")].Double());
+    EXPECT_NEAR(1.2345f, object[_T("key")].Float(), 0.0001f);
+    EXPECT_NEAR(1.2345, object[_T("key")].Double(), 0.0001);
     EXPECT_EQ(_T("1.2345"), object[_T("key")].String());
     EXPECT_EQ(false, object[_T("key")].Boolean());
 }
