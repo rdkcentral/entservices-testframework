@@ -75,6 +75,7 @@ public:
     MOCK_METHOD(uint32_t, SetAdvtOptOut, (const bool&, SuccessMsgResult&), (override));
     MOCK_METHOD(WPEFramework::Core::hresult, SetContentAccessToken, (const std::string&, const uint32_t, bool&), (override));
     MOCK_METHOD(WPEFramework::Core::hresult, GetContentAccessToken, (std::string&, uint32_t&), (override));
+    MOCK_METHOD(WPEFramework::Core::hresult, ClearContentAccessToken, (SuccessMsgResult&), (override));
 };
 
 class MockIAuthenticate : public WPEFramework::PluginHost::IAuthenticate {
