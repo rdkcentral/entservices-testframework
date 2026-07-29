@@ -61,6 +61,7 @@ public:
     virtual Core::hresult Unsubscribe(Topic topic) = 0;
     virtual bool FetchMessage(const string& topic, JsonObject& response) = 0;
     virtual Core::hresult Publish(const string& topic, const string& payloadType, const string& payload) = 0;
+    virtual Core::hresult PublishResponse(const string& topic, const string& payloadType, const string& payload, const string& responseToken) = 0;
     virtual void UpdateCredentials(const std::string& credentials) = 0;
     virtual void UpdateUrl(const std::string& url) = 0;
     virtual void ResubscribePendingTopics() = 0;
@@ -103,6 +104,7 @@ public:
     Core::hresult Unsubscribe(Topic topic);
     bool FetchMessage(const string& topic, JsonObject& response);
     Core::hresult Publish(const string& topic, const string& payloadType, const string& payload);
+    virtual Core::hresult PublishResponse(const string& topic, const string& payloadType, const string& payload, const string& responseToken);
     void UpdateCredentials(const std::string& credentials);
     void UpdateUrl(const std::string& url);
     void ResubscribePendingTopics();

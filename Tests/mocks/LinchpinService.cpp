@@ -113,6 +113,15 @@ Core::hresult LinchpinService::Publish(const string& topic, const string& payloa
     return impl->Publish(topic, payloadType, payload);
 }
 
+Core::hresult LinchpinService::PublishResponse(const string& topic, const string& payloadType, const string& payload, const string& responseToken)
+{
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::PublishResponse called without impl set";
+        return Core::ERROR_GENERAL;
+    }
+    return impl->PublishResponse(topic, payloadType, payload, responseToken);
+}
+
 void LinchpinService::UpdateCredentials(const std::string& credentials)
 {
     if (impl == nullptr) {
