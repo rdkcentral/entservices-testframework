@@ -1,6 +1,12 @@
+From: rkiran696_comcast <raja_kiran@comcast.com>
+Date: Jul 29, 2026
+Source: Comcast
+
+diff --git a/Source/core/Frame.h b/Source/core/Frame.h
+index dd9c8368..e751efdd 100644
 --- a/Source/core/Frame.h
 +++ b/Source/core/Frame.h
-@@ -219,6 +219,15 @@ namespace Core {
+@@ -218,6 +218,15 @@ namespace Core {
              {
                  return (_container == nullptr ? 0 : _container->Size() - _offset);
              }

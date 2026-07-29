@@ -1,3 +1,7 @@
+From: rkiran696_comcast <raja_kiran@comcast.com>
+Date: Wed, 29 Jul 2026 15:01:12 +0530
+Source: Comcast
+
 diff --git a/JsonGenerator/source/class_emitter.py b/JsonGenerator/source/class_emitter.py
 index 271b788..d653c6b 100644
 --- a/JsonGenerator/source/class_emitter.py
