@@ -11,16 +11,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  cloudstore-L1:
-    uses: rdkcentral/entservices-cloudstore/.github/workflows/L1-tests.yml@develop
-    with:
-      caller_source: testframework
-
-  cloudstore-L2:
-    uses: rdkcentral/entservices-cloudstore/.github/workflows/L2-tests.yml@develop
-    with:
-      caller_source: testframework
-
   migration-L1:
     uses: rdkcentral/entservices-migration/.github/workflows/L1-tests.yml@develop
     with:
@@ -40,17 +30,7 @@ jobs:
     uses: rdkcentral/entservices-ocicontainer/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-
-  persistentstore-L1:
-    uses: rdkcentral/entservices-persistentstore/.github/workflows/L1-tests.yml@develop
-    with:
-      caller_source: testframework
-
-  persistentstore-L2:
-    uses: rdkcentral/entservices-persistentstore/.github/workflows/L2-tests.yml@develop
-    with:
-      caller_source: testframework
-
+  
   sharedstorage-L1:
     uses: rdkcentral/entservices-sharedstorage/.github/workflows/L1-tests.yml@develop
     with:
