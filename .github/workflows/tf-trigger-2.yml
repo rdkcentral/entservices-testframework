@@ -11,16 +11,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  cloudstore-L1:
-    uses: rdkcentral/entservices-cloudstore/.github/workflows/L1-tests.yml@develop
-    with:
-      caller_source: testframework
-
-  cloudstore-L2:
-    uses: rdkcentral/entservices-cloudstore/.github/workflows/L2-tests.yml@develop
-    with:
-      caller_source: testframework
-
   migration-L1:
     uses: rdkcentral/entservices-migration/.github/workflows/L1-tests.yml@develop
     with:
