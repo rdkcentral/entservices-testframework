@@ -931,6 +931,11 @@ int VideoOutputPort::getVideoEOTF()
     EXPECT_NE(impl, nullptr);
     return impl->getVideoEOTF();
 }
+int VideoOutputPort::getMatrixCoefficients() const
+{
+    EXPECT_NE(impl, nullptr);
+    return impl->getMatrixCoefficients();
+}
 bool VideoOutputPort::setScartParameter(std::string sScartParameter, std::string sScartParameterData)
 {
     EXPECT_NE(impl, nullptr);
