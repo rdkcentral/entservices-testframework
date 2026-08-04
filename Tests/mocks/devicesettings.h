@@ -679,6 +679,18 @@ typedef enum _dsDisplayQuantizationRange_t
     dsDISPLAY_QUANTIZATIONRANGE_MAX             ///< Out of range 
 } dsDisplayQuantizationRange_t;
 
+typedef enum _dsDisplayMatrixCoefficients_t
+{
+    dsDISPLAY_MATRIXCOEFFICIENT_UNKNOWN = 0,    ///< Unknown matrix coefficient
+    dsDISPLAY_MATRIXCOEFFICIENT_BT_709,         ///< BT.709
+    dsDISPLAY_MATRIXCOEFFICIENT_BT_2020_NCL,    ///< BT.2020 non-constant luminance
+    dsDISPLAY_MATRIXCOEFFICIENT_BT_2020_CL,     ///< BT.2020 constant luminance
+    dsDISPLAY_MATRIXCOEFFICIENT_SMPTE_170M,     ///< SMPTE 170M
+    dsDISPLAY_MATRIXCOEFFICIENT_XvYCC_709,      ///< xvYCC BT.709
+    dsDISPLAY_MATRIXCOEFFICIENT_eXvYCC_601,     ///< xvYCC BT.601
+    dsDISPLAY_MATRIXCOEFFICIENT_MAX             ///< Out of range
+} dsDisplayMatrixCoefficients_t;
+
 typedef uint32_t dsFPDColor_t;
 #define dsFPDColor_Make(R8,G8,B8) (((R8)<< 8)|((G8)<<8)|((B8) ))
 #define dsFPD_COLOR_WHITE dsFPDColor_Make(0xFF, 0xFF, 0xFF)
@@ -1415,6 +1427,7 @@ public:
     virtual int getColorSpace() const = 0;
     virtual int getColorDepth() const = 0;
     virtual int getQuantizationRange() const = 0;
+    virtual int getMatrixCoefficients() const = 0;
     virtual bool IsOutputHDR() = 0;
 
     virtual bool isEnabled() const = 0;
@@ -1465,6 +1478,7 @@ public:
     int getColorSpace() const;
     int getColorDepth() const;
     int getQuantizationRange() const;
+    int getMatrixCoefficients() const;
     bool IsOutputHDR();
     bool isEnabled() const;
     void enable();
