@@ -104,7 +104,7 @@ public:
     Core::hresult Unsubscribe(Topic topic);
     bool FetchMessage(const string& topic, JsonObject& response);
     Core::hresult Publish(const string& topic, const string& payloadType, const string& payload);
-    virtual Core::hresult PublishResponse(const string& topic, const string& payloadType, const string& payload, const string& responseToken);
+    Core::hresult PublishResponse(const string& topic, const string& payloadType, const string& payload, const string& responseToken);
     void UpdateCredentials(const std::string& credentials);
     void UpdateUrl(const std::string& url);
     void ResubscribePendingTopics();
