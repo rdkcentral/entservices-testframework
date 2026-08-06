@@ -1,0 +1,12 @@
+diff --git a/Source/com/Administrator.h b/Source/com/Administrator.h
+index 5e9a488c..a76f0e69 100644
+--- a/Source/com/Administrator.h
++++ b/Source/com/Administrator.h
+@@ -36,7 +36,7 @@ namespace RPC {
+ #ifdef __DEBUG__
+     enum { CommunicationTimeOut = Core::infinite }; // Time in ms. Forever
+ #else
+-    enum { CommunicationTimeOut = 20000 }; // Time in ms. 20 Seconds
++    enum { CommunicationTimeOut = 900000 }; // Time in ms. 15 Minutes
+ #endif
+     enum { CommunicationBufferSize = 8120 }; // 8K :-)
