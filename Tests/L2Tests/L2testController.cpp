@@ -90,7 +90,7 @@ bool L2testController::StartThunder()
 #ifdef USE_THUNDER_R4
     snprintf(command, sizeof(command), "export GTEST_OUTPUT=\"json:$PWD/rdkL2TestResults.json\"; WPEFramework -c %s/../etc/WPEFramework/config.json -f", CMAKE_INSTALL_PREFIX);
 #else
-    snprintf(command, sizeof(command), "export GTEST_OUTPUT=\"json:$PWD/rdkL2TestResults.json\"; WPEFramework -c %s/../etc/WPEFramework/config.json -f", CMAKE_INSTALL_PREFIX);
+    snprintf(command, sizeof(command), "export GTEST_OUTPUT=\"json:$PWD/rdkL2TestResults.json\"; WPEFramework -c %s/../etc/WPEFramework/config.json", CMAKE_INSTALL_PREFIX);
 #endif
 
     m_fp = popen(command, "w");
