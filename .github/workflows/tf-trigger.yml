@@ -20,17 +20,7 @@ jobs:
     uses: rdkcentral/entservices-infra/.github/workflows/L2-tests.yml@develop
     with:
       caller_source: testframework
-
-  softwareupdate-L1:
-    uses: rdkcentral/entservices-softwareupdate/.github/workflows/L1-tests.yml@develop
-    with:
-      caller_source: testframework
-
-  softwareupdate-L2:
-    uses: rdkcentral/entservices-softwareupdate/.github/workflows/L2-tests.yml@develop
-    with:
-      caller_source: testframework
-
+  
   firmwareupdate-L1:
     uses: rdkcentral/entservices-firmwareupdate/.github/workflows/L1-tests.yml@develop
     with:
