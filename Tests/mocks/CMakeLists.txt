@@ -105,6 +105,7 @@ else(L2_TEST_OOP_RPC)
         RenderSession.cpp
         gdialservice.cpp
         btmgr.cpp
+		uploadstblogs_mock.cpp
         )
 
     if(RDK_SERVICES_L1_TEST)
