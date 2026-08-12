@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-#include "uploadstblogs_types.h"
+#include "./uploadstblogs_types.h"
 
 int uploadstblogs_run(const UploadSTBLogsParams* params);
 int uploadstblogs_execute(int argc, char** argv);
