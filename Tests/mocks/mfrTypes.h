@@ -293,6 +293,7 @@ typedef enum _mfrImageType_t
    mfrUPGRADE_PROGRESS_COMPLETED,                     ///< success
    mfrUPGRADE_PROGRESS_MAX                            ///< Out of range - required to be the last item of the enum 
  } mfrUpgradeProgress_t;
+ 
 
 
 /**
@@ -330,6 +331,15 @@ typedef struct _mfrUpgradeStatusNotify_t
    void (*cb) (mfrUpgradeStatus_t * status);                ///< Upgrade status notify call back 
    int interval;                                          ///< number of seconds between two callbacks. 0 means invoking callback only once to report final upgrade result
 } mfrUpgradeStatusNotify_t;
+
+
+/**
+ * @brief MFR platform block data structure
+ * 
+ */
+typedef struct _IARM_Bus_MFRLib_Platformblockdata_Param_t{
+	unsigned int blocklist;
+}IARM_Bus_MFRLib_Platformblockdata_Param_t;
 
 /**
  * @brief Initializes the MFR library
@@ -642,6 +652,24 @@ mfrError_t mfrSetFSRflag(uint16_t *newFsrFlag);
 * @return Error Code:  Return mfrERR_NONE if operation is successful, mfrERR_GENERAL if it fails
 */
 mfrError_t mfrGetFSRflag(uint16_t *newFsrFlag);
+
+/**
+* @brief API to set the config data into the emmc raw area
+*
+* @param [in] params : unit32 blocklist to set the config data
+*
+* @return Error Code:  Return mfrERR_NONE if operation is successful, mfrERR_GENERAL if it fails
+*/
+mfrError_t mfr_setConfigData(unsigned int *blocklist);
+
+/**
+* @brief API to get the config data from emmc
+*
+* @param [in] params : unit32 blocklist to get the config data
+*
+* @return Error Code:  Return mfrERR_NONE if operation is successful, mfrERR_GENERAL if it fails
+*/  
+mfrError_t mfr_getConfigData(unsigned int *blocklist);
 
 #endif
 
