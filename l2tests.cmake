@@ -29,6 +29,8 @@ set(EMPTY_HEADERS_DIRS
         ${BASEDIR}/rdk/iarmmgrs-hal
         ${BASEDIR}/systemservices
         ${BASEDIR}/systemservices/proc
+		${BASEDIR}/uploadstblogs.h
+        ${BASEDIR}/uploadstblogs_types.h
         )
 
 set(EMPTY_HEADERS
