@@ -2,21 +2,6 @@ From: ssitar583 <Soundaryaa_Sitaram@comcast.com>
 Date: Thu, 3 Oct 2024 19:05:34 +0000
 Source: Comcast
 
-diff --git a/Source/com/CMakeLists.txt b/Source/com/CMakeLists.txt
-index 1de9ac17..bcf9489d 100644
---- a/Source/com/CMakeLists.txt
-+++ b/Source/com/CMakeLists.txt
-@@ -16,8 +16,8 @@
- # limitations under the License.
- 
- set(TARGET ${NAMESPACE}COM)
--
--ProxyStubGenerator(NAMESPACE "WPEFramework::RPC" INPUT "${CMAKE_CURRENT_SOURCE_DIR}/ICOM.h" OUTDIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
-+set(PROJECT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
-+ProxyStubGenerator(NAMESPACE "WPEFramework::RPC" INPUT "${CMAKE_CURRENT_SOURCE_DIR}/ICOM.h" OUTDIR "${CMAKE_CURRENT_BINARY_DIR}/generated" PROJECT_DIR ${PROJECT_DIR})
- 
- add_library(${TARGET} SHARED
-     Administrator.cpp
 diff --git a/Source/plugins/CMakeLists.txt b/Source/plugins/CMakeLists.txt
 index defdd2bc..7d6dd6b8 100644
 --- a/Source/plugins/CMakeLists.txt
