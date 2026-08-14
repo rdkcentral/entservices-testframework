@@ -173,6 +173,8 @@ set(FAKE_HEADERS
         ${BASEDIR}/tr181api.h
         ${BASEDIR}/Wraps.h
         ${BASEDIR}/btmgr.h
+        ${BASEDIR}/uploadstblogs.h
+        ${BASEDIR}/uploadstblogs_types.h
         )
 
 foreach (file ${FAKE_HEADERS})
