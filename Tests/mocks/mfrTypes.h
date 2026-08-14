@@ -669,7 +669,7 @@ mfrError_t mfr_setConfigData(uint32_t *blocklist);
 *
 * @return Error Code:  Return mfrERR_NONE if operation is successful, mfrERR_GENERAL if it fails
 */  
-mfrError_t mfr_getConfigData(unsigned int *blocklist);
+mfrError_t mfr_getConfigData(uint32_t *blocklist);
 
 #endif
 
