@@ -656,11 +656,11 @@ mfrError_t mfrGetFSRflag(uint16_t *newFsrFlag);
 /**
 * @brief API to set the config data into the emmc raw area
 *
-* @param [in] params : unit32 blocklist to set the config data
+* @param [in] blocklist : uint32_t blocklist value to set the config data
 *
 * @return Error Code:  Return mfrERR_NONE if operation is successful, mfrERR_GENERAL if it fails
 */
-mfrError_t mfr_setConfigData(unsigned int *blocklist);
+mfrError_t mfr_setConfigData(uint32_t *blocklist);
 
 /**
 * @brief API to get the config data from emmc
