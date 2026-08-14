@@ -36,7 +36,7 @@ public:
     MOCK_METHOD(hresult, IsClean, (const int age, bool &clean, IStringIterator*& files, bool &success, string& error), (override));
     MOCK_METHOD(hresult, LightReset, (WarehouseSuccessErr& successErr), (override));
     MOCK_METHOD(hresult, ResetDevice, (const bool suppressReboot, const string& resetType, WarehouseSuccessErr& successErr), (override));
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));
 };

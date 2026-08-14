@@ -65,7 +65,7 @@ public:
     MOCK_METHOD(hresult, GetGameFeatureStatus, (const string& portId, const string& gameFeature, bool& mode, bool& success), (override));
     MOCK_METHOD(hresult, GetVRRFrameRate, (const string& portId, double& currentVRRVideoFrameRate, bool& success), (override));
     
-    MOCK_METHOD(void, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));
 };

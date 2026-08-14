@@ -69,6 +69,10 @@ if(PLUGIN_LEDCONTROL)
     target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkL2TestsPE.so)
 endif()
 
+if(PLUGIN_TOOLS)
+    target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkToolsL2TestsPE.so)
+endif()
+
 if(PLUGIN_BLUETOOTH)
      target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkL2TestsBT.so)
 endif()
