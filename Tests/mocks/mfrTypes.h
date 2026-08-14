@@ -337,9 +337,9 @@ typedef struct _mfrUpgradeStatusNotify_t
  * @brief MFR platform block data structure
  * 
  */
-typedef struct _IARM_Bus_MFRLib_Platformblockdata_Param_t{
-	unsigned int blocklist;
-}IARM_Bus_MFRLib_Platformblockdata_Param_t;
+typedef struct _IARM_Bus_MFRLib_Platformblockdata_Param_t {
+    uint32_t blocklist;
+} IARM_Bus_MFRLib_Platformblockdata_Param_t;
 
 /**
  * @brief Initializes the MFR library
