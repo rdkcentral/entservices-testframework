@@ -131,7 +131,7 @@ set(FAKE_HEADERS
 	${BASEDIR}/dsFPD.h
         )
     if(RDK_SERVICE_CPC_L2_TEST)
-        set(FAKE_HEADERS
+        set(CANDIDATE_FILES
             ${BASEDIR}/sec_security_comcastids.h
             ${BASEDIR}/KeyProvisionClient.h
             ${BASEDIR}/KeyProvisionResult.h
@@ -142,6 +142,13 @@ set(FAKE_HEADERS
             ${BASEDIR}/fkpsb.h
             ${BASEDIR}/sec_security.h
             )
+
+        # Skip non-existing files from rdkservices-cpc when building dedicated repos.
+        foreach(FILE_PATH IN LISTS CANDIDATE_FILES)
+            if(EXISTS "${FILE_PATH}")
+                list(APPEND FAKE_HEADERS "${FILE_PATH}")
+            endif()
+        endforeach()
     endif()
 
 
