@@ -150,7 +150,7 @@ else(L2_TEST_OOP_RPC)
     endif()
 
     if(RDK_SERVICE_CPC_L2_TEST)
-        list(APPEND MODULE_SOURCES
+        set(CANDIDATE_FILES
             tvSettings.cpp
             EssRMgr.cpp
             sec_security.cpp
@@ -161,6 +161,13 @@ else(L2_TEST_OOP_RPC)
             KeyProvisionClient.cpp
             SecApiProvisioner.cpp
             )
+
+        # Skip non-existing files from rdkservices-cpc when building dedicated repos.
+        foreach(FILE_PATH IN LISTS CANDIDATE_FILES)
+            if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${FILE_PATH}")
+                list(APPEND MODULE_SOURCES "${FILE_PATH}")
+            endif()
+        endforeach()
     endif()
 
     add_library(${MODULE_NAME} SHARED ${MODULE_SOURCES})
