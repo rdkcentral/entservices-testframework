@@ -1597,6 +1597,8 @@ class IDisplayEvents {
 };
 
 class IAudioOutputPortEvents {
+    public:
+        virtual ~IAudioOutputPortEvents() = default;
     protected:
         static IAudioOutputPortEventsImpl* impl;
 
