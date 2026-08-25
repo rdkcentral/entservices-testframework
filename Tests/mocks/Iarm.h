@@ -255,6 +255,8 @@ typedef struct _DeepSleepMgr_WakeupKeyCode_Param_t {
 #define IARM_BUS_MFRLIB_API_GetTemperature              "mfrGetTemperature"     /*!< Gets the thermal temperature for the device*/
 #define IARM_BUS_MFRLIB_API_SetTemperatureThresholds    "mfrSetTempThresholds"  /*!< Sets the thermal threshold for the device*/
 #define IARM_BUS_MFRLIB_API_GetTemperatureThresholds    "mfrGetTempThresholds"  /*!< Gets the thermal threshold for the device*/
+#define IARM_BUS_MFRLIB_API_SetConfigData "mfr_setConfigData" /*!< Sets the config data for the device*/
+#define IARM_BUS_MFRLIB_API_GetConfigData "mfr_getConfigData" /*!< Gets the config data for the device*/
 
 typedef struct _IARM_Bus_MFRLib_SetBLPattern_Param_t {
     mfrBlPattern_t pattern;
