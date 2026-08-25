@@ -53,6 +53,8 @@ public:
     MOCK_METHOD(hresult, WifiMac, (WiFiMac& wiFiMac), (const, override));
     MOCK_METHOD(hresult, EstbIp, (StbIp& stbIp), (const, override));
     MOCK_METHOD(hresult, SupportedAudioPorts, (WPEFramework::RPC::IStringIterator*& supportedAudioPorts, bool& success), (const, override));
+    MOCK_METHOD(hresult, DeviceId, (DeviceIdInfo& deviceIdInfo), (const, override));
+    MOCK_METHOD(hresult, HardwareId, (HardwareIdInfo& hardwareIdInfo), (const, override));
 
     // IConfiguration interface
     MOCK_METHOD(uint32_t, Configure, (WPEFramework::PluginHost::IShell* service), (override));
