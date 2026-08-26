@@ -21,6 +21,7 @@
 #define MOCKAUTHSERVICES_H
 
 #include <gmock/gmock.h>
+#include <interfaces/IAuthService.h>
 
 #include "Module.h"
 
