@@ -29,6 +29,8 @@ set(EMPTY_HEADERS_DIRS
         ${BASEDIR}/rdk/iarmmgrs-hal
         ${BASEDIR}/systemservices
         ${BASEDIR}/systemservices/proc
+		${BASEDIR}/uploadstblogs.h
+        ${BASEDIR}/uploadstblogs_types.h
         )
 
 set(EMPTY_HEADERS
@@ -129,6 +131,8 @@ set(FAKE_HEADERS
 	${BASEDIR}/essos-resmgr.h
 	${BASEDIR}/rdk_logger_milestone.h
 	${BASEDIR}/dsFPD.h
+	${BASEDIR}/uploadstblogs.h
+    ${BASEDIR}/uploadstblogs_types.h
         )
     if(RDK_SERVICE_CPC_L2_TEST)
         set(CANDIDATE_FILES
