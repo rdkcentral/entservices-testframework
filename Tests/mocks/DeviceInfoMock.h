@@ -55,10 +55,6 @@ public:
     MOCK_METHOD(hresult, SupportedAudioPorts, (WPEFramework::RPC::IStringIterator*& supportedAudioPorts, bool& success), (const, override));
     MOCK_METHOD(hresult, DeviceId, (DeviceIdInfo& deviceIdInfo), (const, override));
     MOCK_METHOD(hresult, HardwareId, (HardwareIdInfo& hardwareIdInfo), (const, override));
-    MOCK_METHOD(hresult, OsName, (DeviceOsName& deviceOsName), (const, override));
-    MOCK_METHOD(hresult, OsName, (const std::string& osName), (override));
-    MOCK_METHOD(hresult, OsVersion, (DeviceOsVersion& deviceOsVersion), (const, override));
-    MOCK_METHOD(hresult, OsVersion, (const std::string& osVersion), (override));
 
     // IConfiguration interface
     MOCK_METHOD(uint32_t, Configure, (WPEFramework::PluginHost::IShell* service), (override));
