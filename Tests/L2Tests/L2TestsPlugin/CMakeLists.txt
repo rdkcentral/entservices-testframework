@@ -77,6 +77,10 @@ if(PLUGIN_BLUETOOTH)
      target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkL2TestsBT.so)
 endif()
 
+if(PLUGIN_TOP)
+     target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkL2TestsTOP.so)
+endif()
+
 if(PLUGIN_ACCOUNT)
     target_link_libraries(${MODULE_NAME} PRIVATE ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkL2TestsAccount.so)
 endif()

@@ -164,10 +164,10 @@ if(PLUGIN_SCREENCAPTURE OR PLUGIN_SYSTEMAUDIOPLAYER OR PLUGIN_TEXTTOSPEECH OR PL
 endif()
 
 #PLUGIN_BLUETOOTH
-if(PLUGIN_BLUETOOTH)
-    message(STATUS "linking libWPEFrameworkL1TestsBT to RdkServicesL1Test target")
-    target_link_libraries(${PROJECT_NAME} "${ENTSERVICES_REPO_L1TEST_LIB_PATH}/libWPEFrameworkL1TestsBT.so")
-endif()
+# if(PLUGIN_BLUETOOTH)
+#     message(STATUS "linking libWPEFrameworkL1TestsBT to RdkServicesL1Test target")
+#     target_link_libraries(${PROJECT_NAME} "${ENTSERVICES_REPO_L1TEST_LIB_PATH}/libWPEFrameworkL1TestsBT.so")
+# endif()
 
 #PLUGIN_ACCOUNT
 if(PLUGIN_ACCOUNT)
