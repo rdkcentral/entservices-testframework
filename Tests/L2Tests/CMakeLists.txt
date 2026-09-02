@@ -52,6 +52,16 @@ target_link_libraries(${PROJECT_NAME}
         ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkMessaging.so
         )
 
+# Linked directly into the main executable (not a dlopen'd plugin .so) so its
+# __wrap_popen/__wrap_system/etc symbols are in the process's global scope and
+# resolvable by any plugin .so Thunder dlopen's later (mirrors RdkServicesL1Test).
+if (NOT L2_TEST_OOP_RPC)
+    find_library(TESTMOCKLIB_LIBRARIES NAMES TestMocklib)
+    if (TESTMOCKLIB_LIBRARIES)
+        target_link_libraries(${PROJECT_NAME} ${TESTMOCKLIB_LIBRARIES})
+    endif (TESTMOCKLIB_LIBRARIES)
+endif (NOT L2_TEST_OOP_RPC)
+
 if (USE_THUNDER_R4)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_INSTALL_PREFIX}/lib/libWPEFrameworkWebSocket.so)
 else ()
