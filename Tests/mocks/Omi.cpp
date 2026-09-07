@@ -33,7 +33,6 @@ void OmiProxy::setImpl(omi::IOmiProxy* newImpl)
 OmiProxy::OmiProxy(const std::shared_ptr<AI_IPC::IIpcService>&,
     const std::string&,
     const std::string&)
-    : mIpcService(nullptr)
 {
 }
 

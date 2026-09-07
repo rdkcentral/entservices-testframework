@@ -23,6 +23,8 @@
 #include <string>
 #include "i_omi_proxy.hpp"
 namespace omi {
+// Must stay data-member free: plugins compile against their own omi_proxy.hpp stub, so any
+// member here would be destroyed past the end of the object they allocate.
 class OmiProxy : public IOmiProxy {
 protected:
     static IOmiProxy* impl;
@@ -41,8 +43,5 @@ public:
     bool umountCryptedBundle(const std::string& id) override;
     long unsigned registerListener(const OmiErrorListener& listener, const void* cbParams) override;
     void unregisterListener(long unsigned tag) override;
-
-private:
-    const std::shared_ptr<AI_IPC::IIpcService> mIpcService;
 };
 } // namespace omi
