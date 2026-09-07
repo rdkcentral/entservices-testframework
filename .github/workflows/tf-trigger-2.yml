@@ -22,7 +22,7 @@ jobs:
       caller_source: testframework
 
   ocicontainer-L1:
-    uses: rdkcentral/entservices-ocicontainer/.github/workflows/L1-tests.yml@develop
+    uses: rdkcentral/entservices-ocicontainer/.github/workflows/L1-tests.yml@topic/RDKEMW-23866
     with:
       caller_source: testframework
 
