@@ -61,6 +61,7 @@ public:
     MOCK_METHOD(Core::hresult, GetOvertempGraceInterval, (int& graceInterval), (override, const));
     MOCK_METHOD(Core::hresult, SetDeepSleepTimer, (const int timeOut), (override));
     MOCK_METHOD(Core::hresult, ScheduleDeepSleepWakeup, (const uint64_t unixTime, const string& requestorId), (override));
+    MOCK_METHOD(Core::hresult, CancelScheduledDeepSleepWakeups, (const uint64_t unixTime, const string& requestorId), (override));
     MOCK_METHOD(Core::hresult, GetLastWakeupReason, (WakeupReason & wakeupReason), (override, const));
     MOCK_METHOD(Core::hresult, GetLastWakeupKeyCode, (int& keycode), (override, const));
     MOCK_METHOD(Core::hresult, Reboot, (const string& rebootRequestor, const string& rebootReasonCustom, const string& rebootReasonOther), (override));
