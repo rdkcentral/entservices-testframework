@@ -23,11 +23,11 @@
 #include <string>
 #include "i_omi_proxy.hpp"
 namespace omi {
-// Must stay data-member free and keep the exact same virtual layout as the plugin's own
-// stubs/omi_proxy.hpp: plugins compile against that stub, so both definitions share the
-// mangled vtable symbol. Any member here would be destroyed past the end of the object they
-// allocate, and a missing virtual destructor makes the plugin dispatch through a vtable slot
-// that does not exist in this definition (SIGSEGV on shared_ptr teardown).
+// NOTE: This mock proxy must remain data-member free and keep the exact same virtual layout as the
+// plugin's stub header (outside this repo; typically stubs/omi_proxy.hpp). Plugins compile against
+// that stub, so both definitions share the same mangled vtable symbol.
+// Adding members or changing virtuals can cause out-of-bounds destruction or vtable slot mismatch
+// (e.g., SIGSEGV during shared_ptr teardown).
 class OmiProxy : public IOmiProxy {
 protected:
     static IOmiProxy* impl;
