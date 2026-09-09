@@ -184,6 +184,18 @@ std::shared_ptr<AI_IPC::IIpcService> AI_IPC::createIpcService(const std::string&
         impl->unregisterListener(tag);
     }
 
+    int DobbyProxy::registerListenerWithStatus(const StateChangeListenerWithStatus &listener, const void* cbParams)
+    {
+        EXPECT_NE(impl, nullptr);
+        return impl->registerListenerWithStatus(listener, cbParams);
+    }
+
+    void DobbyProxy::unregisterListenerWithStatus(int tag)
+    {
+        EXPECT_NE(impl, nullptr);
+        impl->unregisterListenerWithStatus(tag);
+    }
+
     std::string DobbyProxy::getContainerInfo(int32_t descriptor) const
     {
         EXPECT_NE(impl, nullptr);
