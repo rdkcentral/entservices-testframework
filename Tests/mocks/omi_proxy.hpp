@@ -23,14 +23,18 @@
 #include <string>
 #include "i_omi_proxy.hpp"
 namespace omi {
-// Must stay data-member free: plugins compile against their own omi_proxy.hpp stub, so any
-// member here would be destroyed past the end of the object they allocate.
+// Must stay data-member free and keep the exact same virtual layout as the plugin's own
+// stubs/omi_proxy.hpp: plugins compile against that stub, so both definitions share the
+// mangled vtable symbol. Any member here would be destroyed past the end of the object they
+// allocate, and a missing virtual destructor makes the plugin dispatch through a vtable slot
+// that does not exist in this definition (SIGSEGV on shared_ptr teardown).
 class OmiProxy : public IOmiProxy {
 protected:
     static IOmiProxy* impl;
 
 public:
     OmiProxy();
+    virtual ~OmiProxy() = default;
     OmiProxy(const OmiProxy& obj) = delete;
     static void setImpl(IOmiProxy* newImpl);
     OmiProxy(const std::shared_ptr<AI_IPC::IIpcService>& ipcService,
