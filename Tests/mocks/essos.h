@@ -38,20 +38,6 @@ typedef struct _EssTerminateListener
    void (*terminated)( void *userData );
 } EssTerminateListener;
 
-#if 0
-EssCtx* EssContextCreate();
-void EssContextDestroy( EssCtx *ctx );
-const char *EssContextGetLastErrorDetail( EssCtx *ctx );
-bool EssContextInit( EssCtx *ctx );
-bool EssContextSetUseWayland( EssCtx *ctx, bool useWayland );
-bool EssContextSetTerminateListener( EssCtx *ctx, void *userData, EssTerminateListener *listener );
-bool EssContextGetDisplaySize( EssCtx *ctx, int *width, int *height );
-bool EssContextSetInitialWindowSize( EssCtx *ctx, int width, int height );
-bool EssContextStart( EssCtx *ctx );
-void EssContextRunEventLoopOnce( EssCtx *ctx );
-void EssContextUpdateDisplay( EssCtx *ctx );
-#endif
-
 #if defined(__cplusplus)
 } //extern "C"
 #endif
