@@ -49,6 +49,8 @@ public:
     MOCK_METHOD(Core::hresult, Unregister, (const Exchange::IPowerManager::INetworkStandbyModeChangedNotification* notification), (override));
     MOCK_METHOD(Core::hresult, Register, (Exchange::IPowerManager::IThermalModeChangedNotification * notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (const Exchange::IPowerManager::IThermalModeChangedNotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (Exchange::IPowerManager::IPowerModeChangeAcknowledgementRequested* notification), (override));
+    MOCK_METHOD(Core::hresult, Unregister, (const Exchange::IPowerManager::IPowerModeChangeAcknowledgementRequested* notification), (override));
 
     MOCK_METHOD(Core::hresult, SetPowerState, (const int keyCode, const PowerState powerState, const string& reason), (override));
     MOCK_METHOD(Core::hresult, GetPowerState, (PowerState & currentState, PowerState& previousState), (override, const));
@@ -58,6 +60,7 @@ public:
     MOCK_METHOD(Core::hresult, SetOvertempGraceInterval, (const int graceInterval), (override));
     MOCK_METHOD(Core::hresult, GetOvertempGraceInterval, (int& graceInterval), (override, const));
     MOCK_METHOD(Core::hresult, SetDeepSleepTimer, (const int timeOut), (override));
+    MOCK_METHOD(Core::hresult, ScheduleDeepSleepWakeup, (const uint64_t unixTime, const string& requestorId), (override));
     MOCK_METHOD(Core::hresult, GetLastWakeupReason, (WakeupReason & wakeupReason), (override, const));
     MOCK_METHOD(Core::hresult, GetLastWakeupKeyCode, (int& keycode), (override, const));
     MOCK_METHOD(Core::hresult, Reboot, (const string& rebootRequestor, const string& rebootReasonCustom, const string& rebootReasonOther), (override));
@@ -69,6 +72,9 @@ public:
     MOCK_METHOD(Core::hresult, AddPowerModePreChangeClient, (const string& clientName, uint32_t& clientId ), (override));
     MOCK_METHOD(Core::hresult, RemovePowerModePreChangeClient, (const uint32_t clientId ), (override));
     MOCK_METHOD(Core::hresult, PowerModePreChangeComplete, (const uint32_t clientId, const int transactionId), (override));
+    MOCK_METHOD(Core::hresult, AddPowerModeChangeAcknowledgementClient, (const string& clientName, uint32_t& acknowledgeClientId), (override));
+    MOCK_METHOD(Core::hresult, RemovePowerModeChangeAcknowledgementClient, (const uint32_t acknowledgeClientId), (override));
+    MOCK_METHOD(Core::hresult, PowerModeChangeAcknowledgement, (const uint32_t acknowledgeClientId, const int transactionId), (override));
     MOCK_METHOD(Core::hresult, DelayPowerModeChangeBy, (const uint32_t clientId, const int transactionId, const int delayPeriod), (override));
     MOCK_METHOD(Core::hresult, GetTimeSinceWakeup, (TimeSinceWakeup &timeSinceWakeup), (override));
 
@@ -137,4 +143,3 @@ public:
         }
     }
 };
-
