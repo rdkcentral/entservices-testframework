@@ -50,7 +50,7 @@ namespace Exchange = WPEFramework::Exchange;
 class DeviceSettingsMock : public Exchange::IDeviceSettings {
 
 public:
-    MOCK_METHOD(Core::hresult, Configure, (PluginHost::IShell* service), (override));
+    MOCK_METHOD(Core::hresult, Configure, (WPEFramework::PluginHost::IShell* service), (override));
     MOCK_METHOD(Core::hresult, GetDeviceSettingConfigs, (Exchange::IDeviceSettings::DeviceSettingConfigs& configs), (override));
 
     BEGIN_INTERFACE_MAP(DeviceSettingsMock)
