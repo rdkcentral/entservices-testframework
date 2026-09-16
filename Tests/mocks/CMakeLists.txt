@@ -158,7 +158,6 @@ else(L2_TEST_OOP_RPC)
         set(CANDIDATE_FILES
             tvSettings.cpp
             EssRMgr.cpp
-            Essos.cpp
             sec_security.cpp
             KeyProvisionObject.cpp
             KeyProvisionResult.cpp
