@@ -657,6 +657,8 @@ typedef struct _IARM_Bus_SYSMgr_GetSystemStates_Param_t {
 
 #define IARM_BUS_DSMGR_NAME "DSMgr"
 
+// entservices-devicesettings' own DeviceSettingsTypes.h self-defines this enum; skip ours to avoid a duplicate-definition clash when building that plugin.
+#ifndef DS_MGR_EVENTID_T_PROVIDED_BY_DEVICESETTINGS
 /*! Events published from DS Mananger */
 typedef enum _DSMgr_EventId_t {
     IARM_BUS_DSMGR_EVENT_RES_PRECHANGE = 0, /*!< Resolution Pre Change Event  */
@@ -693,6 +695,7 @@ typedef enum _DSMgr_EventId_t {
     IARM_BUS_DSMGR_EVENT_HDMI_IN_AVI_CONTENT_TYPE, /*<HDMI IN content type event */
     IARM_BUS_DSMGR_EVENT_MAX, /*!< Max Event  */
 } IARM_Bus_DSMgr_EventId_t;
+#endif /* !DS_MGR_EVENTID_T_PROVIDED_BY_DEVICESETTINGS */
 
 
 /* ############################# wifiSrvMgrIarmIf.h ################################# */
