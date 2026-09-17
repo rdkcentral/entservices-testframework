@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2026 RDK Management
+ * Licensed under RDK-M LGPLv2
  *
- * Licensed under the RDK-M LGPLv2
  * See the COPYING file at the root directory of this project.
  */
 
