@@ -1,15 +1,8 @@
 /*
- * If not stated otherwise in this file or this component's LICENSE
- * file the following copyright and licenses apply:
- *
  * Copyright (C) 2026 RDK Management
  *
- * Licensed under the GNU Lesser General Public License, version 2.1 or later.
- * See the COPYING file at the root directory of this project for the complete license.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Licensed under the RDK-M LGPLv2
+ * See the COPYING file at the root directory of this project.
  */
 
 #ifndef LIBUSB_COMPAT_H
