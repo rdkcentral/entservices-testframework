@@ -25,7 +25,7 @@ RdkStorageMgrApiImpl* RdkStorageMgrApi::impl = nullptr;
 
 void RdkStorageMgrApi::setImpl(RdkStorageMgrApiImpl* newImpl)
 {
-    EXPECT_TRUE((impl == nullptr) || (newImpl == nullptr));
+    EXPECT_TRUE ((nullptr == impl) || (nullptr == newImpl));
     impl = newImpl;
 }
 
