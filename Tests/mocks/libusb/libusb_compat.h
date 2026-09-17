@@ -1,24 +1,16 @@
 /*
- * If not stated otherwise in this file or this component's LICENSE
- * file the following copyright and licenses apply:
- *
- * Copyright 2026 RDK Management
- *
- * Copyright 2001 Johannes Erdfelt <johannes@erdfelt.com>
- * Copyright 2007-2008 Daniel Drake <dsd@gentoo.org>
- * Copyright 2012 Pete Batard <pete@akeo.ie>
- * Copyright 2012-2023 Nathan Hjelm <hjelmn@cs.unm.edu>
- * Copyright © 2014-2020 Chris Dickens <christopher.a.dickens@gmail.com>
- * For more information, please visit: https://libusb.info
- * libusb is licensed under the LGPL License, Version 2.1 or greater
- * (https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt)
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* wrapper for libusb_init_context:
+* Copyright 2001 Johannes Erdfelt <johannes@erdfelt.com>
+* Copyright 2007-2008 Daniel Drake <dsd@gentoo.org>
+* Copyright 2012 Pete Batard <pete@akeo.ie>
+* Copyright 2012-2023 Nathan Hjelm <hjelmn@cs.unm.edu>
+* Copyright © 2014-2020 Chris Dickens <christopher.a.dickens@gmail.com>
+* For more information, please visit: https://libusb.info
+* libusb is licensed under the LGPL License, Version 2.1 or greater
+* (https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt)
+* Changes to add extra mock function prototypes
+* Copyright 2025 RDK Management
+*/
 
 #ifndef LIBUSB_COMPAT_H
 #define LIBUSB_COMPAT_H
