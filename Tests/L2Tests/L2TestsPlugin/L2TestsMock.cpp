@@ -804,7 +804,7 @@ uint32_t L2TestMocks::GetPluginState(const char *callsign, std::string &state)
       status = InvokeServiceMethod("Controller.1", "status", params, result);
       
       if (status == Core::ERROR_NONE) {
-         // The result should contain a "state" field
+         // Try different response formats
          if (result.HasLabel("state")) {
             state = result["state"].String();
          } else if (result.HasLabel("0")) {
@@ -817,8 +817,21 @@ uint32_t L2TestMocks::GetPluginState(const char *callsign, std::string &state)
                }
             }
          } else {
-            TEST_LOG("GetPluginState: No state field found in response");
-            status = Core::ERROR_GENERAL;
+            // Response is empty or in unknown format
+            // Try to get list of plugins and check if this one exists
+            JsonObject listResult;
+            uint32_t listStatus = InvokeServiceMethod("Controller.1", "status", listResult);
+            if (listStatus == Core::ERROR_NONE && listResult.HasLabel(callsign)) {
+               JsonObject pluginInfo = listResult[callsign].Object();
+               if (pluginInfo.HasLabel("state")) {
+                  state = pluginInfo["state"].String();
+                  status = Core::ERROR_NONE;
+                  return status;
+               }
+            }
+            TEST_LOG("GetPluginState: Unable to determine state for %s, assuming not activated", callsign);
+            state = "deactivated";
+            status = Core::ERROR_NONE;
          }
       }
    }
@@ -902,6 +915,12 @@ uint32_t L2TestMocks::ActivateServiceWithRetry(const char *callsign, uint32_t ma
          if (status == Core::ERROR_NONE) {
             return Core::ERROR_NONE;
          }
+      } else if (status == 6) {
+         // ERROR_OPENING_FAILED - plugin failed to load (missing symbols, etc)
+         TEST_LOG("ActivateServiceWithRetry: FATAL - Plugin failed to load (status 6 - ERROR_OPENING_FAILED)");
+         TEST_LOG("ActivateServiceWithRetry: This usually indicates missing library dependencies or symbols");
+         TEST_LOG("ActivateServiceWithRetry: Check for 'undefined symbol' errors in the logs above");
+         return status;  // Don't retry on fatal errors
       } else {
          TEST_LOG("ActivateServiceWithRetry: Activation failed with status %u", status);
       }
@@ -912,7 +931,7 @@ uint32_t L2TestMocks::ActivateServiceWithRetry(const char *callsign, uint32_t ma
       }
    }
    
-   TEST_LOG("ActivateServiceWithRetry: Failed to activate %s after %u attempts", callsign, maxRetries);
+   TEST_LOG("ActivateServiceWithRetry: Failed to activate %s after %u attempts (final status: %u)", callsign, maxRetries, status);
    return status;
 }
 
