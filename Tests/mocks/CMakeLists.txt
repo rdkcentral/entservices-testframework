@@ -106,6 +106,7 @@ else(L2_TEST_OOP_RPC)
         gdialservice.cpp
         btmgr.cpp
 		uploadstblogs_mock.cpp
+        rdkStorageMgrMock.cpp
         )
 
     if(RDK_SERVICES_L1_TEST)
