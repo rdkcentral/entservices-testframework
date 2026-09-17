@@ -33,13 +33,15 @@
 // construct/initialize without crashing; their actual return values are not meant to
 // be asserted on by tests.
 
-#include "DsVideoDeviceHalMock.h"
-
+#include "dsVideoDevice.h"
+#include "dsHdmiIn.h"
 #include "dsAudio.h"
 #include "dsDisplay.h"
 #include "dsFPD.h"
 #include "dsHost.h"
 #include "dsVideoPort.h"
+
+#include "DsVideoDeviceHalMock.h"
 
 namespace {
 DsVideoDeviceHalMock* g_dsVideoDeviceHalMockImpl = nullptr;

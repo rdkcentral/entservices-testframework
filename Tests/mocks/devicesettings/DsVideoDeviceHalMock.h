@@ -33,8 +33,17 @@
 
 #include <gmock/gmock.h>
 
-#include "dsVideoDevice.h"
-#include "dsHdmiIn.h"
+// dsError_t/dsVideoZoom_t must already be visible from whichever header the including
+// translation unit brought in first: the real rdk-halif-device_settings dsVideoDevice.h
+// (for the standalone ds-hal build) or the legacy libds "devicesettings.h" mock that
+// entservices-testframework/Tests/L2Tests force-includes for every other L2 test.
+// Re-including either set of headers here would redefine those types under a
+// different tag name and fail to compile, so only the two callback typedefs that
+// neither of those already-included headers may provide are declared locally
+// (signatures per rdk-halif-device_settings/include/dsVideoDevice.h). Repeating an
+// identical typedef is legal in C/C++, so this is safe even if already declared.
+typedef void (*dsRegisterFrameratePreChangeCB_t)(unsigned int tSecond);
+typedef void (*dsRegisterFrameratePostChangeCB_t)(unsigned int tSecond);
 
 class DsVideoDeviceHalMock {
 public:
