@@ -17,7 +17,8 @@
  * limitations under the License.
  */
 
-#pragma once
+#ifndef LIBUSB_COMPAT_H
+#define LIBUSB_COMPAT_H
 
 #include <libusb-1.0/libusb.h>
 
