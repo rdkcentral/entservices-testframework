@@ -18,12 +18,6 @@
  * License along with this library; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
  * Boston, MA 02110-1301, USA.
-
- * Copyright 2001 Johannes Erdfelt <johannes@erdfelt.com>
- * Copyright 2007-2008 Daniel Drake <dsd@gentoo.org>
- * Copyright 2012 Pete Batard <pete@akeo.ie>
- * Copyright 2012-2023 Nathan Hjelm <hjelmn@cs.unm.edu>
- * Copyright © 2014-2020 Chris Dickens <christopher.a.dickens@gmail.com>
  * For more information, please visit: https://libusb.info
  * libusb is licensed under the LGPL License, Version 2.1 or greater
  */
