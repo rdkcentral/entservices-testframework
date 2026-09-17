@@ -2,24 +2,15 @@
  * Public License version 2.1 only, as per COPYING.LGPL and subject to any
  * additional licenses included in this file.
  * Please use the following copyright for source under this directory:
- *
  * Copyright 2025  RDK Management
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, version 2.1
  * of the license.
- *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
- * Boston, MA 02110-1301, USA.
- * For more information, please visit: https://libusb.info
- * libusb is licensed under the LGPL License, Version 2.1 or greater
  */
 
 #ifndef LIBUSB_COMPAT_H
