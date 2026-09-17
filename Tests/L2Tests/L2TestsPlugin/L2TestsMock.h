@@ -230,5 +230,34 @@ protected:
          */
         uint32_t DeactivateService(const char *callsign);
 
+        /**
+         * @brief Get the state of a plugin
+         *
+         * @param[in] callsign Service callsign
+         * @param[out] state Plugin state (e.g., "activated", "deactivated", "suspended")
+         * @return Zero (Core::ERROR_NONE) on success or another value on error
+         */
+        uint32_t GetPluginState(const char *callsign, std::string &state);
+
+        /**
+         * @brief Wait for a plugin to reach a specific state
+         *
+         * @param[in] callsign Service callsign
+         * @param[in] expectedState Expected state to wait for
+         * @param[in] timeoutMs Timeout in milliseconds
+         * @return Zero (Core::ERROR_NONE) on success, ERROR_TIMEDOUT on timeout
+         */
+        uint32_t WaitForPluginState(const char *callsign, const char *expectedState, uint32_t timeoutMs);
+
+        /**
+         * @brief Activate a service with retry logic
+         *
+         * @param[in] callsign Service callsign
+         * @param[in] maxRetries Maximum number of retries
+         * @param[in] retryDelayMs Delay between retries in milliseconds
+         * @return Zero (Core::ERROR_NONE) on success or another value on error
+         */
+        uint32_t ActivateServiceWithRetry(const char *callsign, uint32_t maxRetries = 3, uint32_t retryDelayMs = 500);
+
 };
 

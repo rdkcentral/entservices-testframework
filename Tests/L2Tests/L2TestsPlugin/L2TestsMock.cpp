@@ -18,6 +18,8 @@
 
 #include <string>
 #include <sstream>
+#include <chrono>
+#include <thread>
 
 #include "L2TestsMock.h"
 #ifdef L2_TEST_OOP_RPC
@@ -780,6 +782,137 @@ uint32_t L2TestMocks::DeactivateService(const char *callsign)
       params["callsign"] = callsign;
       status = InvokeServiceMethod("Controller.1", "deactivate", params, result);
    }
+   return status;
+}
+
+/**
+* @brief Get the state of a plugin
+*
+* @param[in] callsign Service callsign
+* @param[out] state Plugin state
+* @return Zero (Core::ERROR_NONE) on success or another value on error
+*/
+uint32_t L2TestMocks::GetPluginState(const char *callsign, std::string &state)
+{
+   JsonObject params;
+   JsonObject result;
+   uint32_t status = Core::ERROR_GENERAL;
+
+   if(callsign != NULL)
+   {
+      params["callsign"] = callsign;
+      status = InvokeServiceMethod("Controller.1", "status", params, result);
+      
+      if (status == Core::ERROR_NONE) {
+         // The result should contain a "state" field
+         if (result.HasLabel("state")) {
+            state = result["state"].String();
+         } else if (result.HasLabel("0")) {
+            // Some Thunder versions return state in array format
+            JsonArray stateArray = result["0"].Array();
+            if (stateArray.Length() > 0) {
+               JsonObject stateObj = stateArray[0].Object();
+               if (stateObj.HasLabel("state")) {
+                  state = stateObj["state"].String();
+               }
+            }
+         } else {
+            TEST_LOG("GetPluginState: No state field found in response");
+            status = Core::ERROR_GENERAL;
+         }
+      }
+   }
+
+   return status;
+}
+
+/**
+* @brief Wait for a plugin to reach a specific state
+*
+* @param[in] callsign Service callsign
+* @param[in] expectedState Expected state to wait for
+* @param[in] timeoutMs Timeout in milliseconds
+* @return Zero (Core::ERROR_NONE) on success, ERROR_TIMEDOUT on timeout
+*/
+uint32_t L2TestMocks::WaitForPluginState(const char *callsign, const char *expectedState, uint32_t timeoutMs)
+{
+   auto startTime = std::chrono::steady_clock::now();
+   std::string currentState;
+   
+   TEST_LOG("WaitForPluginState: Waiting for %s to reach state '%s' (timeout: %u ms)", 
+            callsign, expectedState, timeoutMs);
+   
+   while (true) {
+      uint32_t status = GetPluginState(callsign, currentState);
+      
+      if (status == Core::ERROR_NONE) {
+         TEST_LOG("WaitForPluginState: Current state of %s is '%s'", callsign, currentState.c_str());
+         
+         if (currentState == expectedState) {
+            TEST_LOG("WaitForPluginState: %s reached expected state '%s'", callsign, expectedState);
+            return Core::ERROR_NONE;
+         }
+      } else {
+         TEST_LOG("WaitForPluginState: Failed to get state of %s (status: %u)", callsign, status);
+      }
+      
+      auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+         std::chrono::steady_clock::now() - startTime).count();
+      
+      if (elapsed >= timeoutMs) {
+         TEST_LOG("WaitForPluginState: Timeout waiting for %s to reach state '%s' (current: '%s')", 
+                  callsign, expectedState, currentState.c_str());
+         return Core::ERROR_TIMEDOUT;
+      }
+      
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+   }
+}
+
+/**
+* @brief Activate a service with retry logic
+*
+* @param[in] callsign Service callsign
+* @param[in] maxRetries Maximum number of retries
+* @param[in] retryDelayMs Delay between retries in milliseconds
+* @return Zero (Core::ERROR_NONE) on success or another value on error
+*/
+uint32_t L2TestMocks::ActivateServiceWithRetry(const char *callsign, uint32_t maxRetries, uint32_t retryDelayMs)
+{
+   uint32_t status = Core::ERROR_GENERAL;
+   
+   for (uint32_t attempt = 0; attempt < maxRetries; attempt++) {
+      TEST_LOG("ActivateServiceWithRetry: Attempt %u/%u to activate %s", 
+               attempt + 1, maxRetries, callsign);
+      
+      status = ActivateService(callsign);
+      
+      if (status == Core::ERROR_NONE) {
+         TEST_LOG("ActivateServiceWithRetry: Successfully activated %s", callsign);
+         // Wait for plugin to reach activated state
+         status = WaitForPluginState(callsign, "activated", 5000);
+         if (status == Core::ERROR_NONE) {
+            return Core::ERROR_NONE;
+         }
+         TEST_LOG("ActivateServiceWithRetry: Plugin activated but didn't reach 'activated' state");
+      } else if (status == Core::ERROR_INPROGRESS) {
+         TEST_LOG("ActivateServiceWithRetry: Activation in progress, waiting...");
+         // Activation is in progress, wait for it to complete
+         status = WaitForPluginState(callsign, "activated", 5000);
+         if (status == Core::ERROR_NONE) {
+            return Core::ERROR_NONE;
+         }
+      } else {
+         TEST_LOG("ActivateServiceWithRetry: Activation failed with status %u", status);
+      }
+      
+      if (attempt < maxRetries - 1) {
+         TEST_LOG("ActivateServiceWithRetry: Retrying after %u ms...", retryDelayMs);
+         std::this_thread::sleep_for(std::chrono::milliseconds(retryDelayMs));
+      }
+   }
+   
+   TEST_LOG("ActivateServiceWithRetry: Failed to activate %s after %u attempts", callsign, maxRetries);
    return status;
 }
 
