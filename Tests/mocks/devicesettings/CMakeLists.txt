@@ -25,13 +25,35 @@
 cmake_minimum_required(VERSION 3.8)
 project(ds-hal CXX)
 
+# Find GTest/GMock for mock support
+find_package(GTest QUIET)
+if(NOT GTest_FOUND)
+    # Try to find googletest in common locations
+    find_path(GTEST_INCLUDE_DIR gmock/gmock.h
+        PATHS
+        ${CMAKE_INSTALL_PREFIX}/include
+        /usr/include
+        /usr/local/include
+    )
+    if(GTEST_INCLUDE_DIR)
+        set(GMOCK_INCLUDE_DIRS ${GTEST_INCLUDE_DIR})
+    endif()
+endif()
+
 add_library(ds-hal SHARED
-    DsHalStubs.cpp
+    DsAudioMock.cpp
+    DsVideoDeviceMock.cpp
+    DsVideoPortMock.cpp
+    DsDisplayMock.cpp
+    DsFPDMock.cpp
+    DsHdmiInMock.cpp
 )
 
 target_include_directories(ds-hal PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_INSTALL_PREFIX}/include
+    ${GMOCK_INCLUDE_DIRS}
+    ${GTEST_INCLUDE_DIRS}
 )
 
 set_target_properties(ds-hal PROPERTIES
@@ -47,4 +69,13 @@ set_target_properties(ds-hal PROPERTIES
 )
 
 install(TARGETS ds-hal DESTINATION lib)
-install(FILES DsVideoDeviceHalMock.h DESTINATION include)
+install(FILES 
+    DsAudioMock.h
+    DsVideoDeviceMock.h
+    DsVideoPortMock.h
+    DsDisplayMock.h
+    DsFPDMock.h
+    DsHdmiInMock.h
+    DsVideoDeviceHalMock.h 
+    DESTINATION include
+)
