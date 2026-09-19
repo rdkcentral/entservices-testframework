@@ -106,6 +106,7 @@ else(L2_TEST_OOP_RPC)
         gdialservice.cpp
         btmgr.cpp
 		uploadstblogs_mock.cpp
+        rdkStorageMgrMock.cpp
         )
 
     if(RDK_SERVICES_L1_TEST)
@@ -137,6 +138,7 @@ else(L2_TEST_OOP_RPC)
             Omi.cpp
 			tvSettings.cpp
             EssRMgr.cpp
+            Essos.cpp
             ${GENERATED_PROTO_SRC}
             ${GENERATED_GRPC_SRC}
             SecureStorageServerMock.cpp
