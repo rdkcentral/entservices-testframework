@@ -99,7 +99,6 @@ else(L2_TEST_OOP_RPC)
         libusb.cpp
         DRMScreenCapture.cpp
         systemaudioplatform.cpp
-        dsFPD.cpp
         MfrMock.cpp
         PowerManagerHalMock.cpp
         RenderSession.cpp

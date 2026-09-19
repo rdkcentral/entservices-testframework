@@ -31,41 +31,29 @@
 #include "WrapsMock.h"
 #include "RBusMock.h"
 #include "TelemetryMock.h"
-// OLD LIBDS MOCKS REMOVED - Using new HAL mocks instead
-// #include "VideoOutputPortConfigMock.h"
-// #include "VideoOutputPortMock.h"
-// #include "HostMock.h"
-#include "ManagerMock.h"
 #include "UdevMock.h"
 #include "btmgrMock.h"
-// #include "HdmiInputMock.h"  // OLD LIBDS
 #include "libUSBMock.h"
-// #include "devicesettings.h"  // OLD LIBDS HEADER - REMOVED
 #include "tvSettingsMock.h"
 #include "Tr181ApiMock.h"
-// #include "AudioOutputPortMock.h"  // OLD LIBDS
-// #include "AudioStereoModeMock.h"  // OLD LIBDS
-// #include "VideoDeviceMock.h"  // OLD LIBDS
-// #include "VideoDFCMock.h"  // OLD LIBDS
-// #include "DisplayMock.h"  // OLD LIBDS
-// #include "VideoResolutionMock.h"  // OLD LIBDS
-// #include "FrontPanelConfigMock.h"  // OLD LIBDS
-// #include "AudioOutputPortTypeMock.h"  // OLD LIBDS
-// #include "VideoOutputPortTypeMock.h"  // OLD LIBDS
 #include "EssRMgrMock.h"
 #include "RdkLoggerMilestoneMock.h"
 #include "DRMScreenCaptureMock.h"
-#include "dsFPDMock.h"
 #include "systemaudioplatformmock.h"
 #include "RenderSessionMock.h"
 #include "DobbyMock.h"
 #include "OmiMock.h"
 #include "PowerManagerHalMock.h"
 #include "MfrMock.h"
-// #include "FrontPanelIndicatorMock.h"  // OLD LIBDS
 #include "HdmiCecMock.h"
-// #include "ColorMock.h"  // OLD LIBDS
 
+// DeviceSettings HAL Mocks (rdk-halif-device_settings 6.0.1)
+#include "devicesettings/DsAudioHALMock.h"
+#include "devicesettings/DsDisplayHALMock.h"
+#include "devicesettings/DsFPDHALMock.h"
+#include "devicesettings/DsHdmiInHALMock.h"
+#include "devicesettings/DsVideoDeviceHALMock.h"
+#include "devicesettings/DsVideoPortHALMock.h"
 
 #ifdef RDK_SERVICE_CPC_L2_TEST
 #include "sec_securityMock.h"
@@ -89,32 +77,16 @@ protected:
         readprocImplMock *p_readprocImplMock = nullptr ;
         ProcImpl         *p_procImpl           = nullptr ;
         WrapsImplMock    *p_wrapsImplMock = nullptr ;
-        // HostImplMock     *p_hostImplMock = nullptr ;  // OLD LIBDS - REMOVED
-        // VideoOutputPortConfigImplMock *p_videoOutputPortConfigImplMock = nullptr ;  // OLD LIBDS - REMOVED
-        ManagerImplMock  *p_managerImplMock = nullptr ;
-        // VideoOutputPortMock *p_videoOutputPortMock = nullptr;  // OLD LIBDS - REMOVED
         UdevImplMock     *p_udevImplMock = nullptr ;
         RBusApiImplMock *p_rBusApiImplMock = nullptr;
         TelemetryApiImplMock   *p_telemetryApiImplMock = nullptr ;
         BtmgrImplMock *p_btmgrImplMock = nullptr;
-        // HdmiInputImplMock   *p_hdmiInputImplMock = nullptr ;  // OLD LIBDS - REMOVED
         libUSBImplMock   *p_libUSBApiImplMock = nullptr ;
         TvSettingsImplMock   *p_tvSettingsImplMock = nullptr ;
         Tr181ApiImplMock *p_tr181ApiImplMock = nullptr ;
-        // AudioOutputPortMock *p_audioOutputPortMock = nullptr;  // OLD LIBDS - REMOVED
-        // AudioStereoModeMock *p_audioStereoModeMock = nullptr;  // OLD LIBDS - REMOVED
-        // VideoDeviceMock *p_videoDeviceMock = nullptr;  // OLD LIBDS - REMOVED
-        // VideoDFCMock *p_videoDFCMock = nullptr;  // OLD LIBDS - REMOVED
-        // DisplayMock  *p_displayMock = nullptr ;  // OLD LIBDS - REMOVED
-        // VideoResolutionMock      *p_videoResolutionMock = nullptr ;  // OLD LIBDS - REMOVED
-        // FrontPanelConfigMock   *p_frontPanelConfigImplMock = nullptr;  // OLD LIBDS - REMOVED
-        // FrontPanelIndicatorMock *p_frontPanelIndicatorMock = nullptr;  // OLD LIBDS - REMOVED
-        // AudioOutputPortTypeMock        *p_audioOutputPortTypeMock = nullptr ;  // OLD LIBDS - REMOVED
-        // VideoOutputPortTypeMock        *p_videoOutputPortTypeMock = nullptr ;  // OLD LIBDS - REMOVED
 	EssRMgrMock      *p_essRMgrMock = nullptr;
         RdkLoggerMilestoneImplMock *p_rdkloggerImplMock = nullptr;
         DRMScreenCaptureApiImplMock *p_drmScreenCaptureApiImplMock = nullptr;
-	dsFPDMock *p_dsFPDMock = nullptr;
         SystemAudioPlatformAPIMock *p_systemAudioPlatformAPIMock = nullptr;
         RenderSessionMock *p_renderSessionMock = nullptr;
         DobbyProxyMock *p_dobbyProxyMock = nullptr;
@@ -126,7 +98,15 @@ protected:
         LibCCECImplMock *p_libCCECMock = nullptr;
         MessageEncoderMock *p_messageEncoderMock = nullptr;
         MessageDecoderMock *p_messageDecoderMock = nullptr;
-        // ColorMock *p_colorImplMock = nullptr ;  // OLD LIBDS - REMOVED
+        
+        // DeviceSettings HAL Mocks
+        DsAudioHalMock *p_dsAudioHalMock = nullptr;
+        DsDisplayHalMock *p_dsDisplayHalMock = nullptr;
+        DsFPDHalMock *p_dsFPDHalMock = nullptr;
+        DsHdmiInHalMock *p_dsHdmiInHalMock = nullptr;
+        DsVideoDeviceHalMock *p_dsVideoDeviceHalMock = nullptr;
+        DsVideoPortHalMock *p_dsVideoPortHalMock = nullptr;
+        
 #ifdef RDK_SERVICE_CPC_L2_TEST        
         SecSecurityApiImplMock *p_secSecurityApiImplMock  = nullptr ;
         KeyProvisionObjectImplMock *p_keyProvisionObjectImplMock  = nullptr ;
