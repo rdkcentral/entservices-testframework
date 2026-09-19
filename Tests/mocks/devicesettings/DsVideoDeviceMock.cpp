@@ -61,7 +61,7 @@ dsError_t dsGetVideoDevice(int index, intptr_t* handle) {
     return dsERR_NONE;
 }
 
-dsError_t dsSetDisplayframerate(intptr_t handle, const char* framerate) {
+dsError_t dsSetDisplayframerate(intptr_t handle, char* framerate) {
     DsVideoDeviceHalMock* impl = DsVideoDeviceApi::getImpl();
     if (impl) return impl->dsSetDisplayframerate(handle, framerate);
     return dsERR_NONE;

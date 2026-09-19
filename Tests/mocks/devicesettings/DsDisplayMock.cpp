@@ -75,7 +75,12 @@ dsError_t dsGetEDID(intptr_t handle, dsDisplayEDID_t* edid) {
         edid->physicalAddressC = 0;
         edid->physicalAddressD = 0;
         edid->numOfSupportedResolution = 1;
-        edid->suppResolutionList[0] = dsVIDEO_PIXELRES_1920x1080;
+        // suppResolutionList is dsVideoPortResolution_t, not dsVideoResolution_t
+        edid->suppResolutionList[0].pixelResolution = dsVIDEO_PIXELRES_1920x1080;
+        edid->suppResolutionList[0].aspectRatio = dsVIDEO_ASPECT_RATIO_16x9;
+        edid->suppResolutionList[0].stereoScopicMode = dsVIDEO_SSMODE_2D;
+        edid->suppResolutionList[0].frameRate = dsVIDEO_FRAMERATE_60;
+        edid->suppResolutionList[0].interlaced = false;
     }
     return dsERR_NONE;
 }

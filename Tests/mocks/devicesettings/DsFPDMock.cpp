@@ -130,25 +130,6 @@ dsError_t dsSetFPScroll(unsigned int uScrollHoldOnDur, unsigned int uHorzScrollI
     return dsERR_NONE;
 }
 
-dsError_t dsSetFPTime(dsFPDTime_t time) {
-    DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsSetFPTime(time);
-    return dsERR_NONE;
-}
-
-dsError_t dsSetFPTimeFormat(dsFPDTimeFormat_t timeFormat) {
-    DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsSetFPTimeFormat(timeFormat);
-    return dsERR_NONE;
-}
-
-dsError_t dsGetFPTimeFormat(dsFPDTimeFormat_t* timeFormat) {
-    DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsGetFPTimeFormat(timeFormat);
-    if (timeFormat) *timeFormat = dsFPD_TIME_12_HOUR;
-    return dsERR_NONE;
-}
-
 dsError_t dsFPEnableCLockDisplay(int enable) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
     if (impl) return impl->dsFPEnableCLockDisplay(enable);

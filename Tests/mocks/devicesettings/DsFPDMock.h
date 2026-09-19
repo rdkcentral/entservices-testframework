@@ -50,12 +50,7 @@ public:
     MOCK_METHOD(dsError_t, dsGetFPTextBrightness, (int* brightness));
     MOCK_METHOD(dsError_t, dsSetFPScroll, (unsigned int uScrollHoldOnDur, unsigned int uHorzScrollIterations, unsigned int uVertScrollIterations));
     
-    // Time display
-    MOCK_METHOD(dsError_t, dsSetFPTime, (dsFPDTime_t time));
-    MOCK_METHOD(dsError_t, dsSetFPTimeFormat, (dsFPDTimeFormat_t timeFormat));
-    MOCK_METHOD(dsError_t, dsGetFPTimeFormat, (dsFPDTimeFormat_t* timeFormat));
-    
-    // Callbacks
+    // Clock display
     MOCK_METHOD(dsError_t, dsFPEnableCLockDisplay, (int enable));
 };
 

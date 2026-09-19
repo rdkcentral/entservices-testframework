@@ -38,7 +38,7 @@ public:
     MOCK_METHOD(dsError_t, dsGetVideoDevice, (int index, intptr_t* handle));
     
     // Framerate
-    MOCK_METHOD(dsError_t, dsSetDisplayframerate, (intptr_t handle, const char* framerate));
+    MOCK_METHOD(dsError_t, dsSetDisplayframerate, (intptr_t handle, char* framerate));
     MOCK_METHOD(dsError_t, dsGetCurrentDisplayframerate, (intptr_t handle, char* framerate));
     MOCK_METHOD(dsError_t, dsRegisterFrameratePreChangeCB, (dsRegisterFrameratePreChangeCB_t cb));
     MOCK_METHOD(dsError_t, dsRegisterFrameratePostChangeCB, (dsRegisterFrameratePostChangeCB_t cb));
