@@ -2,7 +2,7 @@
 * If not stated otherwise in this file or this component's LICENSE
 * file the following copyright and licenses apply:
 *
-* Copyright 2024 RDK Management
+* Copyright 2026 RDK Management
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 * limitations under the License.
 **/
 
-#include "DsHdmiInMock.h"
+#include "DsHdmiInHALMock.h"
 #include <cstdio>
 #include <cstring>
 
@@ -147,13 +147,13 @@ dsError_t dsHdmiInRegisterAllmChangeCB(dsHdmiInAllmChangeCB_t CBFunc) {
     return dsERR_NONE;
 }
 
-dsError_t dsHdmiInRegisterAVLatencyChangeCB(dsAVLatencyChangeCB_t CBFunc) {
+dsError_t dsHdmiInRegisterAVLatencyChangeCB(dsHdmiInAVLatencyChangeCB_t CBFunc) {
     DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
     if (impl) return impl->dsHdmiInRegisterAVLatencyChangeCB(CBFunc);
     return dsERR_NONE;
 }
 
-dsError_t dsHdmiInRegisterAviContentTypeChangeCB(dsAviContentTypeChangeCB_t CBFunc) {
+dsError_t dsHdmiInRegisterAviContentTypeChangeCB(dsHdmiInAviContentTypeChangeCB_t CBFunc) {
     DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
     if (impl) return impl->dsHdmiInRegisterAviContentTypeChangeCB(CBFunc);
     return dsERR_NONE;

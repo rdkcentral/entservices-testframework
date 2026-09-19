@@ -1,8 +1,8 @@
-/*
-* If not stated otherwise in this file or this component's LICENSE file the
-* following copyright and licenses apply:
+/**
+* If not stated otherwise in this file or this component's LICENSE
+* file the following copyright and licenses apply:
 *
-* Copyright 2026 RDK Management
+* Copyright 2024 RDK Management
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -15,52 +15,61 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
+**/
 
 #pragma once
 
-// GTest-controllable stand-in for the dsVideoDevice HAL (rdk-halif-device_settings).
-// entservices-devicesettings links this in place of the real libds-hal so that
-// FrameRate's L2 test can control DeviceSettingsVideoDeviceImpl's behavior the
-// same way libusbApi/libUSBApiImplMock lets UsbMassStorage's L2 test control UsbDevice.
-//
-// dsGetVideoDevice/dsVideoDeviceInit/dsVideoDeviceTerm/dsSetDFC are called directly
-// (link-time) by DeviceSettingsVideoDeviceImpl. dsSetFRFMode/dsGetFRFMode/
-// dsGetCurrentDisplayframerate/dsSetDisplayframerate/dsRegisterFrameratePreChangeCB/
-// dsRegisterFrameratePostChangeCB are resolved at runtime via dlopen("libds-hal.so.0")
-// + dlsym() — this library's SONAME is set to libds-hal.so.0 so dlopen() resolves
-// to this same already-loaded module and finds these same mocked symbols.
-
 #include <gmock/gmock.h>
+#include "dsError.h"
+#include "dsVideoDevice.h"
 
-// dsError_t/dsVideoZoom_t must already be visible from whichever header the including
-// translation unit brought in first: the real rdk-halif-device_settings dsVideoDevice.h
-// (for the standalone ds-hal build) or the legacy libds "devicesettings.h" mock that
-// entservices-testframework/Tests/L2Tests force-includes for every other L2 test.
-// Re-including either set of headers here would redefine those types under a
-// different tag name and fail to compile, so only the two callback typedefs that
-// neither of those already-included headers may provide are declared locally
-// (signatures per rdk-halif-device_settings/include/dsVideoDevice.h). Repeating an
-// identical typedef is legal in C/C++, so this is safe even if already declared.
-typedef void (*dsRegisterFrameratePreChangeCB_t)(unsigned int tSecond);
-typedef void (*dsRegisterFrameratePostChangeCB_t)(unsigned int tSecond);
-
+/**
+ * @brief Mock interface for dsVideoDevice HAL
+ */
 class DsVideoDeviceHalMock {
 public:
     virtual ~DsVideoDeviceHalMock() = default;
 
+    // Initialization
     MOCK_METHOD(dsError_t, dsVideoDeviceInit, ());
     MOCK_METHOD(dsError_t, dsVideoDeviceTerm, ());
+    
+    // Device management
     MOCK_METHOD(dsError_t, dsGetVideoDevice, (int index, intptr_t* handle));
-    MOCK_METHOD(dsError_t, dsSetDFC, (intptr_t handle, dsVideoZoom_t dfc));
+    
+    // Framerate
+    MOCK_METHOD(dsError_t, dsSetDisplayframerate, (intptr_t handle, char* framerate));
+    MOCK_METHOD(dsError_t, dsGetCurrentDisplayframerate, (intptr_t handle, char* framerate));
+    MOCK_METHOD(dsError_t, dsRegisterFrameratePreChangeCB, (dsRegisterFrameratePreChangeCB_t cb));
+    MOCK_METHOD(dsError_t, dsRegisterFrameratePostChangeCB, (dsRegisterFrameratePostChangeCB_t cb));
+    
+    // HDR capabilities
+    MOCK_METHOD(dsError_t, dsGetHDRCapabilities, (intptr_t handle, int* capabilities));
+    MOCK_METHOD(dsError_t, dsGetSupportedVideoCodingFormats, (intptr_t handle, unsigned int* supported_formats));
+    MOCK_METHOD(dsError_t, dsGetVideoCodecInfo, (intptr_t handle, dsVideoCodingFormat_t format, dsVideoCodecInfo_t* info));
+    
+    // FRF (Frame Rate Flexibility)
     MOCK_METHOD(dsError_t, dsSetFRFMode, (intptr_t handle, int frfmode));
     MOCK_METHOD(dsError_t, dsGetFRFMode, (intptr_t handle, int* frfmode));
-    MOCK_METHOD(dsError_t, dsGetCurrentDisplayframerate, (intptr_t handle, char* framerate));
-    MOCK_METHOD(dsError_t, dsSetDisplayframerate, (intptr_t handle, char* framerate));
-    MOCK_METHOD(dsError_t, dsRegisterFrameratePreChangeCB, (dsRegisterFrameratePreChangeCB_t cbFunc));
-    MOCK_METHOD(dsError_t, dsRegisterFrameratePostChangeCB, (dsRegisterFrameratePostChangeCB_t cbFunc));
-    MOCK_METHOD(dsError_t, dsHdmiInSelectZoomMode, (dsVideoZoom_t requestedZoomMode));
+    MOCK_METHOD(dsError_t, dsGetCurrentDisframerate, (intptr_t handle, char* framerate));
+    
+    // DFC (Display Framerate Control)
+    MOCK_METHOD(dsError_t, dsSetDFC, (intptr_t handle, dsVideoZoom_t dfc));
+    MOCK_METHOD(dsError_t, dsGetDFC, (intptr_t handle, dsVideoZoom_t* dfc));
+};
 
-    static void setImpl(DsVideoDeviceHalMock* impl);
+/**
+ * @brief API class for dsVideoDevice mock
+ */
+class DsVideoDeviceApi {
+protected:
+    static DsVideoDeviceHalMock* impl;
+    
+public:
+    DsVideoDeviceApi();
+    DsVideoDeviceApi(const DsVideoDeviceApi &obj) = delete;
+    virtual ~DsVideoDeviceApi();
+    
+    static void setImpl(DsVideoDeviceHalMock* newImpl);
     static DsVideoDeviceHalMock* getImpl();
 };

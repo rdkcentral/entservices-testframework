@@ -41,12 +41,12 @@ if(NOT GTest_FOUND)
 endif()
 
 add_library(ds-hal SHARED
-    DsAudioMock.cpp
-    DsVideoDeviceMock.cpp
-    DsVideoPortMock.cpp
-    DsDisplayMock.cpp
-    DsFPDMock.cpp
-    DsHdmiInMock.cpp
+    DsAudioHALMock.cpp
+    DsVideoDeviceHALMock.cpp
+    DsVideoPortHALMock.cpp
+    DsDisplayHALMock.cpp
+    DsFPDHALMock.cpp
+    DsHdmiInHALMock.cpp
 )
 
 target_include_directories(ds-hal PUBLIC
@@ -70,12 +70,11 @@ set_target_properties(ds-hal PROPERTIES
 
 install(TARGETS ds-hal DESTINATION lib)
 install(FILES 
-    DsAudioMock.h
-    DsVideoDeviceMock.h
-    DsVideoPortMock.h
-    DsDisplayMock.h
-    DsFPDMock.h
-    DsHdmiInMock.h
-    DsVideoDeviceHalMock.h 
+    DsAudioHALMock.h
+    DsVideoDeviceHALMock.h
+    DsVideoPortHALMock.h
+    DsDisplayHALMock.h
+    DsFPDHALMock.h
+    DsHdmiInHALMock.h
     DESTINATION include
 )
