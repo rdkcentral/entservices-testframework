@@ -44,31 +44,28 @@ L2TestMocks::L2TestMocks()
     p_iarmBusImplMock   = new NiceMock <IarmBusImplMock>;
     p_readprocImplMock  = new NiceMock <readprocImplMock>;
     p_wrapsImplMock     = new NiceMock <WrapsImplMock>;
-    p_hostImplMock      = new NiceMock <HostImplMock>;
-    p_videoOutputPortConfigImplMock = new NiceMock <VideoOutputPortConfigImplMock>;
+    // p_hostImplMock      = new NiceMock <HostImplMock>;  // OLD LIBDS - REMOVED
+    // p_videoOutputPortConfigImplMock = new NiceMock <VideoOutputPortConfigImplMock>;  // OLD LIBDS - REMOVED
     p_managerImplMock   = new NiceMock <ManagerImplMock>;
-    p_videoOutputPortMock = new NiceMock <VideoOutputPortMock>;
+    // p_videoOutputPortMock = new NiceMock <VideoOutputPortMock>;  // OLD LIBDS - REMOVED
     p_udevImplMock      = new NiceMock <UdevImplMock>;
     p_rBusApiImplMock   = new NiceMock <RBusApiImplMock>;
     p_telemetryApiImplMock  = new NiceMock <TelemetryApiImplMock>;
-    p_audioOutputPortMock  = new NiceMock <AudioOutputPortMock>;
-    p_audioStereoModeMock  = new NiceMock <AudioStereoModeMock>;
+    // p_audioOutputPortMock  = new NiceMock <AudioOutputPortMock>;  // OLD LIBDS - REMOVED
+    // p_audioStereoModeMock  = new NiceMock <AudioStereoModeMock>;  // OLD LIBDS - REMOVED
     p_btmgrImplMock     = new NiceMock <BtmgrImplMock>;
-    p_hdmiInputImplMock  = new NiceMock <HdmiInputImplMock>;
+    // p_hdmiInputImplMock  = new NiceMock <HdmiInputImplMock>;  // OLD LIBDS - REMOVED
     p_libUSBApiImplMock  = new NiceMock <libUSBImplMock>;
     p_tvSettingsImplMock  = new NiceMock <TvSettingsImplMock>;
     p_tr181ApiImplMock = new NiceMock <Tr181ApiImplMock>;
-    p_videoDeviceMock  = new NiceMock <VideoDeviceMock>;
-    p_videoDFCMock = new NiceMock <VideoDFCMock>;
-    p_displayMock  = new testing::NiceMock <DisplayMock>;
-    p_videoResolutionMock  = new NiceMock <VideoResolutionMock>;
-    p_frontPanelIndicatorMock  = new NiceMock <FrontPanelIndicatorMock>;
-    p_frontPanelConfigImplMock  = new testing::NiceMock <FrontPanelConfigMock>;
-   //  p_hostImplMock  = new testing::NiceMock <HostImplMock>;
-   //  p_frontPanelIndicatorMock  = new testing::NiceMock <FrontPanelIndicatorMock>;
-   //  testing::NiceMock<FrontPanelIndicatorMock> frontPanelIndicatorMock;
-   p_audioOutputPortTypeMock  = new NiceMock <AudioOutputPortTypeMock>;
-   p_videoOutputPortTypeMock  = new NiceMock <VideoOutputPortTypeMock>;
+    // p_videoDeviceMock  = new NiceMock <VideoDeviceMock>;  // OLD LIBDS - REMOVED
+    // p_videoDFCMock = new NiceMock <VideoDFCMock>;  // OLD LIBDS - REMOVED
+    // p_displayMock  = new testing::NiceMock <DisplayMock>;  // OLD LIBDS - REMOVED
+    // p_videoResolutionMock  = new NiceMock <VideoResolutionMock>;  // OLD LIBDS - REMOVED
+    // p_frontPanelIndicatorMock  = new NiceMock <FrontPanelIndicatorMock>;  // OLD LIBDS - REMOVED
+    // p_frontPanelConfigImplMock  = new testing::NiceMock <FrontPanelConfigMock>;  // OLD LIBDS - REMOVED
+   // p_audioOutputPortTypeMock  = new NiceMock <AudioOutputPortTypeMock>;  // OLD LIBDS - REMOVED
+   // p_videoOutputPortTypeMock  = new NiceMock <VideoOutputPortTypeMock>;  // OLD LIBDS - REMOVED
    p_essRMgrMock       = new NiceMock <EssRMgrMock>;
    p_rdkloggerImplMock = new NiceMock <RdkLoggerMilestoneImplMock>;
    p_drmScreenCaptureApiImplMock = new NiceMock<DRMScreenCaptureApiImplMock>;
@@ -84,7 +81,7 @@ L2TestMocks::L2TestMocks()
    p_libCCECMock = new NiceMock<LibCCECImplMock>;
    p_messageEncoderMock = new NiceMock<MessageEncoderMock>;
    p_messageDecoderMock = new NiceMock<MessageDecoderMock>;
-   p_colorImplMock  = new NiceMock <ColorMock>;
+   // p_colorImplMock  = new NiceMock <ColorMock>;  // OLD LIBDS - REMOVED
 
 #ifdef RDK_SERVICE_CPC_L2_TEST    
     p_secSecurityApiImplMock      = new NiceMock <SecSecurityApiImplMock>;
@@ -111,13 +108,13 @@ L2TestMocks::L2TestMocks()
     Wraps::setImpl(p_wrapsImplMock);
     RBusApi::setImpl(p_rBusApiImplMock);
     TelemetryApi::setImpl(p_telemetryApiImplMock);
-    device::Host::setImpl(p_hostImplMock);
-    device::VideoOutputPortConfig::setImpl(p_videoOutputPortConfigImplMock);
+    // device::Host::setImpl(p_hostImplMock);  // OLD LIBDS - REMOVED
+    // device::VideoOutputPortConfig::setImpl(p_videoOutputPortConfigImplMock);  // OLD LIBDS - REMOVED
     device::Manager::setImpl(p_managerImplMock);
-    device::VideoOutputPort::setImpl(p_videoOutputPortMock);
+    // device::VideoOutputPort::setImpl(p_videoOutputPortMock);  // OLD LIBDS - REMOVED
     Udev::setImpl(p_udevImplMock);
     Btmgr::setImpl(p_btmgrImplMock);
-    device::HdmiInput::setImpl(p_hdmiInputImplMock);
+    // device::HdmiInput::setImpl(p_hdmiInputImplMock);  // OLD LIBDS - REMOVED
     libusbApi::setImpl(p_libUSBApiImplMock);
     TvSettings::setImpl(p_tvSettingsImplMock);
     Tr181Api::setImpl(p_tr181ApiImplMock);
@@ -126,18 +123,18 @@ L2TestMocks::L2TestMocks()
     dsFPDApi::setImpl(p_dsFPDMock);
     SystemAudioPlatformMockImpl::setImpl(p_systemAudioPlatformAPIMock);
 
-    device::AudioOutputPort::setImpl(p_audioOutputPortMock);
-    device::AudioStereoMode::setImpl(p_audioStereoModeMock);
-    device::VideoDevice::setImpl(p_videoDeviceMock);
-    device::VideoDFC::setImpl(p_videoDFCMock);
-    device::VideoResolution::setImpl(p_videoResolutionMock);
+    // device::AudioOutputPort::setImpl(p_audioOutputPortMock);  // OLD LIBDS - REMOVED
+    // device::AudioStereoMode::setImpl(p_audioStereoModeMock);  // OLD LIBDS - REMOVED
+    // device::VideoDevice::setImpl(p_videoDeviceMock);  // OLD LIBDS - REMOVED
+    // device::VideoDFC::setImpl(p_videoDFCMock);  // OLD LIBDS - REMOVED
+    // device::VideoResolution::setImpl(p_videoResolutionMock);  // OLD LIBDS - REMOVED
 
-    device::Display::setImpl(p_displayMock);
-    device::FrontPanelConfig::setImpl(p_frontPanelConfigImplMock);
-    device::FrontPanelIndicator::setImpl(p_frontPanelIndicatorMock);
-    device::AudioOutputPortType::setImpl(p_audioOutputPortTypeMock);
-    device::VideoOutputPortType::setImpl(p_videoOutputPortTypeMock);
-    device::FrontPanelIndicator::Color::setImpl(p_colorImplMock);
+    // device::Display::setImpl(p_displayMock);  // OLD LIBDS - REMOVED
+    // device::FrontPanelConfig::setImpl(p_frontPanelConfigImplMock);  // OLD LIBDS - REMOVED
+    // device::FrontPanelIndicator::setImpl(p_frontPanelIndicatorMock);  // OLD LIBDS - REMOVED
+    // device::AudioOutputPortType::setImpl(p_audioOutputPortTypeMock);  // OLD LIBDS - REMOVED
+    // device::VideoOutputPortType::setImpl(p_videoOutputPortTypeMock);  // OLD LIBDS - REMOVED
+    // device::FrontPanelIndicator::Color::setImpl(p_colorImplMock);  // OLD LIBDS - REMOVED
     RenderSession::setImpl(p_renderSessionMock);
     DobbyProxy::setImpl(p_dobbyProxyMock);
     IpcService::setImpl(p_ipcservicemock);
@@ -186,13 +183,13 @@ L2TestMocks::~L2TestMocks()
    Wraps::setImpl(nullptr);
    RBusApi::setImpl(nullptr);
    TelemetryApi::setImpl(nullptr);
-   device::Host::setImpl(nullptr);
-   device::VideoOutputPortConfig::setImpl(nullptr);
+   // device::Host::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::VideoOutputPortConfig::setImpl(nullptr);  // OLD LIBDS - REMOVED
    device::Manager::setImpl(nullptr);
-   device::VideoOutputPort::setImpl(nullptr);
+   // device::VideoOutputPort::setImpl(nullptr);  // OLD LIBDS - REMOVED
    Udev::setImpl(nullptr);
    Btmgr::setImpl(nullptr);
-   device::HdmiInput::setImpl(nullptr);
+   // device::HdmiInput::setImpl(nullptr);  // OLD LIBDS - REMOVED
    libusbApi::setImpl(nullptr);
    TvSettings::setImpl(nullptr);
    Tr181Api::setImpl(nullptr);
@@ -200,20 +197,20 @@ L2TestMocks::~L2TestMocks()
    DRMScreenCaptureApi::getInstance().impl = nullptr;
    dsFPDApi::setImpl(nullptr);
    SystemAudioPlatformMockImpl::setImpl(nullptr);
-   device::AudioOutputPort::setImpl(nullptr);
-   device::AudioStereoMode::setImpl(nullptr);
-   device::AudioOutputPort::setImpl(nullptr);
-   device::AudioStereoMode::setImpl(nullptr);
-   device::Manager::setImpl(nullptr);
-   device::VideoDevice::setImpl(nullptr);
-   device::VideoDFC::setImpl(nullptr);
-   device::Display::setImpl(nullptr);
-   device::VideoResolution::setImpl(nullptr);
-   device::FrontPanelConfig::setImpl(nullptr);
-   device::FrontPanelIndicator::setImpl(nullptr);
-   device::FrontPanelIndicator::Color::setImpl(nullptr);
-   device::AudioOutputPortType::setImpl(nullptr);
-   device::VideoOutputPortType::setImpl(nullptr);
+   // device::AudioOutputPort::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::AudioStereoMode::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::AudioOutputPort::setImpl(nullptr);  // OLD LIBDS - REMOVED (duplicate)
+   // device::AudioStereoMode::setImpl(nullptr);  // OLD LIBDS - REMOVED (duplicate)
+   // device::Manager::setImpl(nullptr);  // OLD LIBDS - REMOVED (duplicate)
+   // device::VideoDevice::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::VideoDFC::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::Display::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::VideoResolution::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::FrontPanelConfig::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::FrontPanelIndicator::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::FrontPanelIndicator::Color::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::AudioOutputPortType::setImpl(nullptr);  // OLD LIBDS - REMOVED
+   // device::VideoOutputPortType::setImpl(nullptr);  // OLD LIBDS - REMOVED
    RenderSession::setImpl(nullptr);
    DobbyProxy::setImpl(nullptr);
    IpcService::setImpl(nullptr);
@@ -289,58 +286,33 @@ L2TestMocks::~L2TestMocks()
    }
 
 
-   if (p_hostImplMock != nullptr)
-   {
-      delete p_hostImplMock;
-      p_hostImplMock = nullptr;
-   }
-
-   if (p_videoOutputPortConfigImplMock != nullptr)
-   {
-      delete p_videoOutputPortConfigImplMock;
-      p_videoOutputPortConfigImplMock = nullptr;
-   }
-
-   // device::AudiodeoOutputPortConfig::setImpl(nullptr);
-   // if (p_audioOutputPortConfigImplMock != nullptr)
+   // OLD LIBDS - REMOVED
+   // if (p_hostImplMock != nullptr)
    // {
-   //    delete p_audioOutputPortConfigImplMock;
-   //    p_audioOutputPortConfigImplMock = nullptr;
+   //    delete p_hostImplMock;
+   //    p_hostImplMock = nullptr;
    // }
 
-   if (p_audioOutputPortMock != nullptr)
-   {
-      delete p_audioOutputPortMock;
-      p_audioOutputPortMock = nullptr;
-   }
-
-   if (p_audioStereoModeMock != nullptr)
-   {
-      delete p_audioStereoModeMock;
-      p_audioStereoModeMock = nullptr;
-   }
-
-
-   // device::AudiodeoOutputPortConfig::setImpl(nullptr);
-   // if (p_audioOutputPortConfigImplMock != nullptr)
+   // OLD LIBDS - REMOVED
+   // if (p_videoOutputPortConfigImplMock != nullptr)
    // {
-   //    delete p_audioOutputPortConfigImplMock;
-   //    p_audioOutputPortConfigImplMock = nullptr;
+   //    delete p_videoOutputPortConfigImplMock;
+   //    p_videoOutputPortConfigImplMock = nullptr;
    // }
 
+   // OLD LIBDS - REMOVED
+   // if (p_audioOutputPortMock != nullptr)
+   // {
+   //    delete p_audioOutputPortMock;
+   //    p_audioOutputPortMock = nullptr;
+   // }
 
-   if (p_audioOutputPortMock != nullptr)
-   {
-      delete p_audioOutputPortMock;
-      p_audioOutputPortMock = nullptr;
-   }
-
-
-   if (p_audioStereoModeMock != nullptr)
-   {
-      delete p_audioStereoModeMock;
-      p_audioStereoModeMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_audioStereoModeMock != nullptr)
+   // {
+   //    delete p_audioStereoModeMock;
+   //    p_audioStereoModeMock = nullptr;
+   // }
 
    if (p_managerImplMock != nullptr)
    {
@@ -348,11 +320,12 @@ L2TestMocks::~L2TestMocks()
       p_managerImplMock = nullptr;
    }
 
-   if (p_videoOutputPortMock != nullptr)
-   {
-      delete p_videoOutputPortMock;
-      p_videoOutputPortMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_videoOutputPortMock != nullptr)
+   // {
+   //    delete p_videoOutputPortMock;
+   //    p_videoOutputPortMock = nullptr;
+   // }
 
 
    if (p_udevImplMock != nullptr)
@@ -368,11 +341,12 @@ L2TestMocks::~L2TestMocks()
         p_btmgrImplMock = nullptr;
    }
 
-   if (p_hdmiInputImplMock != nullptr)
-   {
-      delete p_hdmiInputImplMock;
-      p_hdmiInputImplMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_hdmiInputImplMock != nullptr)
+   // {
+   //    delete p_hdmiInputImplMock;
+   //    p_hdmiInputImplMock = nullptr;
+   // }
 
 
    if (p_libUSBApiImplMock != nullptr)
@@ -393,47 +367,54 @@ L2TestMocks::~L2TestMocks()
       p_tr181ApiImplMock = nullptr;
    }
 
-   if (p_videoDeviceMock != nullptr)
-   {
-      delete p_videoDeviceMock;
-      p_videoDeviceMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_videoDeviceMock != nullptr)
+   // {
+   //    delete p_videoDeviceMock;
+   //    p_videoDeviceMock = nullptr;
+   // }
 
-   if (p_videoDFCMock != nullptr)
-   {
-      delete p_videoDFCMock;
-      p_videoDFCMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_videoDFCMock != nullptr)
+   // {
+   //    delete p_videoDFCMock;
+   //    p_videoDFCMock = nullptr;
+   // }
 
-   if (p_displayMock != nullptr)
-   {
-         delete p_displayMock;
-         p_displayMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_displayMock != nullptr)
+   // {
+   //       delete p_displayMock;
+   //       p_displayMock = nullptr;
+   // }
    
-   if (p_videoResolutionMock != nullptr)
-   {
-      delete p_videoResolutionMock;
-      p_videoResolutionMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_videoResolutionMock != nullptr)
+   // {
+   //    delete p_videoResolutionMock;
+   //    p_videoResolutionMock = nullptr;
+   // }
     
-   if (p_frontPanelConfigImplMock != nullptr)
-   {
-      delete p_frontPanelConfigImplMock;
-      p_frontPanelConfigImplMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_frontPanelConfigImplMock != nullptr)
+   // {
+   //    delete p_frontPanelConfigImplMock;
+   //    p_frontPanelConfigImplMock = nullptr;
+   // }
 
-   if (p_audioOutputPortTypeMock != nullptr)
-   {
-      delete p_audioOutputPortTypeMock;
-      p_audioOutputPortTypeMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_audioOutputPortTypeMock != nullptr)
+   // {
+   //    delete p_audioOutputPortTypeMock;
+   //    p_audioOutputPortTypeMock = nullptr;
+   // }
 
-   if (p_videoOutputPortTypeMock != nullptr)
-   {
-      delete p_videoOutputPortTypeMock;
-      p_videoOutputPortTypeMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_videoOutputPortTypeMock != nullptr)
+   // {
+   //    delete p_videoOutputPortTypeMock;
+   //    p_videoOutputPortTypeMock = nullptr;
+   // }
 
    if (p_drmScreenCaptureApiImplMock != nullptr)
    {
@@ -456,17 +437,19 @@ L2TestMocks::~L2TestMocks()
 //    device::FrontPanelIndicator::setImpl(nullptr);
 //   // device::FrontPanelIndicator::getInstance().impl = &frontPanelIndicatorMock;
 
-   if (p_frontPanelIndicatorMock!= nullptr)
-   {
-      delete p_frontPanelIndicatorMock;
-      p_frontPanelIndicatorMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_frontPanelIndicatorMock!= nullptr)
+   // {
+   //    delete p_frontPanelIndicatorMock;
+   //    p_frontPanelIndicatorMock = nullptr;
+   // }
 
-   if (p_colorImplMock != nullptr)
-   {
-      delete p_colorImplMock;
-      p_colorImplMock = nullptr;
-   }
+   // OLD LIBDS - REMOVED
+   // if (p_colorImplMock != nullptr)
+   // {
+   //    delete p_colorImplMock;
+   //    p_colorImplMock = nullptr;
+   // }
 
    if (p_dobbyProxyMock != nullptr)
    {
