@@ -35,7 +35,7 @@ public:
     MOCK_METHOD(dsError_t, dsDisplayTerm, ());
     
     // Display management
-    MOCK_METHOD(dsError_t, dsGetDisplay, (dsVideoPortType_t type, int index, intptr_t* handle));
+    MOCK_METHOD(dsError_t, dsGetDisplay, (dsVideoPortType_t vType, int index, intptr_t* handle));
     
     // EDID
     MOCK_METHOD(dsError_t, dsGetEDID, (intptr_t handle, dsDisplayEDID_t* edid));
@@ -43,6 +43,19 @@ public:
     
     // Aspect ratio
     MOCK_METHOD(dsError_t, dsGetDisplayAspectRatio, (intptr_t handle, dsVideoAspectRatio_t* aspectRatio));
+    
+    // AVI Info
+    MOCK_METHOD(dsError_t, dsGetAVIContentType, (intptr_t handle, dsAviContentType_t* contentType));
+    MOCK_METHOD(dsError_t, dsSetAVIContentType, (intptr_t handle, dsAviContentType_t contentType));
+    MOCK_METHOD(dsError_t, dsGetAVIScanInformation, (intptr_t handle, dsAVIScanInformation_t* scanInfo));
+    MOCK_METHOD(dsError_t, dsSetAVIScanInformation, (intptr_t handle, dsAVIScanInformation_t scanInfo));
+    
+    // ALLM
+    MOCK_METHOD(dsError_t, dsGetAllmEnabled, (intptr_t handle, bool* enabled));
+    MOCK_METHOD(dsError_t, dsSetAllmEnabled, (intptr_t handle, bool enabled));
+    
+    // Callbacks
+    MOCK_METHOD(dsError_t, dsRegisterDisplayEventCallback, (intptr_t handle, dsDisplayEventCallback_t cb));
 };
 
 /**

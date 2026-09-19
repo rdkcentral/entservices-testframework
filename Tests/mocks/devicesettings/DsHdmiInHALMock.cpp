@@ -74,9 +74,9 @@ dsError_t dsHdmiInGetStatus(dsHdmiInPort_t* pStatus) {
     return dsERR_NONE;
 }
 
-dsError_t dsHdmiInSelectPort(dsHdmiInPort_t port) {
+dsError_t dsHdmiInSelectPort(dsHdmiInPort_t Port, bool audioMix, dsVideoPlaneType_t evideoPlaneType, bool topMost) {
     DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
-    if (impl) return impl->dsHdmiInSelectPort(port);
+    if (impl) return impl->dsHdmiInSelectPort(Port, audioMix, evideoPlaneType, topMost);
     return dsERR_NONE;
 }
 
@@ -89,18 +89,6 @@ dsError_t dsHdmiInScaleVideo(int32_t x, int32_t y, int32_t width, int32_t height
 dsError_t dsHdmiInSelectZoomMode(dsVideoZoom_t zoomMode) {
     DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
     if (impl) return impl->dsHdmiInSelectZoomMode(zoomMode);
-    return dsERR_NONE;
-}
-
-dsError_t dsHdmiInPauseAudio() {
-    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
-    if (impl) return impl->dsHdmiInPauseAudio();
-    return dsERR_NONE;
-}
-
-dsError_t dsHdmiInResumeAudio() {
-    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
-    if (impl) return impl->dsHdmiInResumeAudio();
     return dsERR_NONE;
 }
 
@@ -153,9 +141,103 @@ dsError_t dsHdmiInRegisterAVLatencyChangeCB(dsAVLatencyChangeCB_t CBFunc) {
     return dsERR_NONE;
 }
 
-dsError_t dsHdmiInRegisterAviContentTypeChangeCB(dsAviContentTypeChangeCB_t CBFunc) {
+dsError_t dsHdmiInRegisterAviContentTypeChangeCB(dsHdmiInAviContentTypeChangeCB_t CBFunc) {
     DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
     if (impl) return impl->dsHdmiInRegisterAviContentTypeChangeCB(CBFunc);
+    return dsERR_NONE;
+}
+
+dsError_t dsHdmiInRegisterVRRChangeCB(dsHdmiInVRRChangeCB_t cb) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsHdmiInRegisterVRRChangeCB(cb);
+    return dsERR_NONE;
+}
+
+dsError_t dsGetEDIDBytesInfo(dsHdmiInPort_t iHdmiPort, unsigned char* edid, int* length) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsGetEDIDBytesInfo(iHdmiPort, edid, length);
+    if (length) *length = 0;
+    return dsERR_NONE;
+}
+
+dsError_t dsGetEdidVersion(dsHdmiInPort_t iHdmiPort, tv_hdmi_edid_version_t* iEdidVersion) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsGetEdidVersion(iHdmiPort, iEdidVersion);
+    if (iEdidVersion) *iEdidVersion = HDMI_EDID_VER_14;
+    return dsERR_NONE;
+}
+
+dsError_t dsSetEdidVersion(dsHdmiInPort_t iHdmiPort, tv_hdmi_edid_version_t iEdidVersion) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsSetEdidVersion(iHdmiPort, iEdidVersion);
+    return dsERR_NONE;
+}
+
+dsError_t dsGetHDMISPDInfo(dsHdmiInPort_t iHdmiPort, unsigned char* data) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsGetHDMISPDInfo(iHdmiPort, data);
+    return dsERR_NONE;
+}
+
+dsError_t dsSetEdid2AllmSupport(dsHdmiInPort_t iHdmiPort, bool allmSupport) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsSetEdid2AllmSupport(iHdmiPort, allmSupport);
+    return dsERR_NONE;
+}
+
+dsError_t dsGetAllmStatus(dsHdmiInPort_t iHdmiPort, bool* allmStatus) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsGetAllmStatus(iHdmiPort, allmStatus);
+    if (allmStatus) *allmStatus = false;
+    return dsERR_NONE;
+}
+
+dsError_t dsIsHdmiARCPort(dsHdmiInPort_t iPort, bool* isArcPort) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsIsHdmiARCPort(iPort, isArcPort);
+    if (isArcPort) *isArcPort = false;
+    return dsERR_NONE;
+}
+
+dsError_t dsGetAVLatency(int* audio_latency, int* video_latency) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsGetAVLatency(audio_latency, video_latency);
+    if (audio_latency) *audio_latency = 0;
+    if (video_latency) *video_latency = 0;
+    return dsERR_NONE;
+}
+
+dsError_t dsGetHdmiVersion(dsHdmiInPort_t iHdmiPort, dsHdmiMaxCapabilityVersion_t* maxCompatibilityVersion) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsGetHdmiVersion(iHdmiPort, maxCompatibilityVersion);
+    if (maxCompatibilityVersion) *maxCompatibilityVersion = dsHDMI_VERSION_1_4;
+    return dsERR_NONE;
+}
+
+dsError_t dsHdmiInGetVRRStatus(dsHdmiInPort_t port, dsHdmiInVrrStatus_t* vrrStatus) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsHdmiInGetVRRStatus(port, vrrStatus);
+    if (vrrStatus) *vrrStatus = dsHDMI_IN_VRR_STATUS_DISABLED;
+    return dsERR_NONE;
+}
+
+dsError_t dsHdmiInGetVRRSupport(dsHdmiInPort_t port, bool* vrrSupport) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsHdmiInGetVRRSupport(port, vrrSupport);
+    if (vrrSupport) *vrrSupport = false;
+    return dsERR_NONE;
+}
+
+dsError_t dsHdmiInSetVRRSupport(dsHdmiInPort_t port, bool vrrSupport) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsHdmiInSetVRRSupport(port, vrrSupport);
+    return dsERR_NONE;
+}
+
+dsError_t dsGetSupportedGameFeaturesList(dsSupportedGameFeatureList_t* features) {
+    DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
+    if (impl) return impl->dsGetSupportedGameFeaturesList(features);
+    if (features) features->gameFeatureCount = 0;
     return dsERR_NONE;
 }
 

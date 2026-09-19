@@ -38,6 +38,7 @@ public:
     MOCK_METHOD(dsError_t, dsGetVideoPort, (dsVideoPortType_t type, int index, intptr_t* handle));
     MOCK_METHOD(dsError_t, dsIsVideoPortEnabled, (intptr_t handle, bool* enabled));
     MOCK_METHOD(dsError_t, dsEnableVideoPort, (intptr_t handle, bool enabled));
+    MOCK_METHOD(dsError_t, dsIsVideoPortActive, (intptr_t handle, bool* active));
     
     // Display connection
     MOCK_METHOD(dsError_t, dsIsDisplayConnected, (intptr_t handle, bool* connected));
@@ -57,15 +58,13 @@ public:
     
     // Color/Display settings
     MOCK_METHOD(dsError_t, dsGetColorDepth, (intptr_t handle, unsigned int* color_depth));
-    MOCK_METHOD(dsError_t, dsSetColorDepth, (intptr_t handle, unsigned int color_depth));
     MOCK_METHOD(dsError_t, dsGetPreferredColorDepth, (intptr_t handle, dsDisplayColorDepth_t* colorDepth));
+    MOCK_METHOD(dsError_t, dsSetPreferredColorDepth, (intptr_t handle, dsDisplayColorDepth_t colorDepth));
     MOCK_METHOD(dsError_t, dsColorDepthCapabilities, (intptr_t handle, unsigned int* capabilities));
     
     MOCK_METHOD(dsError_t, dsGetColorSpace, (intptr_t handle, dsDisplayColorSpace_t* color_space));
-    MOCK_METHOD(dsError_t, dsSetColorSpace, (intptr_t handle, dsDisplayColorSpace_t color_space));
     
     MOCK_METHOD(dsError_t, dsGetQuantizationRange, (intptr_t handle, dsDisplayQuantizationRange_t* quantization_range));
-    MOCK_METHOD(dsError_t, dsSetQuantizationRange, (intptr_t handle, dsDisplayQuantizationRange_t quantization_range));
     
     MOCK_METHOD(dsError_t, dsGetMatrixCoefficients, (intptr_t handle, dsDisplayMatrixCoefficients_t* matrix_coefficients));
     
@@ -77,6 +76,8 @@ public:
     MOCK_METHOD(dsError_t, dsGetTVHDRCapabilities, (intptr_t handle, int* capabilities));
     MOCK_METHOD(dsError_t, dsSupportedTvResolutions, (intptr_t handle, int* resolutions));
     MOCK_METHOD(dsError_t, dsSetForceHDRMode, (intptr_t handle, dsHDRStandard_t mode));
+    MOCK_METHOD(dsError_t, dsSetForceDisable4KSupport, (intptr_t handle, bool disable));
+    MOCK_METHOD(dsError_t, dsGetForceDisable4KSupport, (intptr_t handle, bool* disable));
     
     // Video format/EOTF
     MOCK_METHOD(dsError_t, dsGetVideoEOTF, (intptr_t handle, dsHDRStandard_t* video_eotf));
@@ -90,8 +91,8 @@ public:
     MOCK_METHOD(dsError_t, dsSetBackgroundColor, (intptr_t handle, dsVideoBackgroundColor_t color));
     
     // Callbacks
+    MOCK_METHOD(dsError_t, dsVideoFormatUpdateRegisterCB, (dsVideoFormatUpdateCB_t cb));
     MOCK_METHOD(dsError_t, dsRegisterHdcpStatusCallback, (intptr_t handle, dsHDCPStatusCallback_t cb));
-    MOCK_METHOD(dsError_t, dsRegisterVideoOutputPortConnectCB, (dsVideoPortConnectCB_t cb));
 };
 
 /**

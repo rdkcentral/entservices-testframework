@@ -2,7 +2,7 @@
 * If not stated otherwise in this file or this component's LICENSE
 * file the following copyright and licenses apply:
 *
-* Copyright 2024 RDK Management
+* Copyright 2026 RDK Management
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -47,11 +47,11 @@ public:
     MOCK_METHOD(dsError_t, dsGetHDRCapabilities, (intptr_t handle, int* capabilities));
     MOCK_METHOD(dsError_t, dsGetSupportedVideoCodingFormats, (intptr_t handle, unsigned int* supported_formats));
     MOCK_METHOD(dsError_t, dsGetVideoCodecInfo, (intptr_t handle, dsVideoCodingFormat_t format, dsVideoCodecInfo_t* info));
+    MOCK_METHOD(dsError_t, dsForceDisableHDRSupport, (intptr_t handle, bool disable));
     
     // FRF (Frame Rate Flexibility)
     MOCK_METHOD(dsError_t, dsSetFRFMode, (intptr_t handle, int frfmode));
     MOCK_METHOD(dsError_t, dsGetFRFMode, (intptr_t handle, int* frfmode));
-    MOCK_METHOD(dsError_t, dsGetCurrentDisframerate, (intptr_t handle, char* framerate));
     
     // DFC (Display Framerate Control)
     MOCK_METHOD(dsError_t, dsSetDFC, (intptr_t handle, dsVideoZoom_t dfc));

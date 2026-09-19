@@ -154,16 +154,16 @@ dsError_t dsGetColorDepth(intptr_t handle, unsigned int* color_depth) {
     return dsERR_NONE;
 }
 
-dsError_t dsSetColorDepth(intptr_t handle, unsigned int color_depth) {
-    DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
-    if (impl) return impl->dsSetColorDepth(handle, color_depth);
-    return dsERR_NONE;
-}
-
 dsError_t dsGetPreferredColorDepth(intptr_t handle, dsDisplayColorDepth_t* colorDepth) {
     DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
     if (impl) return impl->dsGetPreferredColorDepth(handle, colorDepth);
     if (colorDepth) *colorDepth = dsDISPLAY_COLORDEPTH_8BIT;
+    return dsERR_NONE;
+}
+
+dsError_t dsSetPreferredColorDepth(intptr_t handle, dsDisplayColorDepth_t colorDepth) {
+    DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
+    if (impl) return impl->dsSetPreferredColorDepth(handle, colorDepth);
     return dsERR_NONE;
 }
 
@@ -181,22 +181,10 @@ dsError_t dsGetColorSpace(intptr_t handle, dsDisplayColorSpace_t* color_space) {
     return dsERR_NONE;
 }
 
-dsError_t dsSetColorSpace(intptr_t handle, dsDisplayColorSpace_t color_space) {
-    DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
-    if (impl) return impl->dsSetColorSpace(handle, color_space);
-    return dsERR_NONE;
-}
-
 dsError_t dsGetQuantizationRange(intptr_t handle, dsDisplayQuantizationRange_t* quantization_range) {
     DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
     if (impl) return impl->dsGetQuantizationRange(handle, quantization_range);
     if (quantization_range) *quantization_range = dsDISPLAY_QUANTIZATIONRANGE_FULL;
-    return dsERR_NONE;
-}
-
-dsError_t dsSetQuantizationRange(intptr_t handle, dsDisplayQuantizationRange_t quantization_range) {
-    DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
-    if (impl) return impl->dsSetQuantizationRange(handle, quantization_range);
     return dsERR_NONE;
 }
 
@@ -291,15 +279,35 @@ dsError_t dsSetBackgroundColor(intptr_t handle, dsVideoBackgroundColor_t color) 
     return dsERR_NONE;
 }
 
+dsError_t dsVideoFormatUpdateRegisterCB(dsVideoFormatUpdateCB_t cb) {
+    DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
+    if (impl) return impl->dsVideoFormatUpdateRegisterCB(cb);
+    return dsERR_NONE;
+}
+
 dsError_t dsRegisterHdcpStatusCallback(intptr_t handle, dsHDCPStatusCallback_t cb) {
     DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
     if (impl) return impl->dsRegisterHdcpStatusCallback(handle, cb);
     return dsERR_NONE;
 }
 
-dsError_t dsRegisterVideoOutputPortConnectCB(dsVideoPortConnectCB_t cb) {
+dsError_t dsIsVideoPortActive(intptr_t handle, bool* active) {
     DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
-    if (impl) return impl->dsRegisterVideoOutputPortConnectCB(cb);
+    if (impl) return impl->dsIsVideoPortActive(handle, active);
+    if (active) *active = false;
+    return dsERR_NONE;
+}
+
+dsError_t dsSetForceDisable4KSupport(intptr_t handle, bool disable) {
+    DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
+    if (impl) return impl->dsSetForceDisable4KSupport(handle, disable);
+    return dsERR_NONE;
+}
+
+dsError_t dsGetForceDisable4KSupport(intptr_t handle, bool* disable) {
+    DsVideoPortHalMock* impl = DsVideoPortApi::getImpl();
+    if (impl) return impl->dsGetForceDisable4KSupport(handle, disable);
+    if (disable) *disable = false;
     return dsERR_NONE;
 }
 

@@ -53,9 +53,9 @@ dsError_t dsDisplayTerm() {
     return dsERR_NONE;
 }
 
-dsError_t dsGetDisplay(dsVideoPortType_t type, int index, intptr_t* handle) {
+dsError_t dsGetDisplay(dsVideoPortType_t vType, int index, intptr_t* handle) {
     DsDisplayHalMock* impl = DsDisplayApi::getImpl();
-    if (impl) return impl->dsGetDisplay(type, index, handle);
+    if (impl) return impl->dsGetDisplay(vType, index, handle);
     if (handle) *handle = 1;
     return dsERR_NONE;
 }
@@ -104,6 +104,51 @@ dsError_t dsGetDisplayAspectRatio(intptr_t handle, dsVideoAspectRatio_t* aspectR
     DsDisplayHalMock* impl = DsDisplayApi::getImpl();
     if (impl) return impl->dsGetDisplayAspectRatio(handle, aspectRatio);
     if (aspectRatio) *aspectRatio = dsVIDEO_ASPECT_RATIO_16x9;
+    return dsERR_NONE;
+}
+
+dsError_t dsGetAVIContentType(intptr_t handle, dsAviContentType_t* contentType) {
+    DsDisplayHalMock* impl = DsDisplayApi::getImpl();
+    if (impl) return impl->dsGetAVIContentType(handle, contentType);
+    if (contentType) *contentType = dsAVI_CONTENT_TYPE_GRAPHICS;
+    return dsERR_NONE;
+}
+
+dsError_t dsSetAVIContentType(intptr_t handle, dsAviContentType_t contentType) {
+    DsDisplayHalMock* impl = DsDisplayApi::getImpl();
+    if (impl) return impl->dsSetAVIContentType(handle, contentType);
+    return dsERR_NONE;
+}
+
+dsError_t dsGetAVIScanInformation(intptr_t handle, dsAVIScanInformation_t* scanInfo) {
+    DsDisplayHalMock* impl = DsDisplayApi::getImpl();
+    if (impl) return impl->dsGetAVIScanInformation(handle, scanInfo);
+    if (scanInfo) *scanInfo = dsAVI_SCANINFO_NODATA;
+    return dsERR_NONE;
+}
+
+dsError_t dsSetAVIScanInformation(intptr_t handle, dsAVIScanInformation_t scanInfo) {
+    DsDisplayHalMock* impl = DsDisplayApi::getImpl();
+    if (impl) return impl->dsSetAVIScanInformation(handle, scanInfo);
+    return dsERR_NONE;
+}
+
+dsError_t dsGetAllmEnabled(intptr_t handle, bool* enabled) {
+    DsDisplayHalMock* impl = DsDisplayApi::getImpl();
+    if (impl) return impl->dsGetAllmEnabled(handle, enabled);
+    if (enabled) *enabled = false;
+    return dsERR_NONE;
+}
+
+dsError_t dsSetAllmEnabled(intptr_t handle, bool enabled) {
+    DsDisplayHalMock* impl = DsDisplayApi::getImpl();
+    if (impl) return impl->dsSetAllmEnabled(handle, enabled);
+    return dsERR_NONE;
+}
+
+dsError_t dsRegisterDisplayEventCallback(intptr_t handle, dsDisplayEventCallback_t cb) {
+    DsDisplayHalMock* impl = DsDisplayApi::getImpl();
+    if (impl) return impl->dsRegisterDisplayEventCallback(handle, cb);
     return dsERR_NONE;
 }
 

@@ -119,13 +119,6 @@ dsError_t dsGetFRFMode(intptr_t handle, int* frfmode) {
     return dsERR_NONE;
 }
 
-dsError_t dsGetCurrentDisframerate(intptr_t handle, char* framerate) {
-    DsVideoDeviceHalMock* impl = DsVideoDeviceApi::getImpl();
-    if (impl) return impl->dsGetCurrentDisframerate(handle, framerate);
-    if (framerate) strcpy(framerate, "60");
-    return dsERR_NONE;
-}
-
 dsError_t dsSetDFC(intptr_t handle, dsVideoZoom_t dfc) {
     DsVideoDeviceHalMock* impl = DsVideoDeviceApi::getImpl();
     if (impl) return impl->dsSetDFC(handle, dfc);
@@ -136,6 +129,12 @@ dsError_t dsGetDFC(intptr_t handle, dsVideoZoom_t* dfc) {
     DsVideoDeviceHalMock* impl = DsVideoDeviceApi::getImpl();
     if (impl) return impl->dsGetDFC(handle, dfc);
     if (dfc) *dfc = dsVIDEO_ZOOM_NONE;
+    return dsERR_NONE;
+}
+
+dsError_t dsForceDisableHDRSupport(intptr_t handle, bool disable) {
+    DsVideoDeviceHalMock* impl = DsVideoDeviceApi::getImpl();
+    if (impl) return impl->dsForceDisableHDRSupport(handle, disable);
     return dsERR_NONE;
 }
 

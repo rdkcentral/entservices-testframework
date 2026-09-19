@@ -72,55 +72,48 @@ dsError_t dsSetFPBlink(dsFPDIndicator_t indicator, unsigned int uBlinkDuration, 
     return dsERR_NONE;
 }
 
-dsError_t dsSetFPBrightness(dsFPDIndicator_t indicator, int brightness) {
+dsError_t dsSetFPBrightness(dsFPDIndicator_t eIndicator, dsFPDBrightness_t eBrightness) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsSetFPBrightness(indicator, brightness);
+    if (impl) return impl->dsSetFPBrightness(eIndicator, eBrightness);
     return dsERR_NONE;
 }
 
-dsError_t dsGetFPBrightness(dsFPDIndicator_t indicator, int* brightness) {
+dsError_t dsGetFPBrightness(dsFPDIndicator_t eIndicator, dsFPDBrightness_t* pBrightness) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsGetFPBrightness(indicator, brightness);
-    if (brightness) *brightness = 50;
+    if (impl) return impl->dsGetFPBrightness(eIndicator, pBrightness);
+    if (pBrightness) *pBrightness = dsFPD_BRIGHTNESS_MAX;
     return dsERR_NONE;
 }
 
-dsError_t dsSetFPColor(dsFPDIndicator_t indicator, dsFPDColor_t color) {
+dsError_t dsSetFPColor(dsFPDIndicator_t eIndicator, dsFPDColor_t eColor) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsSetFPColor(indicator, color);
+    if (impl) return impl->dsSetFPColor(eIndicator, eColor);
     return dsERR_NONE;
 }
 
-dsError_t dsGetFPColor(dsFPDIndicator_t indicator, dsFPDColor_t* color) {
+dsError_t dsGetFPColor(dsFPDIndicator_t eIndicator, dsFPDColor_t* pColor) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsGetFPColor(indicator, color);
-    if (color) *color = dsFPD_COLOR_BLUE;
+    if (impl) return impl->dsGetFPColor(eIndicator, pColor);
+    if (pColor) *pColor = dsFPD_COLOR_BLUE;
     return dsERR_NONE;
 }
 
-dsError_t dsSetFPText(dsFPDIndicator_t indicator, const char* text) {
+dsError_t dsSetFPText(const char* pText) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsSetFPText(indicator, text);
+    if (impl) return impl->dsSetFPText(pText);
     return dsERR_NONE;
 }
 
-dsError_t dsGetFPText(dsFPDIndicator_t indicator, char* text) {
+dsError_t dsSetFPTextBrightness(dsFPDTextDisplay_t eIndicator, dsFPDBrightness_t eBrightness) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsGetFPText(indicator, text);
-    if (text) strcpy(text, "");
+    if (impl) return impl->dsSetFPTextBrightness(eIndicator, eBrightness);
     return dsERR_NONE;
 }
 
-dsError_t dsSetFPTextBrightness(dsFPDIndicator_t indicator, int brightness) {
+dsError_t dsGetFPTextBrightness(dsFPDTextDisplay_t eIndicator, dsFPDBrightness_t* eBrightness) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsSetFPTextBrightness(indicator, brightness);
-    return dsERR_NONE;
-}
-
-dsError_t dsGetFPTextBrightness(dsFPDIndicator_t indicator, int* brightness) {
-    DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsGetFPTextBrightness(indicator, brightness);
-    if (brightness) *brightness = 50;
+    if (impl) return impl->dsGetFPTextBrightness(eIndicator, eBrightness);
+    if (eBrightness) *eBrightness = dsFPD_BRIGHTNESS_MAX;
     return dsERR_NONE;
 }
 
@@ -130,9 +123,54 @@ dsError_t dsSetFPScroll(unsigned int uScrollHoldOnDur, unsigned int uHorzScrollI
     return dsERR_NONE;
 }
 
+dsError_t dsSetFPTime(dsFPDTimeFormat_t eTimeFormat, const unsigned int uHour, const unsigned int uMinutes) {
+    DsFPDHalMock* impl = DsFPDApi::getImpl();
+    if (impl) return impl->dsSetFPTime(eTimeFormat, uHour, uMinutes);
+    return dsERR_NONE;
+}
+
+dsError_t dsSetFPTimeFormat(dsFPDTimeFormat_t eTimeFormat) {
+    DsFPDHalMock* impl = DsFPDApi::getImpl();
+    if (impl) return impl->dsSetFPTimeFormat(eTimeFormat);
+    return dsERR_NONE;
+}
+
+dsError_t dsGetFPTimeFormat(dsFPDTimeFormat_t* pTimeFormat) {
+    DsFPDHalMock* impl = DsFPDApi::getImpl();
+    if (impl) return impl->dsGetFPTimeFormat(pTimeFormat);
+    if (pTimeFormat) *pTimeFormat = dsFPD_TIME_12_HOUR;
+    return dsERR_NONE;
+}
+
 dsError_t dsFPEnableCLockDisplay(int enable) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
     if (impl) return impl->dsFPEnableCLockDisplay(enable);
+    return dsERR_NONE;
+}
+
+dsError_t dsFPGetLEDState(dsFPDLedState_t* state) {
+    DsFPDHalMock* impl = DsFPDApi::getImpl();
+    if (impl) return impl->dsFPGetLEDState(state);
+    if (state) *state = dsFPD_LED_DEVICE_NONE;
+    return dsERR_NONE;
+}
+
+dsError_t dsFPSetLEDState(dsFPDLedState_t state) {
+    DsFPDHalMock* impl = DsFPDApi::getImpl();
+    if (impl) return impl->dsFPSetLEDState(state);
+    return dsERR_NONE;
+}
+
+dsError_t dsFPGetSupportedLEDStates(unsigned int* states) {
+    DsFPDHalMock* impl = DsFPDApi::getImpl();
+    if (impl) return impl->dsFPGetSupportedLEDStates(states);
+    if (states) *states = 0;
+    return dsERR_NONE;
+}
+
+dsError_t dsSetFPDMode(dsFPDMode_t eMode) {
+    DsFPDHalMock* impl = DsFPDApi::getImpl();
+    if (impl) return impl->dsSetFPDMode(eMode);
     return dsERR_NONE;
 }
 
