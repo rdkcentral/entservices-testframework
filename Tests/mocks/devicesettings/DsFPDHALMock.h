@@ -20,8 +20,11 @@
 #pragma once
 
 #include <gmock/gmock.h>
+
+extern "C" {
 #include "dsError.h"
 #include "dsFPD.h"
+}
 
 /**
  * @brief Mock interface for dsFPD (Front Panel Display) HAL

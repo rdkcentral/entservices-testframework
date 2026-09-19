@@ -20,9 +20,12 @@
 #pragma once
 
 #include <gmock/gmock.h>
+
+extern "C" {
 #include "dsError.h"
 #include "dsAVDTypes.h"
 #include "dsDisplay.h"
+}
 
 /**
  * @brief Mock interface for dsDisplay HAL

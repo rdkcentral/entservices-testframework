@@ -20,8 +20,11 @@
 #pragma once
 
 #include <gmock/gmock.h>
+
+extern "C" {
 #include "dsError.h"
 #include "dsHdmiIn.h"
+}
 
 /**
  * @brief Mock interface for dsHdmiIn HAL
