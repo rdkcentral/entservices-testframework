@@ -23,12 +23,18 @@
 #include <string>
 #include "i_omi_proxy.hpp"
 namespace omi {
+// NOTE: This mock proxy must remain data-member free and keep the exact same virtual layout as the
+// plugin's stub header (outside this repo; typically stubs/omi_proxy.hpp). Plugins compile against
+// that stub, so both definitions share the same mangled vtable symbol.
+// Adding members or changing virtuals can cause out-of-bounds destruction or vtable slot mismatch
+// (e.g., SIGSEGV during shared_ptr teardown).
 class OmiProxy : public IOmiProxy {
 protected:
     static IOmiProxy* impl;
 
 public:
     OmiProxy();
+    virtual ~OmiProxy() = default;
     OmiProxy(const OmiProxy& obj) = delete;
     static void setImpl(IOmiProxy* newImpl);
     OmiProxy(const std::shared_ptr<AI_IPC::IIpcService>& ipcService,
@@ -41,8 +47,5 @@ public:
     bool umountCryptedBundle(const std::string& id) override;
     long unsigned registerListener(const OmiErrorListener& listener, const void* cbParams) override;
     void unregisterListener(long unsigned tag) override;
-
-private:
-    const std::shared_ptr<AI_IPC::IIpcService> mIpcService;
 };
 } // namespace omi
