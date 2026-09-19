@@ -110,7 +110,7 @@ dsError_t dsGetDisplayAspectRatio(intptr_t handle, dsVideoAspectRatio_t* aspectR
 dsError_t dsGetAVIContentType(intptr_t handle, dsAviContentType_t* contentType) {
     DsDisplayHalMock* impl = DsDisplayApi::getImpl();
     if (impl) return impl->dsGetAVIContentType(handle, contentType);
-    if (contentType) *contentType = dsAVI_CONTENT_TYPE_GRAPHICS;
+    if (contentType) *contentType = dsAVICONTENT_TYPE_GRAPHICS;
     return dsERR_NONE;
 }
 
@@ -123,7 +123,7 @@ dsError_t dsSetAVIContentType(intptr_t handle, dsAviContentType_t contentType) {
 dsError_t dsGetAVIScanInformation(intptr_t handle, dsAVIScanInformation_t* scanInfo) {
     DsDisplayHalMock* impl = DsDisplayApi::getImpl();
     if (impl) return impl->dsGetAVIScanInformation(handle, scanInfo);
-    if (scanInfo) *scanInfo = dsAVI_SCANINFO_NODATA;
+    if (scanInfo) *scanInfo = dsAVI_SCAN_TYPE_NO_DATA;
     return dsERR_NONE;
 }
 

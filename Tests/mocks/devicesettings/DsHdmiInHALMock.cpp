@@ -60,11 +60,11 @@ dsError_t dsHdmiInGetNumberOfInputs(uint8_t* numInputs) {
     return dsERR_NONE;
 }
 
-dsError_t dsHdmiInGetStatus(dsHdmiInPort_t* pStatus) {
+dsError_t dsHdmiInGetStatus(dsHdmiInStatus_t* pStatus) {
     DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
     if (impl) return impl->dsHdmiInGetStatus(pStatus);
     if (pStatus) {
-        memset(pStatus, 0, sizeof(dsHdmiInPort_t));
+        memset(pStatus, 0, sizeof(dsHdmiInStatus_t));
         pStatus->isPresented = true;
         pStatus->isPortConnected[0] = true;
         pStatus->isPortConnected[1] = false;
@@ -210,14 +210,17 @@ dsError_t dsGetAVLatency(int* audio_latency, int* video_latency) {
 dsError_t dsGetHdmiVersion(dsHdmiInPort_t iHdmiPort, dsHdmiMaxCapabilityVersion_t* maxCompatibilityVersion) {
     DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
     if (impl) return impl->dsGetHdmiVersion(iHdmiPort, maxCompatibilityVersion);
-    if (maxCompatibilityVersion) *maxCompatibilityVersion = dsHDMI_VERSION_1_4;
+    if (maxCompatibilityVersion) *maxCompatibilityVersion = HDMI_COMPATIBILITY_VERSION_14;
     return dsERR_NONE;
 }
 
 dsError_t dsHdmiInGetVRRStatus(dsHdmiInPort_t port, dsHdmiInVrrStatus_t* vrrStatus) {
     DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
     if (impl) return impl->dsHdmiInGetVRRStatus(port, vrrStatus);
-    if (vrrStatus) *vrrStatus = dsHDMI_IN_VRR_STATUS_DISABLED;
+    if (vrrStatus) {
+        vrrStatus->vrrType = dsVRR_NONE;
+        vrrStatus->vrrAmdfreesyncFramerate_Hz = 0.0;
+    }
     return dsERR_NONE;
 }
 

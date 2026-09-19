@@ -428,7 +428,10 @@ dsError_t dsGetMS12AudioProfile(intptr_t handle, char* profile) {
 dsError_t dsGetMS12AudioProfileList(intptr_t handle, dsMS12AudioProfileList_t* profiles) {
     DsAudioHalMock* impl = DsAudioApi::getImpl();
     if (impl) return impl->dsGetMS12AudioProfileList(handle, profiles);
-    if (profiles) profiles->number_of_profiles = 0;
+    if (profiles) {
+        profiles->audioProfileCount = 0;
+        profiles->audioProfileList[0] = '\0';
+    }
     return dsERR_NONE;
 }
 
