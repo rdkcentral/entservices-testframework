@@ -21,6 +21,7 @@
 
 #include <gmock/gmock.h>
 #include "dsError.h"
+#include "dsAVDTypes.h"
 #include "dsDisplay.h"
 
 /**
