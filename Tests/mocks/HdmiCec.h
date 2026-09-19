@@ -26,7 +26,6 @@
 #include <string>
 #include <map>
 #include <exception>
-#include "devicesettings.h"
 
 typedef uint32_t Op_t;
 
@@ -110,27 +109,6 @@ enum {
 	REPORT_CURRENT_LATENCY		= 0xA8,
 	UNKNOWN                         = 0xFFFF
 };
-
-typedef struct _dsHdmiInGetNumberOfInputsParam_t {
-    dsError_t result;
-    uint8_t numHdmiInputs;
-} dsHdmiInGetNumberOfInputsParam_t;
-
-typedef struct _dsHdmiInStatus_t {
-    bool isPresented;
-    bool isPortConnected[dsHDMI_IN_PORT_MAX];
-    dsHdmiInPort_t activePort;
-} dsHdmiInStatus_t;
-
-typedef struct _dsHdmiInGetStatusParam_t {
-    dsError_t result;
-    dsHdmiInStatus_t status;
-} dsHdmiInGetStatusParam_t;
-
-typedef struct _dsGetHDMIARCPortIdParam_t {
-    dsError_t result;
-    int portId;
-} dsGetHDMIARCPortIdParam_t;
 
 typedef struct _Throw_e {
 } Throw_e;
