@@ -53,15 +53,15 @@ dsError_t dsFPTerm() {
     return dsERR_NONE;
 }
 
-dsError_t dsSetFPState(dsFPDState_t state) {
+dsError_t dsSetFPState(dsFPDIndicator_t indicator, dsFPDState_t state) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsSetFPState(state);
+    if (impl) return impl->dsSetFPState(indicator, state);
     return dsERR_NONE;
 }
 
-dsError_t dsGetFPState(dsFPDState_t* state) {
+dsError_t dsGetFPState(dsFPDIndicator_t indicator, dsFPDState_t* state) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsGetFPState(state);
+    if (impl) return impl->dsGetFPState(indicator, state);
     if (state) *state = dsFPD_STATE_ON;
     return dsERR_NONE;
 }
@@ -98,28 +98,28 @@ dsError_t dsGetFPColor(dsFPDIndicator_t indicator, dsFPDColor_t* color) {
     return dsERR_NONE;
 }
 
-dsError_t dsSetFPText(const char* text) {
+dsError_t dsSetFPText(dsFPDIndicator_t indicator, const char* text) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsSetFPText(text);
+    if (impl) return impl->dsSetFPText(indicator, text);
     return dsERR_NONE;
 }
 
-dsError_t dsGetFPText(char* text) {
+dsError_t dsGetFPText(dsFPDIndicator_t indicator, char* text) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsGetFPText(text);
+    if (impl) return impl->dsGetFPText(indicator, text);
     if (text) strcpy(text, "");
     return dsERR_NONE;
 }
 
-dsError_t dsSetFPTextBrightness(int brightness) {
+dsError_t dsSetFPTextBrightness(dsFPDIndicator_t indicator, int brightness) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsSetFPTextBrightness(brightness);
+    if (impl) return impl->dsSetFPTextBrightness(indicator, brightness);
     return dsERR_NONE;
 }
 
-dsError_t dsGetFPTextBrightness(int* brightness) {
+dsError_t dsGetFPTextBrightness(dsFPDIndicator_t indicator, int* brightness) {
     DsFPDHalMock* impl = DsFPDApi::getImpl();
-    if (impl) return impl->dsGetFPTextBrightness(brightness);
+    if (impl) return impl->dsGetFPTextBrightness(indicator, brightness);
     if (brightness) *brightness = 50;
     return dsERR_NONE;
 }

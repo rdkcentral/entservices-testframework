@@ -35,8 +35,8 @@ public:
     MOCK_METHOD(dsError_t, dsFPTerm, ());
     
     // LED control
-    MOCK_METHOD(dsError_t, dsSetFPState, (dsFPDState_t state));
-    MOCK_METHOD(dsError_t, dsGetFPState, (dsFPDState_t* state));
+    MOCK_METHOD(dsError_t, dsSetFPState, (dsFPDIndicator_t indicator, dsFPDState_t state));
+    MOCK_METHOD(dsError_t, dsGetFPState, (dsFPDIndicator_t indicator, dsFPDState_t* state));
     MOCK_METHOD(dsError_t, dsSetFPBlink, (dsFPDIndicator_t indicator, unsigned int uBlinkDuration, unsigned int uBlinkIterations));
     MOCK_METHOD(dsError_t, dsSetFPBrightness, (dsFPDIndicator_t indicator, int brightness));
     MOCK_METHOD(dsError_t, dsGetFPBrightness, (dsFPDIndicator_t indicator, int* brightness));
@@ -44,10 +44,10 @@ public:
     MOCK_METHOD(dsError_t, dsGetFPColor, (dsFPDIndicator_t indicator, dsFPDColor_t* color));
     
     // Text display
-    MOCK_METHOD(dsError_t, dsSetFPText, (const char* text));
-    MOCK_METHOD(dsError_t, dsGetFPText, (char* text));
-    MOCK_METHOD(dsError_t, dsSetFPTextBrightness, (int brightness));
-    MOCK_METHOD(dsError_t, dsGetFPTextBrightness, (int* brightness));
+    MOCK_METHOD(dsError_t, dsSetFPText, (dsFPDIndicator_t indicator, const char* text));
+    MOCK_METHOD(dsError_t, dsGetFPText, (dsFPDIndicator_t indicator, char* text));
+    MOCK_METHOD(dsError_t, dsSetFPTextBrightness, (dsFPDIndicator_t indicator, int brightness));
+    MOCK_METHOD(dsError_t, dsGetFPTextBrightness, (dsFPDIndicator_t indicator, int* brightness));
     MOCK_METHOD(dsError_t, dsSetFPScroll, (unsigned int uScrollHoldOnDur, unsigned int uHorzScrollIterations, unsigned int uVertScrollIterations));
     
     // Clock display

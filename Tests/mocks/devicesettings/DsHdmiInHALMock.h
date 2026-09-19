@@ -56,8 +56,8 @@ public:
     MOCK_METHOD(dsError_t, dsHdmiInRegisterStatusChangeCB, (dsHdmiInStatusChangeCB_t CBFunc));
     MOCK_METHOD(dsError_t, dsHdmiInRegisterVideoModeUpdateCB, (dsHdmiInVideoModeUpdateCB_t CBFunc));
     MOCK_METHOD(dsError_t, dsHdmiInRegisterAllmChangeCB, (dsHdmiInAllmChangeCB_t CBFunc));
-    MOCK_METHOD(dsError_t, dsHdmiInRegisterAVLatencyChangeCB, (dsHdmiInAVLatencyChangeCB_t CBFunc));
-    MOCK_METHOD(dsError_t, dsHdmiInRegisterAviContentTypeChangeCB, (dsHdmiInAviContentTypeChangeCB_t CBFunc));
+    MOCK_METHOD(dsError_t, dsHdmiInRegisterAVLatencyChangeCB, (dsAVLatencyChangeCB_t CBFunc));
+    MOCK_METHOD(dsError_t, dsHdmiInRegisterAviContentTypeChangeCB, (dsAviContentTypeChangeCB_t CBFunc));
 };
 
 /**

@@ -147,13 +147,13 @@ dsError_t dsHdmiInRegisterAllmChangeCB(dsHdmiInAllmChangeCB_t CBFunc) {
     return dsERR_NONE;
 }
 
-dsError_t dsHdmiInRegisterAVLatencyChangeCB(dsHdmiInAVLatencyChangeCB_t CBFunc) {
+dsError_t dsHdmiInRegisterAVLatencyChangeCB(dsAVLatencyChangeCB_t CBFunc) {
     DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
     if (impl) return impl->dsHdmiInRegisterAVLatencyChangeCB(CBFunc);
     return dsERR_NONE;
 }
 
-dsError_t dsHdmiInRegisterAviContentTypeChangeCB(dsHdmiInAviContentTypeChangeCB_t CBFunc) {
+dsError_t dsHdmiInRegisterAviContentTypeChangeCB(dsAviContentTypeChangeCB_t CBFunc) {
     DsHdmiInHalMock* impl = DsHdmiInApi::getImpl();
     if (impl) return impl->dsHdmiInRegisterAviContentTypeChangeCB(CBFunc);
     return dsERR_NONE;
