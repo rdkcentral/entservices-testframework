@@ -49,9 +49,11 @@
 
 // DeviceSettings HAL Mocks (rdk-halif-device_settings 6.0.1)
 #include "devicesettings/DsAudioHALMock.h"
+#include "devicesettings/DsCompositeInHALMock.h"
 #include "devicesettings/DsDisplayHALMock.h"
 #include "devicesettings/DsFPDHALMock.h"
 #include "devicesettings/DsHdmiInHALMock.h"
+#include "devicesettings/DsHostHALMock.h"
 #include "devicesettings/DsVideoDeviceHALMock.h"
 #include "devicesettings/DsVideoPortHALMock.h"
 
@@ -101,9 +103,11 @@ protected:
         
         // DeviceSettings HAL Mocks
         DsAudioHalMock *p_dsAudioHalMock = nullptr;
+        DsCompositeInHalMock *p_dsCompositeInHalMock = nullptr;
         DsDisplayHalMock *p_dsDisplayHalMock = nullptr;
         DsFPDHalMock *p_dsFPDHalMock = nullptr;
         DsHdmiInHalMock *p_dsHdmiInHalMock = nullptr;
+        DsHostHalMock *p_dsHostHalMock = nullptr;
         DsVideoDeviceHalMock *p_dsVideoDeviceHalMock = nullptr;
         DsVideoPortHalMock *p_dsVideoPortHalMock = nullptr;
         

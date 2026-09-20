@@ -68,9 +68,11 @@ L2TestMocks::L2TestMocks()
    
    // DeviceSettings HAL Mocks
    p_dsAudioHalMock = new NiceMock<DsAudioHalMock>;
+   p_dsCompositeInHalMock = new NiceMock<DsCompositeInHalMock>;
    p_dsDisplayHalMock = new NiceMock<DsDisplayHalMock>;
    p_dsFPDHalMock = new NiceMock<DsFPDHalMock>;
    p_dsHdmiInHalMock = new NiceMock<DsHdmiInHalMock>;
+   p_dsHostHalMock = new NiceMock<DsHostHalMock>;
    p_dsVideoDeviceHalMock = new NiceMock<DsVideoDeviceHalMock>;
    p_dsVideoPortHalMock = new NiceMock<DsVideoPortHalMock>;
 
@@ -125,6 +127,10 @@ L2TestMocks::L2TestMocks()
     ON_CALL(*p_dsAudioHalMock, dsAudioPortInit()).WillByDefault(::testing::Return(dsERR_NONE));
     ON_CALL(*p_dsAudioHalMock, dsAudioPortTerm()).WillByDefault(::testing::Return(dsERR_NONE));
     
+    DsCompositeInApi::setImpl(p_dsCompositeInHalMock);
+    ON_CALL(*p_dsCompositeInHalMock, dsCompositeInInit()).WillByDefault(::testing::Return(dsERR_NONE));
+    ON_CALL(*p_dsCompositeInHalMock, dsCompositeInTerm()).WillByDefault(::testing::Return(dsERR_NONE));
+    
     DsDisplayApi::setImpl(p_dsDisplayHalMock);
     ON_CALL(*p_dsDisplayHalMock, dsDisplayInit()).WillByDefault(::testing::Return(dsERR_NONE));
     ON_CALL(*p_dsDisplayHalMock, dsDisplayTerm()).WillByDefault(::testing::Return(dsERR_NONE));
@@ -144,6 +150,10 @@ L2TestMocks::L2TestMocks()
     DsVideoPortApi::setImpl(p_dsVideoPortHalMock);
     ON_CALL(*p_dsVideoPortHalMock, dsVideoPortInit()).WillByDefault(::testing::Return(dsERR_NONE));
     ON_CALL(*p_dsVideoPortHalMock, dsVideoPortTerm()).WillByDefault(::testing::Return(dsERR_NONE));
+    
+    DsHostApi::setImpl(p_dsHostHalMock);
+    ON_CALL(*p_dsHostHalMock, dsHostInit()).WillByDefault(::testing::Return(dsERR_NONE));
+    ON_CALL(*p_dsHostHalMock, dsHostTerm()).WillByDefault(::testing::Return(dsERR_NONE));
     
 #ifdef RDK_SERVICE_CPC_L2_TEST    
     SecSecurityApi::setImpl(p_secSecurityApiImplMock);
@@ -379,6 +389,12 @@ L2TestMocks::~L2TestMocks()
       p_dsAudioHalMock = nullptr;
    }
    
+   if (p_dsCompositeInHalMock != nullptr)
+   {
+      delete p_dsCompositeInHalMock;
+      p_dsCompositeInHalMock = nullptr;
+   }
+   
    if (p_dsDisplayHalMock != nullptr)
    {
       delete p_dsDisplayHalMock;
@@ -407,6 +423,12 @@ L2TestMocks::~L2TestMocks()
    {
       delete p_dsVideoPortHalMock;
       p_dsVideoPortHalMock = nullptr;
+   }
+   
+   if (p_dsHostHalMock != nullptr)
+   {
+      delete p_dsHostHalMock;
+      p_dsHostHalMock = nullptr;
    }
 
 #ifdef RDK_SERVICE_CPC_L2_TEST
