@@ -26,7 +26,6 @@ set(BASEDIR ${BASEDIR}/headers)
 set(EMPTY_HEADERS_DIRS
         ${BASEDIR}
         ${BASEDIR}/audiocapturemgr
-        ${BASEDIR}/rdk/ds
         ${BASEDIR}/rdk/iarmbus
         ${BASEDIR}/rdk/iarmmgrs-hal
         ${BASEDIR}/ccec/drivers

@@ -24,7 +24,6 @@ file(GLOB BASEDIR Tests)
 set(BASEDIR ${BASEDIR}/headers)
 set(EMPTY_HEADERS_DIRS
         ${BASEDIR}
-        ${BASEDIR}/rdk/ds
         ${BASEDIR}/rdk/iarmbus
         ${BASEDIR}/rdk/iarmmgrs-hal
         ${BASEDIR}/systemservices
