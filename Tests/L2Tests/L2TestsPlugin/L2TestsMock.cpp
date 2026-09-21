@@ -703,45 +703,47 @@ uint32_t L2TestMocks::DeactivateService(const char *callsign)
 */
 uint32_t L2TestMocks::GetPluginState(const char *callsign, std::string &state)
 {
-   JsonObject params;
    JsonObject result;
    uint32_t status = Core::ERROR_GENERAL;
 
    if(callsign != NULL)
    {
-      params["callsign"] = callsign;
-      status = InvokeServiceMethod("Controller.1", "status", params, result);
+      TEST_LOG("GetPluginState: Getting state for plugin %s", callsign);
+      // Use Controller.1.status@<callsign> to query specific plugin
+      std::string method = std::string("status@") + callsign;
+      status = InvokeServiceMethod("Controller.1", method.c_str(), result);
       
       if (status == Core::ERROR_NONE) {
-         // Try different response formats
+         TEST_LOG("GetPluginState: Direct response for %s: %s", callsign, result.ToString().c_str());
+         // Direct response should contain state
          if (result.HasLabel("state")) {
             state = result["state"].String();
-         } else if (result.HasLabel("0")) {
-            // Some Thunder versions return state in array format
-            JsonArray stateArray = result["0"].Array();
-            if (stateArray.Length() > 0) {
-               JsonObject stateObj = stateArray[0].Object();
-               if (stateObj.HasLabel("state")) {
-                  state = stateObj["state"].String();
-               }
-            }
-         } else {
-            // Response is empty or in unknown format
-            // Try to get list of plugins and check if this one exists
-            JsonObject listResult;
-            uint32_t listStatus = InvokeServiceMethod("Controller.1", "status", listResult);
-            if (listStatus == Core::ERROR_NONE && listResult.HasLabel(callsign)) {
-               JsonObject pluginInfo = listResult[callsign].Object();
-               if (pluginInfo.HasLabel("state")) {
-                  state = pluginInfo["state"].String();
-                  status = Core::ERROR_NONE;
-                  return status;
-               }
-            }
-            TEST_LOG("GetPluginState: Unable to determine state for %s, assuming not activated", callsign);
-            state = "deactivated";
-            status = Core::ERROR_NONE;
+            TEST_LOG("GetPluginState: %s state is '%s'", callsign, state.c_str());
+            return Core::ERROR_NONE;
          }
+
+         // Fallback: Try to get full plugin list
+         JsonObject listResult;
+         status = InvokeServiceMethod("Controller.1", "status", listResult);
+         if (status == Core::ERROR_NONE && listResult.HasLabel(callsign)) {
+            JsonObject pluginInfo = listResult[callsign].Object();
+            if (pluginInfo.HasLabel("state")) {
+               state = pluginInfo["state"].String();
+               TEST_LOG("GetPluginState: %s state is '%s' (from full list)", callsign, state.c_str());
+               return Core::ERROR_NONE;
+            }
+            else {
+               TEST_LOG("GetPluginState: %s state label not found in plugin info", callsign);
+            }
+         }
+         else {
+            TEST_LOG("GetPluginState: Failed to get plugin list for %s, status: %d", callsign, status);
+         }
+
+         // Plugin not found
+         TEST_LOG("GetPluginState: %s not found or state unavailable", callsign);
+         state = "unavailable";
+         return Core::ERROR_NONE;
       }
    }
 

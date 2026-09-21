@@ -146,24 +146,22 @@ dsVideoPortResolution_t kResolutionsSettings[] = {
 			/*.frameRate = */				dsVIDEO_FRAMERATE_59dot94,
 			/*.interlaced = */				_PROGRESSIVE,
 		},
-#ifdef HAS_4K_SUPPORT		
-
-                {       /*2160p24*/
-                        /*.name = */                                    "2160p24",
-                        /*.pixelResolution = */                 dsVIDEO_PIXELRES_3840x2160,
-                        /*.aspectRatio = */                     dsVIDEO_ASPECT_RATIO_16x9,
-                        /*.stereoscopicMode = */                dsVIDEO_SSMODE_2D,
-                        /*.frameRate = */                               dsVIDEO_FRAMERATE_23dot98,
-                        /*.interlaced = */                              _PROGRESSIVE,
-                },
-                {       /*2160p25*/
-                        /*.name = */                                    "2160p25",
-                        /*.pixelResolution = */                 dsVIDEO_PIXELRES_3840x2160,
-                        /*.aspectRatio = */                     dsVIDEO_ASPECT_RATIO_16x9,
-                        /*.stereoscopicMode = */                dsVIDEO_SSMODE_2D,
-                        /*.frameRate = */                               dsVIDEO_FRAMERATE_25,
-                        /*.interlaced = */                              _PROGRESSIVE,
-                },
+		{       /*2160p24*/
+				/*.name = */                                    "2160p24",
+				/*.pixelResolution = */                 dsVIDEO_PIXELRES_3840x2160,
+				/*.aspectRatio = */                     dsVIDEO_ASPECT_RATIO_16x9,
+				/*.stereoscopicMode = */                dsVIDEO_SSMODE_2D,
+				/*.frameRate = */                               dsVIDEO_FRAMERATE_23dot98,
+				/*.interlaced = */                              _PROGRESSIVE,
+		},
+		{       /*2160p25*/
+				/*.name = */                                    "2160p25",
+				/*.pixelResolution = */                 dsVIDEO_PIXELRES_3840x2160,
+				/*.aspectRatio = */                     dsVIDEO_ASPECT_RATIO_16x9,
+				/*.stereoscopicMode = */                dsVIDEO_SSMODE_2D,
+				/*.frameRate = */                               dsVIDEO_FRAMERATE_25,
+				/*.interlaced = */                              _PROGRESSIVE,
+		},
 		{	/*2160p30*/
 			/*.name = */					"2160p30",
 			/*.pixelResolution = */ 		dsVIDEO_PIXELRES_3840x2160,
@@ -188,9 +186,6 @@ dsVideoPortResolution_t kResolutionsSettings[] = {
 			/*.frameRate = */				dsVIDEO_FRAMERATE_59dot94,
 			/*.interlaced = */				_PROGRESSIVE,
 		},
-
-#endif	
-
 };
 #if defined(ENABLE_US_RESOLUTION)
 int kDefaultResIndex = 5; //Pick one resolution from kResolutionsSettings[] as default
