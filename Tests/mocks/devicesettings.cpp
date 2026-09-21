@@ -1575,6 +1575,18 @@ void Host::setAudioMixerLevels(dsAudioInput_t input, int volume) {
     return impl->setAudioMixerLevels(input,volume);
 }
 
+void Host::setApplicationAudioConfig (const std::string &audioConfig, bool enable) {
+    EXPECT_NE(impl, nullptr);
+    return impl->setApplicationAudioConfig(audioConfig, enable);
+}
+void Host::getApplicationAudioConfig (const std::string &audioConfig, bool *enable) {
+    EXPECT_NE(impl, nullptr);
+    return impl->getApplicationAudioConfig(audioConfig, enable);
+}
+void Host::getApplicationAudioConfigList (std::vector<std::string>& configList) {
+    EXPECT_NE(impl, nullptr);
+    return impl->getApplicationAudioConfigList(configList);
+}
 FrontPanelIndicator::ColorImpl* FrontPanelIndicator::Color::impl = nullptr;
 
 FrontPanelIndicator::Color::Color() {}

@@ -1585,6 +1585,9 @@ public:
     void getCurrentAudioFormat(dsAudioFormat_t audioFormat);
     void getAssociatedAudioMixing(bool *mixing);
     void setAudioMixerLevels(dsAudioInput_t gain, int volume) ;
+    void setApplicationAudioConfig (const std::string &audioConfig, bool enable);
+    void getApplicationAudioConfig (const std::string &audioConfig, bool *enable);
+    void getApplicationAudioConfigList (std::vector<std::string>& configList);
 
 class IDisplayEvents {
     protected:
@@ -1731,7 +1734,9 @@ public:
     virtual void getCurrentAudioFormat(dsAudioFormat_t audioFormat) = 0;
     virtual void getAssociatedAudioMixing(bool *mixing) = 0;
     virtual void setAudioMixerLevels(dsAudioInput_t inputType, int volumeLevel) = 0;
-
+    virtual void setApplicationAudioConfig (const std::string &audioConfig, bool enable) =0;
+    virtual void getApplicationAudioConfig (const std::string &audioConfig, bool *enable) =0;
+    virtual void getApplicationAudioConfigList (std::vector<std::string>& configList) =0;
     virtual dsError_t Register(Host::IDisplayEvents* listener) = 0;
     virtual dsError_t UnRegister(Host::IDisplayEvents* listener) = 0;
     virtual dsError_t Register(Host::IAudioOutputPortEvents* listener) = 0;
