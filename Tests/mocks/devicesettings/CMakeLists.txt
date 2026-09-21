@@ -40,6 +40,24 @@ if(NOT GTest_FOUND)
     endif()
 endif()
 
+# DeviceSettings Config Selection
+# Use -DUSE_DS_STB_CONFIGS=ON for STB configs, otherwise TV configs are used by default
+option(USE_DS_STB_CONFIGS "Use STB DeviceSettings configuration" OFF)
+
+if(USE_DS_STB_CONFIGS)
+    set(DS_CONFIG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Configs/STB)
+    set(DS_CONFIG_TYPE "STB")
+    message(STATUS "Using STB DeviceSettings configuration")
+else()
+    set(DS_CONFIG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Configs/TV)
+    set(DS_CONFIG_TYPE "TV")
+    message(STATUS "Using TV DeviceSettings configuration (default)")
+endif()
+
+# Collect config files
+file(GLOB DS_CONFIG_SOURCES ${DS_CONFIG_DIR}/*.cpp)
+message(STATUS "DeviceSettings config files: ${DS_CONFIG_SOURCES}")
+
 add_library(ds-hal SHARED
     DsAudioHALMock.cpp
     DsCompositeInHALMock.cpp
@@ -49,10 +67,12 @@ add_library(ds-hal SHARED
     DsHostHALMock.cpp
     DsVideoDeviceHALMock.cpp
     DsVideoPortHALMock.cpp
+    ${DS_CONFIG_SOURCES}
 )
 
 target_include_directories(ds-hal PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${DS_CONFIG_DIR}
     ${CMAKE_INSTALL_PREFIX}/include
     ${GMOCK_INCLUDE_DIRS}
     ${GTEST_INCLUDE_DIRS}
