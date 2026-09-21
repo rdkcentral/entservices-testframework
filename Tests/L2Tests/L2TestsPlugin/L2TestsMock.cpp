@@ -714,7 +714,9 @@ uint32_t L2TestMocks::GetPluginState(const char *callsign, std::string &state)
       status = InvokeServiceMethod("Controller.1", method.c_str(), result);
       
       if (status == Core::ERROR_NONE) {
-         TEST_LOG("GetPluginState: Direct response for %s: %s", callsign, result.ToString().c_str());
+         std::string resultStr;
+         result.ToString(resultStr);
+         TEST_LOG("GetPluginState: Direct response for %s: %s", callsign, resultStr.c_str());
          // Direct response should contain state
          if (result.HasLabel("state")) {
             state = result["state"].String();
