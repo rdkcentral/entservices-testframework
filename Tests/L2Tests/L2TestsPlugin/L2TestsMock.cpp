@@ -709,59 +709,69 @@ uint32_t L2TestMocks::GetPluginState(const char *callsign, std::string &state)
    if(callsign != NULL)
    {
       TEST_LOG("GetPluginState: Getting state for plugin %s", callsign);
-      
-      // Use Controller.1 Get method with status@callsign
-      JSONRPC::LinkType<Core::JSON::IElement> jsonrpc("Controller.1", TEST_CALLSIGN);
-      std::string statusQuery = std::string("status@") + callsign;
-      Core::JSON::ArrayType<WPEFramework::PluginHost::MetaData::Service> response;
-      
-      status = jsonrpc.Get<Core::JSON::ArrayType<WPEFramework::PluginHost::MetaData::Service>>(INVOKE_TIMEOUT, statusQuery, response);
-      
-      if (status == Core::ERROR_NONE && response.Length() > 0) {
-         // Check the JSONState field - it's a State object, need to get the enum value
-         WPEFramework::PluginHost::MetaData::Service::state jsonState = response[0].JSONState.Value();
 
-         // Map JSONState to string using switch statement
-         switch (jsonState) {
-            case WPEFramework::PluginHost::IShell::DEACTIVATED:
+      // Controller.1's "status" property is @opaque, and its real implementation isn't
+      // in this checked-out Thunder source to confirm shape for the "@index" form, so
+      // query the indexless list (guaranteed array-shaped) and match callsign client-side.
+      JSONRPC::LinkType<Core::JSON::IElement> jsonrpc("Controller.1", TEST_CALLSIGN);
+      Core::JSON::ArrayType<WPEFramework::PluginHost::MetaData::Service> response;
+
+      // Diagnostic: log the raw wire response for both forms to compare shapes/timing
+      // against a working real-device curl of "status@<callsign>".
+      Core::ProxyType<Core::JSONRPC::Message> rawIndexed;
+      uint32_t rawStatus = jsonrpc.Invoke(INVOKE_TIMEOUT, std::string("status@") + callsign, string(), rawIndexed);
+      TEST_LOG("GetPluginState: raw status@%s -> jsonrpcStatus=%u result='%s'", callsign, rawStatus,
+                rawIndexed.IsValid() ? rawIndexed->Result.Value().c_str() : "<no response>");
+
+      status = jsonrpc.Get<Core::JSON::ArrayType<WPEFramework::PluginHost::MetaData::Service>>(INVOKE_TIMEOUT, "status", response);
+
+      state = "unknown";
+      if (status == Core::ERROR_NONE) {
+         bool found = false;
+         auto index = response.Elements();
+         while (index.Next() == true) {
+            if (index.Current().Callsign.Value() != callsign) {
+               continue;
+            }
+            found = true;
+
+            // Check the JSONState field - it's a State object, need to get the enum value
+            WPEFramework::PluginHost::MetaData::Service::state jsonState = index.Current().JSONState.Value();
+
+            // Map JSONState to string
+            // Service::state enum maps to IShell values, so we can compare directly
+            // SUSPENDED and RESUMED are the only Service-specific values (not in IShell)
+            if (jsonState == static_cast<WPEFramework::PluginHost::MetaData::Service::state>(WPEFramework::PluginHost::IShell::DEACTIVATED)) {
                state = "deactivated";
-               break;
-            case WPEFramework::PluginHost::IShell::DEACTIVATION:
+            } else if (jsonState == static_cast<WPEFramework::PluginHost::MetaData::Service::state>(WPEFramework::PluginHost::IShell::DEACTIVATION)) {
                state = "deactivation";
-               break;
-            case WPEFramework::PluginHost::IShell::ACTIVATED:
+            } else if (jsonState == static_cast<WPEFramework::PluginHost::MetaData::Service::state>(WPEFramework::PluginHost::IShell::ACTIVATED)) {
                state = "activated";
-               break;
-            case WPEFramework::PluginHost::IShell::ACTIVATION:
+            } else if (jsonState == static_cast<WPEFramework::PluginHost::MetaData::Service::state>(WPEFramework::PluginHost::IShell::ACTIVATION)) {
                state = "activation";
-               break;
-            case WPEFramework::PluginHost::IShell::PRECONDITION:
+            } else if (jsonState == static_cast<WPEFramework::PluginHost::MetaData::Service::state>(WPEFramework::PluginHost::IShell::PRECONDITION)) {
                state = "precondition";
-               break;
-            case WPEFramework::PluginHost::IShell::HIBERNATED:
+            } else if (jsonState == static_cast<WPEFramework::PluginHost::MetaData::Service::state>(WPEFramework::PluginHost::IShell::HIBERNATED)) {
                state = "hibernated";
-               break;
-            case WPEFramework::PluginHost::IShell::UNAVAILABLE:
+            } else if (jsonState == static_cast<WPEFramework::PluginHost::MetaData::Service::state>(WPEFramework::PluginHost::IShell::UNAVAILABLE)) {
                state = "unavailable";
-               break;
-            case WPEFramework::PluginHost::IShell::DESTROYED:
+            } else if (jsonState == static_cast<WPEFramework::PluginHost::MetaData::Service::state>(WPEFramework::PluginHost::IShell::DESTROYED)) {
                state = "destroyed";
-               break;
-            case WPEFramework::PluginHost::MetaData::Service::SUSPENDED:
+            } else if (jsonState == WPEFramework::PluginHost::MetaData::Service::SUSPENDED) {
                state = "suspended";
-               break;
-            case WPEFramework::PluginHost::MetaData::Service::RESUMED:
+            } else if (jsonState == WPEFramework::PluginHost::MetaData::Service::RESUMED) {
                state = "resumed";
-               break;
-            default:
+            } else {
                state = "unknown";
-               break;
+            }
+            TEST_LOG("GetPluginState: %s state is '%s' (JSONState=%d)", callsign, state.c_str(), jsonState);
+            break;
          }
-         TEST_LOG("GetPluginState: %s state is '%s' (JSONState=%d)", callsign, state.c_str(), jsonState);
+         if (found == false) {
+            TEST_LOG("GetPluginState: %s not found in Controller.1.status list (length=%u)", callsign, response.Length());
+         }
       } else {
-         state = "unknown";
-         TEST_LOG("GetPluginState: Get method failed for %s, status: %u, response length: %u", 
-                  callsign, status, response.Length());
+         TEST_LOG("GetPluginState: Controller.1.status failed, status: %u", status);
       }
 
       return Core::ERROR_NONE;
