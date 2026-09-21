@@ -712,22 +712,47 @@ uint32_t L2TestMocks::GetPluginState(const char *callsign, std::string &state)
       // Use Controller.1 Get method with status@callsign
       JSONRPC::LinkType<Core::JSON::IElement> jsonrpc("Controller.1", TEST_CALLSIGN);
       std::string statusQuery = std::string("status@") + callsign;
-      Core::JSON::ArrayType<JsonObject> jResult;
+      Core::JSON::ArrayType<PluginHost::MetaData::Service> response;
       
-      status = jsonrpc.Get<Core::JSON::ArrayType<JsonObject>>(INVOKE_TIMEOUT, statusQuery, jResult);
+      status = jsonrpc.Get<Core::JSON::ArrayType<PluginHost::MetaData::Service>>(INVOKE_TIMEOUT, statusQuery, response);
       
-      if (status == Core::ERROR_NONE && jResult.Length() != 0) {
-         JsonObject controller_result = jResult[0].Object();
-         if (controller_result.HasLabel("state")) {
-            state = controller_result["state"].String();
-            TEST_LOG("GetPluginState: %s state is '%s'", callsign, state.c_str());
-            return Core::ERROR_NONE;
-         } else {
-            TEST_LOG("GetPluginState: %s result has no 'state' label", callsign);
+      if (status == Core::ERROR_NONE && response.Length() > 0) {
+         // Check the JSONState field
+         PluginHost::IShell::state jsonState = response[0].JSONState;
+         
+         // Map JSONState to string
+         switch(jsonState) {
+            case PluginHost::IShell::DEACTIVATED:
+               state = "deactivated";
+               break;
+            case PluginHost::IShell::DEACTIVATION:
+               state = "deactivation";
+               break;
+            case PluginHost::IShell::ACTIVATED:
+               state = "activated";
+               break;
+            case PluginHost::IShell::ACTIVATION:
+               state = "activation";
+               break;
+            case PluginHost::IShell::SUSPENDED:
+               state = "suspended";
+               break;
+            case PluginHost::IShell::RESUMED:
+               state = "resumed";
+               break;
+            case PluginHost::IShell::PRECONDITION:
+               state = "precondition";
+               break;
+            default:
+               state = "unknown";
+               break;
          }
+         
+         TEST_LOG("GetPluginState: %s state is '%s' (JSONState=%d)", callsign, state.c_str(), jsonState);
+         return Core::ERROR_NONE;
       } else {
-         TEST_LOG("GetPluginState: Get method failed for %s, status: %u, array length: %u", 
-                  callsign, status, jResult.Length());
+         TEST_LOG("GetPluginState: Get method failed for %s, status: %u, response length: %u", 
+                  callsign, status, response.Length());
       }
 
       // Plugin state unavailable
