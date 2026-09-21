@@ -22,6 +22,7 @@
 #include <thread>
 
 #include "L2TestsMock.h"
+#include <plugins/MetaData.h>
 #ifdef L2_TEST_OOP_RPC
 #include "MockAccessor.h"
 #endif /* L2_TEST_OOP_RPC */
@@ -712,51 +713,57 @@ uint32_t L2TestMocks::GetPluginState(const char *callsign, std::string &state)
       // Use Controller.1 Get method with status@callsign
       JSONRPC::LinkType<Core::JSON::IElement> jsonrpc("Controller.1", TEST_CALLSIGN);
       std::string statusQuery = std::string("status@") + callsign;
-      Core::JSON::ArrayType<PluginHost::MetaData::Service> response;
+      Core::JSON::ArrayType<WPEFramework::PluginHost::MetaData::Service> response;
       
-      status = jsonrpc.Get<Core::JSON::ArrayType<PluginHost::MetaData::Service>>(INVOKE_TIMEOUT, statusQuery, response);
+      status = jsonrpc.Get<Core::JSON::ArrayType<WPEFramework::PluginHost::MetaData::Service>>(INVOKE_TIMEOUT, statusQuery, response);
       
       if (status == Core::ERROR_NONE && response.Length() > 0) {
-         // Check the JSONState field
-         PluginHost::IShell::state jsonState = response[0].JSONState;
-         
-         // Map JSONState to string
-         switch(jsonState) {
-            case PluginHost::IShell::DEACTIVATED:
+         // Check the JSONState field - it's a State object, need to get the enum value
+         WPEFramework::PluginHost::MetaData::Service::state jsonState = response[0].JSONState.Value();
+
+         // Map JSONState to string using switch statement
+         switch (jsonState) {
+            case WPEFramework::PluginHost::IShell::DEACTIVATED:
                state = "deactivated";
                break;
-            case PluginHost::IShell::DEACTIVATION:
+            case WPEFramework::PluginHost::IShell::DEACTIVATION:
                state = "deactivation";
                break;
-            case PluginHost::IShell::ACTIVATED:
+            case WPEFramework::PluginHost::IShell::ACTIVATED:
                state = "activated";
                break;
-            case PluginHost::IShell::ACTIVATION:
+            case WPEFramework::PluginHost::IShell::ACTIVATION:
                state = "activation";
                break;
-            case PluginHost::IShell::SUSPENDED:
+            case WPEFramework::PluginHost::IShell::PRECONDITION:
+               state = "precondition";
+               break;
+            case WPEFramework::PluginHost::IShell::HIBERNATED:
+               state = "hibernated";
+               break;
+            case WPEFramework::PluginHost::IShell::UNAVAILABLE:
+               state = "unavailable";
+               break;
+            case WPEFramework::PluginHost::IShell::DESTROYED:
+               state = "destroyed";
+               break;
+            case WPEFramework::PluginHost::MetaData::Service::SUSPENDED:
                state = "suspended";
                break;
-            case PluginHost::IShell::RESUMED:
+            case WPEFramework::PluginHost::MetaData::Service::RESUMED:
                state = "resumed";
-               break;
-            case PluginHost::IShell::PRECONDITION:
-               state = "precondition";
                break;
             default:
                state = "unknown";
                break;
          }
-         
          TEST_LOG("GetPluginState: %s state is '%s' (JSONState=%d)", callsign, state.c_str(), jsonState);
-         return Core::ERROR_NONE;
       } else {
+         state = "unknown";
          TEST_LOG("GetPluginState: Get method failed for %s, status: %u, response length: %u", 
                   callsign, status, response.Length());
       }
 
-      // Plugin state unavailable
-      state = "unknown";
       return Core::ERROR_NONE;
    }
 
