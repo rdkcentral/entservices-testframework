@@ -127,7 +127,7 @@ else(L2_TEST_OOP_RPC)
 	    )
     endif()
 
-    if((RDK_SERVICES_L2_TEST OR RDK_SERVICE_L2_TEST) AND NOT RDK_SERVICES_L1_TEST AND NOT RDK_SERVICE_CPC_L2_TEST)
+    if(RDK_SERVICE_L2_TEST AND NOT RDK_SERVICES_L1_TEST AND NOT RDK_SERVICE_CPC_L2_TEST)
         list(APPEND MODULE_SOURCES
             # devicesettings.cpp  # REMOVED: Old libds-based mocks, replaced by new HAL mocks
             HdmiCec.cpp

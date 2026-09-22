@@ -28,7 +28,7 @@ find_package(WPEFramework)
 # are located in the cmake directory. Include it in the search.
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
 
-if(RDK_SERVICES_L2_TEST OR RDK_SERVICE_L2_TEST)
+if(RDK_SERVICE_L2_TEST)
     include(l2tests.cmake)
 endif()
 
@@ -44,7 +44,7 @@ if(RDK_SERVICES_L1_TEST)
     add_subdirectory(Tests/L1Tests)
 endif()
 
-if(RDK_SERVICES_L2_TEST OR RDK_SERVICE_L2_TEST)
+if(RDK_SERVICE_L2_TEST)
     if(L2_TEST_OOP_RPC)
         add_subdirectory(Tests/mocks/MockPlugin)
     endif()
