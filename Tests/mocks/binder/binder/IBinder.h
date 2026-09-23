@@ -23,6 +23,7 @@
 
 #include <utils/Errors.h>
 #include <utils/RefBase.h>
+#include <utils/String16.h>
 
 namespace android {
 
@@ -35,6 +36,11 @@ public:
 
     IBinder() = default;
     virtual ~IBinder() = default;
+
+    virtual void* queryLocalInterface(const String16& /*descriptor*/) const
+    {
+        return nullptr;
+    }
 };
 
 } // namespace android

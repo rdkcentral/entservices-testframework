@@ -15,16 +15,28 @@ public:
     {
     }
 
-    ::android::binder::Status getCapabilities(Capabilities*) override
+    ::android::binder::Status getCapabilities(Capabilities* result) override
     {
+        auto* local = static_cast<IIndicator*>(m_remote->queryLocalInterface(IIndicator::descriptor));
+        if (local != nullptr) {
+            return local->getCapabilities(result);
+        }
         return ::android::binder::Status::fromStatusT(::android::UNKNOWN_TRANSACTION);
     }
-    ::android::binder::Status set(const ::android::String16&, bool*) override
+    ::android::binder::Status set(const ::android::String16& state, bool* result) override
     {
+        auto* local = static_cast<IIndicator*>(m_remote->queryLocalInterface(IIndicator::descriptor));
+        if (local != nullptr) {
+            return local->set(state, result);
+        }
         return ::android::binder::Status::fromStatusT(::android::UNKNOWN_TRANSACTION);
     }
-    ::android::binder::Status get(::android::String16*) override
+    ::android::binder::Status get(::android::String16* result) override
     {
+        auto* local = static_cast<IIndicator*>(m_remote->queryLocalInterface(IIndicator::descriptor));
+        if (local != nullptr) {
+            return local->get(result);
+        }
         return ::android::binder::Status::fromStatusT(::android::UNKNOWN_TRANSACTION);
     }
     int32_t getInterfaceVersion() override { return 0; }

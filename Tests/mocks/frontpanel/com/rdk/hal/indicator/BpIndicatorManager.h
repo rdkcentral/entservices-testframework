@@ -15,12 +15,20 @@ public:
     {
     }
 
-    ::android::binder::Status getIndicatorIds(::std::vector<IIndicator::Id>*) override
+    ::android::binder::Status getIndicatorIds(::std::vector<IIndicator::Id>* result) override
     {
+        auto* local = static_cast<IIndicatorManager*>(m_remote->queryLocalInterface(IIndicatorManager::descriptor));
+        if (local != nullptr) {
+            return local->getIndicatorIds(result);
+        }
         return ::android::binder::Status::fromStatusT(::android::UNKNOWN_TRANSACTION);
     }
-    ::android::binder::Status getIndicator(const IIndicator::Id&, ::android::sp<IIndicator>*) override
+    ::android::binder::Status getIndicator(const IIndicator::Id& id, ::android::sp<IIndicator>* result) override
     {
+        auto* local = static_cast<IIndicatorManager*>(m_remote->queryLocalInterface(IIndicatorManager::descriptor));
+        if (local != nullptr) {
+            return local->getIndicator(id, result);
+        }
         return ::android::binder::Status::fromStatusT(::android::UNKNOWN_TRANSACTION);
     }
     int32_t getInterfaceVersion() override { return 0; }

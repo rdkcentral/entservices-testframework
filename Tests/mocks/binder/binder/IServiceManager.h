@@ -18,9 +18,7 @@
  */
 
 // Minimal mock of Android's <binder/IServiceManager.h> for host-side unit
-// tests. defaultServiceManager() returns a stub that hands back null binders;
-// the LEDControl plugin tolerates this by reporting the indicator service as
-// unavailable, which keeps the constructor path compilable and safe.
+// tests. The indicator service is supplied by the functional local AIDL mock.
 
 #pragma once
 
@@ -40,9 +38,14 @@ public:
 
 namespace mock_internal {
 
+sp<IBinder> indicatorService();
+
 class MockServiceManager : public IServiceManager {
 public:
-    sp<IBinder> getService(const String16& /*name*/) const override { return sp<IBinder>(); }
+    sp<IBinder> getService(const String16& name) const override
+    {
+        return (name == String16("indicator")) ? indicatorService() : sp<IBinder>();
+    }
     sp<IBinder> checkService(const String16& /*name*/) const override { return sp<IBinder>(); }
     sp<IBinder> waitForService(const String16& /*name*/) override { return sp<IBinder>(); }
 
