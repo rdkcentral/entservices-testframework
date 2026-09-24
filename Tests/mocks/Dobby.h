@@ -101,6 +101,7 @@ public:
 };
 
 typedef std::function<void(int32_t, const std::string&, IDobbyProxyEvents::ContainerState, const void*)> StateChangeListener;
+typedef std::function<void(int32_t, const std::string&, IDobbyProxyEvents::ContainerState, int32_t, const void*)> StateChangeListenerWithStatus;
 
 class IDobbyProxy {
 
@@ -165,6 +166,8 @@ public:
 
     virtual int registerListener(const StateChangeListener &listener, const void* cbParams) = 0;
     virtual void unregisterListener(int tag) = 0;
+    virtual int registerListenerWithStatus(const StateChangeListenerWithStatus &listener, const void* cbParams) = 0;
+    virtual void unregisterListenerWithStatus(int tag) = 0;
     virtual std::string getContainerInfo(int32_t descriptor) const = 0;
     virtual std::list<std::pair<int32_t, std::string>> listContainers() const = 0;
     virtual int getContainerState(int32_t descriptor) const = 0;
@@ -233,6 +236,8 @@ public:
     int getContainerState(int32_t cd) const;
     int registerListener(const StateChangeListener &listener, const void* cbParams);
     void unregisterListener(int tag);
+    int registerListenerWithStatus(const StateChangeListenerWithStatus &listener, const void* cbParams);
+    void unregisterListenerWithStatus(int tag);
     std::string getContainerInfo(int32_t descriptor) const;
     std::list<std::pair<int32_t, std::string>> listContainers() const;
 

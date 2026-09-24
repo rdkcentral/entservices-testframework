@@ -70,8 +70,10 @@ public:
                          const std::string& command), (const, override));
     MOCK_METHOD(int, registerListener, (const StateChangeListener &listener, const void* cbParams), (override));
     MOCK_METHOD(void, unregisterListener, (int tag), (override));
+    MOCK_METHOD(int, registerListenerWithStatus, (const StateChangeListenerWithStatus &listener, const void* cbParams), (override));
+    MOCK_METHOD(void, unregisterListenerWithStatus, (int tag), (override));
     MOCK_METHOD(std::string, getContainerInfo, (int32_t descriptor), (const, override));
-    MOCK_METHOD((std::list<std::pair<int32_t, std::string>>), listContainers, (), (const));
+MOCK_METHOD((std::list<std::pair<int32_t, std::string>>), listContainers, (), (const, override));
 
 };
 
