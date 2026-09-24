@@ -54,6 +54,9 @@ public:
     MOCK_METHOD(void, getCurrentAudioFormat, (dsAudioFormat_t audioFormat), (override));
     MOCK_METHOD(void, getAssociatedAudioMixing, (bool *mixing), (override));
     MOCK_METHOD(void, setAudioMixerLevels, (dsAudioInput_t gain, int volume), (override));
+    MOCK_METHOD(void, getApplicationAudioConfigList, (std::vector<std::string>& configList), (override));
+    MOCK_METHOD(void, getApplicationAudioConfig, (const std::string &audioConfig, bool *enable), (override));
+    MOCK_METHOD(void, setApplicationAudioConfig, (const std::string &audioConfig, bool enable), (override));
 
     MOCK_METHOD(dsError_t, Register, (device::Host::IDisplayEvents* listener), (override));
     MOCK_METHOD(dsError_t, UnRegister, (device::Host::IDisplayEvents* listener), (override));
