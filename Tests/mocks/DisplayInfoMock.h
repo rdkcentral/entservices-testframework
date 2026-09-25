@@ -35,6 +35,7 @@ public:
 
     MOCK_METHOD(uint32_t, Register, (INotification *notification), (override));
     MOCK_METHOD(uint32_t, Unregister, (INotification *notification), (override));
+    MOCK_METHOD(uint32_t, InitializeFrameRate, (), (override));
     MOCK_METHOD(uint32_t, IsAudioPassthrough, (bool& passthru), (const, override));
     MOCK_METHOD(uint32_t, Connected, (bool& isconnected), (const, override));
     MOCK_METHOD(uint32_t, Width, (uint32_t& width), (const, override));
