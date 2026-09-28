@@ -5,7 +5,7 @@
  * Copyright 2025 RDK Management
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
@@ -15,6 +15,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * Copyright (C) 2005 The Android Open Source Project
+ * Licensed under the Apache License, Version 2.0
  */
 
 // Minimal mock of Android's <binder/IInterface.h> for host-side unit tests.
@@ -62,6 +65,11 @@ protected:
 };
 
 } // namespace android
+
+/*
+  Copyright (C) 2005 The Android Open Source Project
+  Licensed under the Apache License, Version 2.0
+*/
 
 #define DECLARE_META_INTERFACE(INTERFACE)                                                        \
 public:                                                                                          \
