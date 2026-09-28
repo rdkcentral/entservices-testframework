@@ -102,6 +102,7 @@ else(L2_TEST_OOP_RPC)
         dsFPD.cpp
         MfrMock.cpp
         PowerManagerHalMock.cpp
+        IndicatorServiceMock.cpp
         RenderSession.cpp
         gdialservice.cpp
         btmgr.cpp
@@ -193,10 +194,13 @@ else(L2_TEST_OOP_RPC)
     )
 
     target_include_directories(${MODULE_NAME} PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_SOURCE_DIR}/Tests/mocks
             ${CMAKE_SOURCE_DIR}/Tests/mocks/thunder
             ${CMAKE_SOURCE_DIR}/Tests/mocks/devicesettings
             ${CMAKE_SOURCE_DIR}/Tests/mocks/libusb
+            ${CMAKE_CURRENT_SOURCE_DIR}/binder
+            ${CMAKE_CURRENT_SOURCE_DIR}/frontpanel
             ${CMAKE_INSTALL_PREFIX}/include
             ${CMAKE_INSTALL_PREFIX}/include/WPEFramework
             ${CMAKE_CURRENT_SOURCE_DIR}/../../OCIContainer/stubs
