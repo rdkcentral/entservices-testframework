@@ -30,15 +30,15 @@ index 103b498..cf188ad 100644
          /* Description:Use for Flashing the image
           * @param: server_url : server url
           * @param: upgrade_file : Image file to be flash
-@@ -513,7 +513,7 @@ namespace WPEFramework {
-                 }	
-                 else
+@@ -765,7 +765,7 @@ namespace WPEFramework {
                  {
+                     SWUPDATEINFO("non-USB success reboot_flag=%s upgrade_type=%d", reboot_flag, upgrade_type);
+                     SWUPDATEINFO("Entering postFlash: reboot_flag =%s, maint%s\n", reboot_flag, maint);
 -                    postFlash(maint, file+1, upgrade_type, reboot_flag ,initiated_type);
 +                    //postFlash(maint, file+1, upgrade_type, reboot_flag ,initiated_type);
+                     SWUPDATEINFO("postFlash returned");
                      dispatchAndUpdateEvent(_FLASHING_SUCCEEDED,"");
-                 }
- 
+                     SWUPDATEINFO("non-USB success -> complete deferred deepsleep rebootPending=%d",
 @@ -1165,7 +1165,7 @@ int read_RFCProperty(char* type, const char* key, char *out_value, size_t datasi
      return ret;
  }
