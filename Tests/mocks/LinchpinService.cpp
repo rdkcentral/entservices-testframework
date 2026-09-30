@@ -122,6 +122,15 @@ Core::hresult LinchpinService::PublishResponse(const string& topic, const string
     return impl->PublishResponse(topic, payloadType, payload, responseToken);
 }
 
+Core::hresult LinchpinService::SendMetrics(const string& logType, const string& metricType, const string& eventPayload)
+{
+    if (impl == nullptr) {
+        ADD_FAILURE() << "LinchpinService::SendMetrics called without impl set";
+        return Core::ERROR_GENERAL;
+    }
+    return impl->SendMetrics(logType, metricType, eventPayload);
+}
+
 void LinchpinService::UpdateCredentials(const std::string& credentials)
 {
     if (impl == nullptr) {
