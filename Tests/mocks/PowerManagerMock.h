@@ -77,6 +77,7 @@ public:
     MOCK_METHOD(Core::hresult, PowerModeChangeAcknowledgement, (const uint32_t acknowledgeClientId, const int transactionId), (override));
     MOCK_METHOD(Core::hresult, DelayPowerModeChangeBy, (const uint32_t clientId, const int transactionId, const int delayPeriod), (override));
     MOCK_METHOD(Core::hresult, GetTimeSinceWakeup, (TimeSinceWakeup &timeSinceWakeup), (override));
+    MOCK_METHOD(Core::hresult, GetRebootReason, (string & reason), (override));
 
     BEGIN_INTERFACE_MAP(PowerManagerMock)
     INTERFACE_ENTRY(Exchange::IPowerManager)
