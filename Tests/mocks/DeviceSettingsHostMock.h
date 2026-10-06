@@ -63,7 +63,7 @@ public:
     {
         std::string id = testId();
 
-        ASSERT(!id.empty());
+ASSERT_TRUE(!id.empty());
 
         auto& mocks = mockInstances();
 

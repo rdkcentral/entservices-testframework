@@ -35,7 +35,7 @@ namespace Exchange = WPEFramework::Exchange;
 class DeviceSettingsCompositeInMock : public Exchange::IDeviceSettingsCompositeIn {
 
 public:
-    MOCK_METHOD(Core::hresult, Register, (const string clientName, Exchange::IDeviceSettingsCompositeIn::INotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (const string& clientName, Exchange::IDeviceSettingsCompositeIn::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (Exchange::IDeviceSettingsCompositeIn::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, GetNrOfCompositeInputs, (int32_t& nrCompositeInputs), (override));
     MOCK_METHOD(Core::hresult, GetCompositeInStatus, (CompositeInStatus& status), (override));
@@ -67,7 +67,7 @@ public:
     {
         std::string id = testId();
 
-        ASSERT(!id.empty());
+ASSERT_TRUE(!id.empty());
 
         auto& mocks = mockInstances();
 

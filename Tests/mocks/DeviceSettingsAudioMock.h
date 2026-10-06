@@ -35,7 +35,7 @@ namespace Exchange = WPEFramework::Exchange;
 class DeviceSettingsAudioMock : public Exchange::IDeviceSettingsAudio {
 
 public:
-    MOCK_METHOD(Core::hresult, Register, (const string clientName, Exchange::IDeviceSettingsAudio::INotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (const string& clientName, Exchange::IDeviceSettingsAudio::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (Exchange::IDeviceSettingsAudio::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, GetAudioPort, (const AudioPortType type, const int32_t index, int32_t& handle), (override));
     MOCK_METHOD(Core::hresult, IsAudioPortEnabled, (const int32_t handle, bool& enabled), (override));
@@ -137,7 +137,7 @@ public:
     {
         std::string id = testId();
 
-        ASSERT(!id.empty());
+ASSERT_TRUE(!id.empty());
 
         auto& mocks = mockInstances();
 

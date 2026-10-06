@@ -35,7 +35,7 @@ namespace Exchange = WPEFramework::Exchange;
 class DeviceSettingsVideoDeviceMock : public Exchange::IDeviceSettingsVideoDevice {
 
 public:
-    MOCK_METHOD(Core::hresult, Register, (const string clientName, Exchange::IDeviceSettingsVideoDevice::INotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (const string& clientName, Exchange::IDeviceSettingsVideoDevice::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (Exchange::IDeviceSettingsVideoDevice::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, GetVideoDeviceHandle, (const int32_t index, int32_t& handle), (override));
     MOCK_METHOD(Core::hresult, SetVideoDeviceDFC, (const int32_t handle, const VideoZoom zoomSetting), (override));
@@ -74,7 +74,7 @@ public:
     {
         std::string id = testId();
 
-        ASSERT(!id.empty());
+ASSERT_TRUE(!id.empty());
 
         auto& mocks = mockInstances();
 

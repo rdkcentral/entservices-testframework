@@ -35,7 +35,7 @@ namespace Exchange = WPEFramework::Exchange;
 class DeviceSettingsFPDMock : public Exchange::IDeviceSettingsFPD {
 
 public:
-    MOCK_METHOD(Core::hresult, Register, (const string clientName, Exchange::IDeviceSettingsFPD::INotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (const string& clientName, Exchange::IDeviceSettingsFPD::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (Exchange::IDeviceSettingsFPD::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, SetFPDTime, (const FPDTimeFormat timeFormat, const uint32_t minutes, const uint32_t seconds), (override));
     MOCK_METHOD(Core::hresult, SetFPDScroll, (const uint32_t scrollHoldDuration, const uint32_t nHorizontalScrollIterations, const uint32_t nVerticalScrollIterations), (override));
@@ -78,7 +78,7 @@ public:
     {
         std::string id = testId();
 
-        ASSERT(!id.empty());
+ASSERT_TRUE(!id.empty());
 
         auto& mocks = mockInstances();
 
