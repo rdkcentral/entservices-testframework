@@ -117,11 +117,11 @@ rtValue& rtValue::getInstance() {
 
 rtValue::rtValue() = default;
 
-rtValue::rtValue(bool v) : mValue({ .boolValue = v }) {}
+rtValue::rtValue(bool v) { mValue.boolValue = v; }
 
-rtValue::rtValue(const char* v) : mValue({ .stringValue = v }) {}
+rtValue::rtValue(const char* v) { mValue.stringValue = v; }
 
-rtValue::rtValue(const rtString& v) : mValue({ .stringValue = v.cString() }) {}
+rtValue::rtValue(const rtString& v) { mValue.stringValue = v.cString(); }
 
 rtValue::rtValue(rtIObject* v) {
     if (v) {
