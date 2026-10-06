@@ -31,6 +31,7 @@ using ::testing::NiceMock;
 
 namespace Core = WPEFramework::Core;
 namespace Exchange = WPEFramework::Exchange;
+using std::string;
 
 class DeviceSettingsCompositeInMock : public Exchange::IDeviceSettingsCompositeIn {
 
@@ -67,7 +68,7 @@ public:
     {
         std::string id = testId();
 
-ASSERT_TRUE(!id.empty());
+ASSERT(!id.empty());
 
         auto& mocks = mockInstances();
 

@@ -65,8 +65,7 @@ rtObjectRef::rtObjectRef() {}
 rtObjectRef::rtObjectRef(const rtObjectRef&) = default;
 
 rtObjectRef::rtObjectRef(const rtMapObject* o) {
-    delete o;
-    o = nullptr;
+    asn(o);
 }
 
 rtObjectRef& rtObjectRef::operator=(rtMapObject* o) {
