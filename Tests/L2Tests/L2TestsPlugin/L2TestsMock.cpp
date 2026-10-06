@@ -214,12 +214,14 @@ L2TestMocks::~L2TestMocks()
    MessageDecoder::setImpl(nullptr);
    
    // DeviceSettings HAL Mocks
-   DsAudioApi::setImpl(nullptr);
-   DsDisplayApi::setImpl(nullptr);
-   DsFPDApi::setImpl(nullptr);
-   DsHdmiInApi::setImpl(nullptr);
-   DsVideoDeviceApi::setImpl(nullptr);
-   DsVideoPortApi::setImpl(nullptr);
+    DsAudioApi::setImpl(nullptr);
+    DsCompositeInApi::setImpl(nullptr);
+    DsDisplayApi::setImpl(nullptr);
+    DsFPDApi::setImpl(nullptr);
+    DsHdmiInApi::setImpl(nullptr);
+    DsVideoDeviceApi::setImpl(nullptr);
+    DsVideoPortApi::setImpl(nullptr);
+    DsHostApi::setImpl(nullptr);
 
 #ifdef RDK_SERVICE_CPC_L2_TEST   
    SecSecurityApi::setImpl(nullptr);
