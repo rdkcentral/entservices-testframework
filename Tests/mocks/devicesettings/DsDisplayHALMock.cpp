@@ -95,7 +95,7 @@ dsError_t dsGetEDIDBytes(intptr_t handle, unsigned char* edid, int* length) {
             edid[0] = 0x00; edid[1] = 0xFF; edid[2] = 0xFF; edid[3] = 0xFF;
             edid[4] = 0xFF; edid[5] = 0xFF; edid[6] = 0xFF; edid[7] = 0x00;
         }
-        *length = 256; // Standard EDID size
+        *length = (*length < 256) ? *length : 256;
     }
     return dsERR_NONE;
 }
