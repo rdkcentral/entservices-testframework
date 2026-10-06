@@ -27,14 +27,6 @@
 #include <vector>
 #include <list>
 
-/*
-* Copyright (c) 2007 Dave Airlie <airlied@linux.ie>
-* Copyright (c) 2007 Jakob Bornecrantz <wallbraker@gmail.com>
-* Copyright (c) 2008 Red Hat Inc.
-* Copyright (c) 2007-2008 Tungsten Graphics, Inc., Cedar Park, TX., USA
-* Copyright (c) 2007-2008 Intel Corporation
-* Licensed under the MIT License
-*/
 #define DRM_DISPLAY_MODE_LEN    32
 #define DRM_PROP_NAME_LEN       32
 
