@@ -145,6 +145,19 @@ dsError_t dsGetAudioDelay(intptr_t handle, uint32_t* audioDelayMs) {
     return dsERR_NONE;
 }
 
+dsError_t dsSetAudioDelayOffset(intptr_t handle, uint32_t delayOffset) {
+    DsAudioHalMock* impl = DsAudioApi::getImpl();
+    if (impl) return impl->dsSetAudioDelayOffset(handle, delayOffset);
+    return dsERR_NONE;
+}
+
+dsError_t dsGetAudioDelayOffset(intptr_t handle, uint32_t* delayOffset) {
+    DsAudioHalMock* impl = DsAudioApi::getImpl();
+    if (impl) return impl->dsGetAudioDelayOffset(handle, delayOffset);
+    if (delayOffset) *delayOffset = 0;
+    return dsERR_NONE;
+}
+
 dsError_t dsGetAudioCapabilities(intptr_t handle, int* capabilities) {
     DsAudioHalMock* impl = DsAudioApi::getImpl();
     if (impl) return impl->dsGetAudioCapabilities(handle, capabilities);

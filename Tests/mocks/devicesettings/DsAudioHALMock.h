@@ -58,6 +58,8 @@ public:
     // Audio delay
     MOCK_METHOD(dsError_t, dsSetAudioDelay, (intptr_t handle, const uint32_t audioDelayMs));
     MOCK_METHOD(dsError_t, dsGetAudioDelay, (intptr_t handle, uint32_t* audioDelayMs));
+    MOCK_METHOD(dsError_t, dsSetAudioDelayOffset, (intptr_t handle, uint32_t delayOffset));
+    MOCK_METHOD(dsError_t, dsGetAudioDelayOffset, (intptr_t handle, uint32_t* delayOffset));
     
     // Audio capabilities
     MOCK_METHOD(dsError_t, dsGetAudioCapabilities, (intptr_t handle, int* capabilities));
