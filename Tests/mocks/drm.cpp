@@ -74,7 +74,8 @@ rtObjectRef& rtObjectRef::operator=(rtMapObject* o) {
     return *this;
 }
 
-rtObjectRef& rtObjectRef::operator=(const rtObjectRef&) {
+rtObjectRef& rtObjectRef::operator=(const rtObjectRef& other) {
+    asn(other.getPtr());
     return *this;
 }
 
