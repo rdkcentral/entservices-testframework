@@ -36,7 +36,7 @@ class DeviceSettingsHostMock : public Exchange::IDeviceSettingsHost {
 
 public:
     MOCK_METHOD(Core::hresult, GetEDID, (uint8_t edId[], const uint16_t edIdLength), (override));
-    MOCK_METHOD(Core::hresult, GetMS12ConfigType, (string& ms12Config), (override));
+    MOCK_METHOD(Core::hresult, GetMS12ConfigType, (std::string& ms12Config), (override));
 
     BEGIN_INTERFACE_MAP(DeviceSettingsHostMock)
     INTERFACE_ENTRY(Exchange::IDeviceSettingsHost)
