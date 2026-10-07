@@ -31,11 +31,12 @@ using ::testing::NiceMock;
 
 namespace Core = WPEFramework::Core;
 namespace Exchange = WPEFramework::Exchange;
+using std::string;
 
 class DeviceSettingsVideoPortMock : public Exchange::IDeviceSettingsVideoPort {
 
 public:
-    MOCK_METHOD(Core::hresult, Register, (const string clientName, Exchange::IDeviceSettingsVideoPort::INotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (const string& clientName, Exchange::IDeviceSettingsVideoPort::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (Exchange::IDeviceSettingsVideoPort::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, GetVideoPort, (const VideoPort videoPort, const int32_t index, int32_t& handle), (override));
     MOCK_METHOD(Core::hresult, GetVideoPortResolutionConfig, (VideoPort videoPortType, IVideoPortResolutionIterator*& videoPortResolutions), (override, const));
@@ -98,7 +99,7 @@ public:
     {
         std::string id = testId();
 
-        ASSERT(!id.empty());
+ASSERT(!id.empty());
 
         auto& mocks = mockInstances();
 

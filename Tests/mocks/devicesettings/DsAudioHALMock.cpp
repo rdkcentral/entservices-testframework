@@ -19,6 +19,7 @@
 
 #include "DsAudioHALMock.h"
 #include <cstdio>
+#include <cstring>
 
 // Static implementation pointer
 DsAudioHalMock* DsAudioApi::impl = nullptr;

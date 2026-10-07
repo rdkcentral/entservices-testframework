@@ -43,8 +43,7 @@ namespace  {
 dsAudioPortType_t 	    kSupportedAudioPortTypes[] 				= { dsAUDIOPORT_TYPE_HDMI };
 dsAudioEncoding_t 		kSupportedHDMIEncodings[]			= { dsAUDIO_ENC_PCM, dsAUDIO_ENC_AC3, dsAUDIO_ENC_EAC3 };
 dsAudioCompression_t 	kSupportedHDMICompressions[] 		= { dsAUDIO_CMP_NONE, dsAUDIO_CMP_LIGHT, dsAUDIO_CMP_MEDIUM, dsAUDIO_CMP_HEAVY, };
-dsAudioStereoMode_t 	kSupportedHDMIStereoModes[] 		= { dsAUDIO_STEREO_STEREO, dsAUDIO_STEREO_SURROUND, dsAUDIO_STEREO_PASSTHRU,dsAUDIO_STEREO_DD,dsAUDIO_STEREO_DDPLUS};
-dsAudioStereoMode_t 	kSupportedHDMIStereoModes[] 		= { dsAUDIO_STEREO_STEREO, dsAUDIO_STEREO_SURROUND, dsAUDIO_STEREO_PASSTHRU };
+dsAudioStereoMode_t 	kSupportedHDMIStereoModes[] 		= { dsAUDIO_STEREO_STEREO, dsAUDIO_STEREO_SURROUND, dsAUDIO_STEREO_PASSTHRU,dsAUDIO_STEREO_DD,dsAUDIO_STEREO_DDPLUS };
 
 /* 
  * Enumerate the supported Audio port types 

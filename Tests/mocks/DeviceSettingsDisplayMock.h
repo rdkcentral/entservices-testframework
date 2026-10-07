@@ -31,13 +31,14 @@ using ::testing::NiceMock;
 
 namespace Core = WPEFramework::Core;
 namespace Exchange = WPEFramework::Exchange;
+using std::string;
 
 class DeviceSettingsDisplayMock : public Exchange::IDeviceSettingsDisplay {
 
 public:
-    MOCK_METHOD(Core::hresult, Register, (const string clientName, Exchange::IDeviceSettingsDisplay::INotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (const string& clientName, Exchange::IDeviceSettingsDisplay::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (Exchange::IDeviceSettingsDisplay::INotification* notification), (override));
-    MOCK_METHOD(Core::hresult, Register, (const string clientName, Exchange::IDeviceSettingsDisplay::IDisplayHDMIHotPlugNotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (const string& clientName, Exchange::IDeviceSettingsDisplay::IDisplayHDMIHotPlugNotification* notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (Exchange::IDeviceSettingsDisplay::IDisplayHDMIHotPlugNotification* notification), (override));
     MOCK_METHOD(Core::hresult, GetDisplayEdid, (const int32_t handle, DisplayEDID& edId, IDSVideoPortResolutionIterator*& supportedResolutionList), (override));
     MOCK_METHOD(Core::hresult, GetDisplayEdidBytes, (const int32_t handle, uint8_t edIdBytes[], const uint16_t edidLength), (override));
@@ -72,7 +73,7 @@ public:
     {
         std::string id = testId();
 
-        ASSERT(!id.empty());
+ASSERT(!id.empty());
 
         auto& mocks = mockInstances();
 
