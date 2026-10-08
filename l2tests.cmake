@@ -24,7 +24,6 @@ file(GLOB BASEDIR Tests)
 set(BASEDIR ${BASEDIR}/headers)
 set(EMPTY_HEADERS_DIRS
         ${BASEDIR}
-        ${BASEDIR}/rdk/ds
         ${BASEDIR}/rdk/iarmbus
         ${BASEDIR}/rdk/iarmmgrs-hal
         ${BASEDIR}/systemservices
@@ -32,14 +31,10 @@ set(EMPTY_HEADERS_DIRS
         )
 
 set(EMPTY_HEADERS
-         ${BASEDIR}/rdk/ds/host.hpp
-         ${BASEDIR}/rdk/ds/videoOutputPort.hpp
-         ${BASEDIR}/rdk/ds/audioOutputPort.hpp
-         ${BASEDIR}/rdk/ds/dsMgr.h
-         ${BASEDIR}/rdk/ds/manager.hpp
-         ${BASEDIR}/rdk/ds/audioOutputPortType.hpp
-         ${BASEDIR}/rdk/ds/audioOutputPortConfig.hpp
-         ${BASEDIR}/rdk/ds/pixelResolution.hpp
+         # Note: Removed all old libds/DeviceSettings header stubs
+         # (host.hpp, videoOutputPort.hpp, dsDisplay.h, dsError.h, dsTypes.h, etc.)
+         # These conflict with real HAL headers from rdk-halif-device_settings
+         # Only keeping non-HAL/non-DeviceSettings empty headers below
          ${BASEDIR}/rdk/iarmbus/libIARM.h
          ${BASEDIR}/rdk/iarmbus/libIBus.h
          ${BASEDIR}/rdk/iarmbus/libIBusDaemon.h
@@ -47,40 +42,20 @@ set(EMPTY_HEADERS
          ${BASEDIR}/rdk/iarmmgrs-hal/mfrMgr.h
          ${BASEDIR}/rdk/iarmmgrs-hal/sysMgr.h
          ${BASEDIR}/rdk_logger_milestone.h
-         ${BASEDIR}/rdk/ds/videoOutputPortConfig.hpp
-         ${BASEDIR}/rdk/ds/sleepMode.hpp
-         ${BASEDIR}/rdk/ds/frontPanelConfig.hpp
-         ${BASEDIR}/rdk/ds/frontPanelTextDisplay.hpp
          ${BASEDIR}/rfcapi.h
          ${BASEDIR}/rbus.h
          ${BASEDIR}/systemservices/proc/readproc.h
          ${BASEDIR}/systemservices/secure_wrapper.h
          ${BASEDIR}/libudev.h
          ${BASEDIR}/systemaudioplatform.h
-         ${BASEDIR}/rdk/ds/dsTypes.h
-         ${BASEDIR}/rdk/ds/hdmiIn.hpp
-         ${BASEDIR}/rdk/ds/compositeIn.hpp
-         ${BASEDIR}/rdk/ds/exception.hpp
          ${BASEDIR}/rdk/iarmbus/iarmUtil.h
-         ${BASEDIR}/rdk/ds/dsError.h
          ${BASEDIR}/tvTypes.h
          ${BASEDIR}/tvSettingsExtODM.h 
          ${BASEDIR}/tvError.h
          ${BASEDIR}/tvSettingsODM.h
          ${BASEDIR}/tr181api.h
-         ${BASEDIR}/dsRpc.h
          ${BASEDIR}/edid-parser.hpp
-         ${BASEDIR}/videoOutputPortType.hpp
-         ${BASEDIR}/videoResolution.hpp
-         ${BASEDIR}/audioOutputPortType.hpp
-         ${BASEDIR}/audioOutputPortConfig.hpp
-         ${BASEDIR}/dsUtl.h
-         ${BASEDIR}/dsError.h
-         ${BASEDIR}/list.hpp
-         ${BASEDIR}/dsDisplay.h
          ${BASEDIR}/Wraps.h
-         ${BASEDIR}/rdk/ds/AudioStereoMode.hpp
-         ${BASEDIR}/rdk/ds/VideoDFC.hpp
          )
      if(RDK_SERVICE_CPC_L2_TEST)
          set(EMPTY_HEADERS
@@ -114,7 +89,6 @@ message("Adding compiler and linker options for all targets")
 
 file(GLOB BASEDIR Tests/mocks)
 set(FAKE_HEADERS
-        ${BASEDIR}/devicesettings.h
         ${BASEDIR}/Iarm.h
         ${BASEDIR}/Rfc.h
         ${BASEDIR}/RBus.h
@@ -128,7 +102,6 @@ set(FAKE_HEADERS
         ${BASEDIR}/Wraps.h
 	${BASEDIR}/essos-resmgr.h
 	${BASEDIR}/rdk_logger_milestone.h
-	${BASEDIR}/dsFPD.h
         )
     if(RDK_SERVICE_CPC_L2_TEST)
         set(CANDIDATE_FILES
