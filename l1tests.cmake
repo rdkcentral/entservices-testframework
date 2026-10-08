@@ -26,7 +26,6 @@ set(BASEDIR ${BASEDIR}/headers)
 set(EMPTY_HEADERS_DIRS
         ${BASEDIR}
         ${BASEDIR}/audiocapturemgr
-        ${BASEDIR}/rdk/ds
         ${BASEDIR}/rdk/iarmbus
         ${BASEDIR}/rdk/iarmmgrs-hal
         ${BASEDIR}/ccec/drivers
@@ -57,32 +56,11 @@ set(EMPTY_HEADERS
         ${BASEDIR}/ccec/CECFrame.hpp
         ${BASEDIR}/ccec/host/RDK.hpp
         ${BASEDIR}/ccec/MessageEncoder.hpp
-        ${BASEDIR}/rdk/ds/audioOutputPort.hpp
-        ${BASEDIR}/rdk/ds/compositeIn.hpp
-        ${BASEDIR}/rdk/ds/dsDisplay.h
-        ${BASEDIR}/rdk/ds/dsError.h
+        # Note: Removed all old libds/DeviceSettings header stubs
+        # (audioOutputPort.hpp, dsDisplay.h, dsError.h, dsTypes.h, etc.)
+        # These conflict with real HAL headers from rdk-halif-device_settings
         ${BASEDIR}/tr181api.h
         ${BASEDIR}/Wraps.h
-        ${BASEDIR}/rdk/ds/dsMgr.h
-        ${BASEDIR}/rdk/ds/dsTypes.h
-        ${BASEDIR}/rdk/ds/dsUtl.h
-        ${BASEDIR}/rdk/ds/exception.hpp
-        ${BASEDIR}/rdk/ds/hdmiIn.hpp
-        ${BASEDIR}/rdk/ds/host.hpp
-        ${BASEDIR}/rdk/ds/list.hpp
-        ${BASEDIR}/rdk/ds/manager.hpp
-        ${BASEDIR}/rdk/ds/sleepMode.hpp
-        ${BASEDIR}/rdk/ds/videoDevice.hpp
-        ${BASEDIR}/rdk/ds/videoOutputPort.hpp
-        ${BASEDIR}/rdk/ds/videoOutputPortConfig.hpp
-        ${BASEDIR}/rdk/ds/videoOutputPortType.hpp
-        ${BASEDIR}/rdk/ds/videoResolution.hpp
-        ${BASEDIR}/rdk/ds/frontPanelIndicator.hpp
-        ${BASEDIR}/rdk/ds/frontPanelConfig.hpp
-        ${BASEDIR}/rdk/ds/frontPanelTextDisplay.hpp
-        ${BASEDIR}/rdk/ds/audioOutputPortType.hpp
-        ${BASEDIR}/rdk/ds/audioOutputPortConfig.hpp
-        ${BASEDIR}/rdk/ds/pixelResolution.hpp
         ${BASEDIR}/rdk/iarmbus/libIARM.h
         ${BASEDIR}/rdk/iarmbus/libIBus.h
         ${BASEDIR}/rdk/iarmbus/libIBusDaemon.h
@@ -123,7 +101,6 @@ set(EMPTY_HEADERS
         ${BASEDIR}/rtObject.h
         ${BASEDIR}/rtError.h
         ${BASEDIR}/rtNotifier.h
-        ${BASEDIR}/dsRpc.h
         ${BASEDIR}/websocket/URL.h
         ${BASEDIR}/rdk/iarmmgrs/comcastIrKeyCodes.h
         ${BASEDIR}/rdk_logger_milestone.h
@@ -155,7 +132,7 @@ message("Adding compiler and linker options for all targets")
 
 file(GLOB BASEDIR Tests/mocks)
 set(FAKE_HEADERS
-        ${BASEDIR}/devicesettings.h
+        ${BASEDIR}/drm.h
         ${BASEDIR}/Iarm.h
         ${BASEDIR}/Rfc.h
         ${BASEDIR}/RBus.h
