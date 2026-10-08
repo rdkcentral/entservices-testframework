@@ -132,6 +132,7 @@ message("Adding compiler and linker options for all targets")
 
 file(GLOB BASEDIR Tests/mocks)
 set(FAKE_HEADERS
+        ${BASEDIR}/drm.h
         ${BASEDIR}/Iarm.h
         ${BASEDIR}/Rfc.h
         ${BASEDIR}/RBus.h
