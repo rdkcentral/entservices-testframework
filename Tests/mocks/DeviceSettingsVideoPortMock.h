@@ -36,7 +36,7 @@ using std::string;
 class DeviceSettingsVideoPortMock : public Exchange::IDeviceSettingsVideoPort {
 
 public:
-    MOCK_METHOD(Core::hresult, Register, (const string& clientName, Exchange::IDeviceSettingsVideoPort::INotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (const string clientName, Exchange::IDeviceSettingsVideoPort::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (Exchange::IDeviceSettingsVideoPort::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, GetVideoPort, (const VideoPort videoPort, const int32_t index, int32_t& handle), (override));
     MOCK_METHOD(Core::hresult, GetVideoPortResolutionConfig, (VideoPort videoPortType, IVideoPortResolutionIterator*& videoPortResolutions), (override, const));
