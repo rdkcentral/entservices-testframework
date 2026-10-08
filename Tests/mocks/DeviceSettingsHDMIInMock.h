@@ -36,7 +36,7 @@ using std::string;
 class DeviceSettingsHDMIInMock : public Exchange::IDeviceSettingsHDMIIn {
 
 public:
-    MOCK_METHOD(Core::hresult, Register, (const string& clientName, Exchange::IDeviceSettingsHDMIIn::INotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (const string clientName, Exchange::IDeviceSettingsHDMIIn::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (Exchange::IDeviceSettingsHDMIIn::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, GetHDMIInNumberOfInputs, (int32_t& count), (override));
     MOCK_METHOD(Core::hresult, GetHDMIInStatus, (HDMIInStatus& hdmiStatus, IHDMIInPortConnectionStatusIterator*& portConnectionStatus), (override));

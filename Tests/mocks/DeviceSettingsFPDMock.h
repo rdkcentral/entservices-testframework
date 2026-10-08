@@ -36,7 +36,7 @@ using std::string;
 class DeviceSettingsFPDMock : public Exchange::IDeviceSettingsFPD {
 
 public:
-    MOCK_METHOD(Core::hresult, Register, (const string& clientName, Exchange::IDeviceSettingsFPD::INotification* notification), (override));
+    MOCK_METHOD(Core::hresult, Register, (const string clientName, Exchange::IDeviceSettingsFPD::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, Unregister, (Exchange::IDeviceSettingsFPD::INotification* notification), (override));
     MOCK_METHOD(Core::hresult, SetFPDTime, (const FPDTimeFormat timeFormat, const uint32_t minutes, const uint32_t seconds), (override));
     MOCK_METHOD(Core::hresult, SetFPDScroll, (const uint32_t scrollHoldDuration, const uint32_t nHorizontalScrollIterations, const uint32_t nVerticalScrollIterations), (override));
