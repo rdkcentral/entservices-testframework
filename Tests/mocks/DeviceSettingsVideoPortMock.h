@@ -31,6 +31,7 @@ using ::testing::NiceMock;
 
 namespace Core = WPEFramework::Core;
 namespace Exchange = WPEFramework::Exchange;
+using std::string;
 
 class DeviceSettingsVideoPortMock : public Exchange::IDeviceSettingsVideoPort {
 
@@ -98,7 +99,7 @@ public:
     {
         std::string id = testId();
 
-        ASSERT(!id.empty());
+ASSERT(!id.empty());
 
         auto& mocks = mockInstances();
 

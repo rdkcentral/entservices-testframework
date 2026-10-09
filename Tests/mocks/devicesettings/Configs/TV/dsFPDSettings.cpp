@@ -30,7 +30,7 @@
 #include "dsTypes.h"
 #include "dsUtl.h"
 
-#warning "CONFIGING GENERIC FRONTPANELSETTINGS"
+/* Generic front-panel settings configuration. */
 
 #define _MAX_BRIGHTNESS 100
 #define _MIN_BRIGHTNESS 0

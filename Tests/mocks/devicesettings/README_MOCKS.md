@@ -29,8 +29,8 @@ Each HAL module has its own mock:
 ### Basic Setup
 
 ```cpp
-#include "DsAudioMock.h"
-#include "DsVideoDeviceMock.h"
+#include "DsAudioHALMock.h"
+#include "DsVideoDeviceHALMock.h"
 
 using ::testing::_;
 using ::testing::Return;

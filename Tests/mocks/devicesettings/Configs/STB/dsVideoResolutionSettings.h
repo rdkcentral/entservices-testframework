@@ -189,12 +189,12 @@ dsVideoPortResolution_t kResolutionsSettings[] = {
 };
 #if defined(ENABLE_US_RESOLUTION)
 int kDefaultResIndex = 5; //Pick one resolution from kResolutionsSettings[] as default
-#endif
-#if defined(ENABLE_EU_RESOLUTION)
+#elif defined(ENABLE_EU_RESOLUTION)
 int kDefaultResIndex = 11; //Pick one resolution from kResolutionsSettings[] as default
-#endif
-#if defined(ENABLE_FLEX2_RESOLUTION)
+#elif defined(ENABLE_FLEX2_RESOLUTION)
 int kDefaultResIndex = 12; //Pick one resolution from kResolutionsSettings[] as default
+#else
+int kDefaultResIndex = 11; //Pick one resolution from kResolutionsSettings[] as default
 #endif
 
 int kResolutionsSettings_size = sizeof(kResolutionsSettings)/sizeof(kResolutionsSettings[0]);
