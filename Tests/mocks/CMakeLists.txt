@@ -136,6 +136,7 @@ else(L2_TEST_OOP_RPC)
             Omi.cpp
 			tvSettings.cpp
             EssRMgr.cpp
+            PowerManagerMock.cpp
             ${GENERATED_PROTO_SRC}
             ${GENERATED_GRPC_SRC}
             SecureStorageServerMock.cpp
