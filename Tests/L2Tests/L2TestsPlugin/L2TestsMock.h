@@ -45,7 +45,7 @@
 #include "OmiMock.h"
 #include "PowerManagerHalMock.h"
 #include "MfrMock.h"
-#include "HdmiCecMock.h"
+#include "devicesettings/HdmiCecMock.h"
 
 // DeviceSettings HAL Mocks (rdk-halif-device_settings 6.0.1)
 #include "devicesettings/DsAudioHALMock.h"
