@@ -24,7 +24,6 @@
 
 // interface inc
 #include <interfaces/IPowerManager.h>
-#include <interfaces/IPowerManagerRenegotiation.h>
 
 // service / internal inc
 #include "PluginInterfaceBuilder.h"
@@ -35,7 +34,7 @@ namespace Core = WPEFramework::Core;
 namespace Plugin = WPEFramework::Plugin;
 namespace Exchange = WPEFramework::Exchange;
 
-class PowerManagerMock : public WPEFramework::Exchange::IPowerManager, public WPEFramework::Exchange::IPowerManagerRenegotiation {
+class PowerManagerMock : public WPEFramework::Exchange::IPowerManager {
 
 public:
     MOCK_METHOD(Core::hresult, Register, (Exchange::IPowerManager::IRebootNotification * notification), (override));
@@ -78,13 +77,12 @@ public:
     MOCK_METHOD(Core::hresult, RemovePowerModeChangeAcknowledgementClient, (const uint32_t acknowledgeClientId), (override));
     MOCK_METHOD(Core::hresult, PowerModeChangeAcknowledgement, (const uint32_t acknowledgeClientId, const int transactionId), (override));
     MOCK_METHOD(Core::hresult, DelayPowerModeChangeBy, (const uint32_t clientId, const int transactionId, const int delayPeriod), (override));
-    MOCK_METHOD(Core::hresult, DelayPowerModeChangeBy, (const uint32_t clientId, const int transactionId, const int delayPeriod, const bool renegotiateAfterwards), (override));
+    MOCK_METHOD(Core::hresult, DelayPowerModeChangeAndRenegotiate, (const uint32_t clientId, const int transactionId, const int delayPeriod), (override));
     MOCK_METHOD(Core::hresult, GetTimeSinceWakeup, (TimeSinceWakeup &timeSinceWakeup), (override));
     MOCK_METHOD(Core::hresult, GetRebootReason, (string & reason), (override));
 
     BEGIN_INTERFACE_MAP(PowerManagerMock)
     INTERFACE_ENTRY(Exchange::IPowerManager)
-    INTERFACE_ENTRY(Exchange::IPowerManagerRenegotiation)
     END_INTERFACE_MAP
 
     static std::map<std::string, Core::ProxyType<Exchange::IPowerManager>>& mockInstances()
