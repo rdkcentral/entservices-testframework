@@ -9,10 +9,10 @@ Source: Comcast
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/plugin/FirmwareUpdateImplementation.cpp b/plugin/FirmwareUpdateImplementation.cpp
-index 103b498..cf188ad 100644
+index 1c9acd7..a6a1390 100644
 --- a/plugin/FirmwareUpdateImplementation.cpp
 +++ b/plugin/FirmwareUpdateImplementation.cpp
-@@ -184,7 +184,7 @@ namespace WPEFramework {
+@@ -504,7 +504,7 @@ namespace WPEFramework {
              _adminLock.Unlock();
          }
  
@@ -21,7 +21,7 @@ index 103b498..cf188ad 100644
          /* Description:Use for do some action after flash complete successful
           * @param: upgrade_file : Image file to be flash
           * @param: reboot_flag : reboot action after flash
-@@ -332,7 +332,7 @@ namespace WPEFramework {
+@@ -652,7 +652,7 @@ namespace WPEFramework {
              }
              return 0;
          }
@@ -30,16 +30,16 @@ index 103b498..cf188ad 100644
          /* Description:Use for Flashing the image
           * @param: server_url : server url
           * @param: upgrade_file : Image file to be flash
-@@ -765,7 +765,7 @@ namespace WPEFramework {
+@@ -864,7 +864,7 @@ namespace WPEFramework {
+                 else //non-mediaclient and non-zero ret
                  {
-                     SWUPDATEINFO("non-USB success reboot_flag=%s upgrade_type=%d", reboot_flag, upgrade_type);
-                     SWUPDATEINFO("Entering postFlash: reboot_flag =%s, maint%s\n", reboot_flag, maint);
+                     SWUPDATEINFO("non-USB success -> postFlash reboot_flag=%s maint=%s upgrade_type=%d", reboot_flag, maint, upgrade_type);
 -                    postFlash(maint, file+1, upgrade_type, reboot_flag ,initiated_type);
 +                    //postFlash(maint, file+1, upgrade_type, reboot_flag ,initiated_type);
-                     SWUPDATEINFO("postFlash returned");
                      dispatchAndUpdateEvent(_FLASHING_SUCCEEDED,"");
                      SWUPDATEINFO("non-USB success -> complete deferred deepsleep rebootPending=%d",
-@@ -1165,7 +1165,7 @@ int read_RFCProperty(char* type, const char* key, char *out_value, size_t datasi
+                         _rebootPending.load());
+@@ -1569,7 +1569,7 @@ int read_RFCProperty(char* type, const char* key, char *out_value, size_t datasi
      return ret;
  }
  
@@ -48,15 +48,15 @@ index 103b498..cf188ad 100644
  /* Description: Writing rfc data
   * @param type : rfc type
   * @param key: rfc key
-@@ -1325,7 +1325,7 @@ string deviceSpecificRegexPath(){
+@@ -1729,7 +1729,7 @@ string deviceSpecificRegexPath(){
              });
      return result;
  }
 -
 +#endif
  bool createDirectory(const std::string &path) {
-     struct stat st = {0};
-     // Check if the directory exists
+     if (mkdir(path.c_str(), 0755) == 0) {
+         // Directory created successfully
 -- 
 2.17.1
 
