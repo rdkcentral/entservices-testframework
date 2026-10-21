@@ -25,7 +25,7 @@
 using ::WPEFramework::Core::hresult;
 using ::WPEFramework::Exchange::IFrameRate;
 
-class FrameRateMock : public IFrameRate, public device::Host::IVideoDeviceEvents {
+class FrameRateMock : public IFrameRate {
 public:
     FrameRateMock() = default;
     virtual ~FrameRateMock() = default;
@@ -40,8 +40,6 @@ public:
     MOCK_METHOD(hresult, GetFrmMode, (int &frmmode, bool& success), (override));
     MOCK_METHOD(hresult, GetDisplayFrameRate, (string& framerate, bool& success), (override));
     MOCK_METHOD(hresult, SetDisplayFrameRate, (const string& framerate , bool& success), (override));
-    MOCK_METHOD(void, OnDisplayFrameratePreChange, (const std::string& frameRate), (override));
-    MOCK_METHOD(void, OnDisplayFrameratePostChange, (const std::string& frameRate), (override));
     MOCK_METHOD(uint32_t, AddRef, (), (const, override));
     MOCK_METHOD(uint32_t, Release, (), (const, override));
     MOCK_METHOD(void*, QueryInterface, (const uint32_t interfacenumber), (override));

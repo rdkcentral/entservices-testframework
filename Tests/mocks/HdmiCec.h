@@ -26,7 +26,6 @@
 #include <string>
 #include <map>
 #include <exception>
-#include "devicesettings.h"
 
 typedef uint32_t Op_t;
 
@@ -111,27 +110,6 @@ enum {
 	UNKNOWN                         = 0xFFFF
 };
 
-typedef struct _dsHdmiInGetNumberOfInputsParam_t {
-    dsError_t result;
-    uint8_t numHdmiInputs;
-} dsHdmiInGetNumberOfInputsParam_t;
-
-typedef struct _dsHdmiInStatus_t {
-    bool isPresented;
-    bool isPortConnected[dsHDMI_IN_PORT_MAX];
-    dsHdmiInPort_t activePort;
-} dsHdmiInStatus_t;
-
-typedef struct _dsHdmiInGetStatusParam_t {
-    dsError_t result;
-    dsHdmiInStatus_t status;
-} dsHdmiInGetStatusParam_t;
-
-typedef struct _dsGetHDMIARCPortIdParam_t {
-    dsError_t result;
-    int portId;
-} dsGetHDMIARCPortIdParam_t;
-
 typedef struct _Throw_e {
 } Throw_e;
 
@@ -163,6 +141,19 @@ class CECFrame {
 public:
     enum {
         MAX_LENGTH = 128,
+        // Wire layout of every CEC frame this mock decodes: byte 0 is the header
+        // ((source << 4) | destination — see header.from/header.to in MessageDecoder::decode()),
+        // byte 1 is the opcode (see opcode() below), and byte 2 onward is the opcode-specific
+        // parameter payload. HEADER_POS/OPCODE_POS/PAYLOAD_POS are the single source of truth for
+        // that layout: every message class below that parses itself out of a raw CECFrame must use
+        // PAYLOAD_POS (not a bare literal) as its default `startPos`, since MessageDecoder::decode()
+        // always constructs these from the *full* frame (header + opcode included), relying on that
+        // default to skip past both. A wrong/missing offset here is silent — the resulting object is
+        // still well-formed, just filled with header/opcode bytes instead of real parameter data
+        // (see ReportPhysicalAddress below for the bug this caused and its full failure mode).
+        HEADER_POS = 0,
+        OPCODE_POS = 1,
+        PAYLOAD_POS = OPCODE_POS + 1,
     };
 
     CECFrame(const uint8_t* buf = NULL, uint16_t len = 0) : len_(0) {
@@ -188,7 +179,7 @@ public:
     }
 
     uint8_t opcode() const {
-        return (len_ > 1) ? buf_[1] : 0;
+        return (len_ > OPCODE_POS) ? buf_[OPCODE_POS] : 0;
     }
 
     void getBuffer(const uint8_t** buf, size_t* len) const {
@@ -488,7 +479,7 @@ public:
         : CECBytes((uint8_t)version){};
 
     // Add frame constructor
-    Version(const CECFrame& frame, int startPos = 2)
+    Version(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
         : CECBytes(frame.length() > (size_t)startPos ? frame[startPos] : (uint8_t)V_1_4) {}
 };
 
@@ -877,7 +868,7 @@ public:
         : physicalAddress(phyAddress){
     }
 
-    ActiveSource(const CECFrame& frame, int startPos = 2)
+    ActiveSource(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
     : physicalAddress(frame, startPos) {}
 
     PhysicalAddress physicalAddress;
@@ -890,7 +881,7 @@ public:
     }
 
     InActiveSource() = default;
-    InActiveSource(const CECFrame& frame, int startPos = 2)
+    InActiveSource(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
     : physicalAddress(frame, startPos) {}
 
     PhysicalAddress physicalAddress;
@@ -905,26 +896,26 @@ public:
 class ImageViewOn : public DataBlock{
 public:
     ImageViewOn() = default;
-    ImageViewOn(const CECFrame& frame, int startPos = 2) {}
+    ImageViewOn(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
 };
 
 class TextViewOn : public DataBlock{
 public:
     TextViewOn() = default;
-    TextViewOn(const CECFrame& frame, int startPos = 2) {}
+    TextViewOn(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
 };
 
 class RequestActiveSource : public DataBlock {
 public:
     RequestActiveSource() = default;
-    RequestActiveSource(const CECFrame& frame, int startPos = 2) {}
+    RequestActiveSource(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return REQUEST_ACTIVE_SOURCE; }
 };
 
 class Standby : public DataBlock {
 public:
     Standby() = default;
-    Standby(const CECFrame& frame, int startPos = 2) {}
+    Standby(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return STANDBY; }
 };
 
@@ -935,7 +926,7 @@ public:
     }
 
     // Add frame parsing constructor
-    CECVersion(const CECFrame& frame, int startPos = 2)
+    CECVersion(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
         : version(frame.length() > (size_t)startPos ? frame[startPos] : Version::V_1_4) {}
 
     Version version;
@@ -944,14 +935,14 @@ public:
 class GetCECVersion : public DataBlock {
 public:
     GetCECVersion() = default;
-    GetCECVersion(const CECFrame& frame, int startPos = 2) {}
+    GetCECVersion(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return GET_CEC_VERSION; }
 };
 
 class GetMenuLanguage : public DataBlock {
 public:
     GetMenuLanguage() = default;
-    GetMenuLanguage(const CECFrame& frame, int startPos = 2) {}
+    GetMenuLanguage(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return GET_MENU_LANGUAGE; }
 };
 
@@ -960,7 +951,7 @@ public:
     SetMenuLanguage(const Language& lan)
         : language(lan){};
 
-    SetMenuLanguage(const CECFrame& frame, int startPos = 2)
+    SetMenuLanguage(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
         : language([&]() -> const char* {  // ✅ Add explicit return type
             const uint8_t* buf = nullptr;
             size_t len = 0;
@@ -983,28 +974,28 @@ public:
 class GiveOSDName : public DataBlock {
 public:
     GiveOSDName() = default;
-    GiveOSDName(const CECFrame& frame, int startPos = 2) {}
+    GiveOSDName(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return GIVE_OSD_NAME; }
 };
 
 class GivePhysicalAddress : public DataBlock {
 public:
     GivePhysicalAddress() = default;
-    GivePhysicalAddress(const CECFrame& frame, int startPos = 2) {}
+    GivePhysicalAddress(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return GIVE_PHYSICAL_ADDRESS; }
 };
 
 class GiveDeviceVendorID : public DataBlock {
 public:
     GiveDeviceVendorID() = default;
-    GiveDeviceVendorID(const CECFrame& frame, int startPos = 2) {}
+    GiveDeviceVendorID(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return GIVE_DEVICE_VENDOR_ID; }
 };
 
 class SetOSDString {
 public:
     SetOSDString() : osdString() {}
-    SetOSDString(const CECFrame& frame, int startPos = 2) : osdString() {}
+    SetOSDString(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) : osdString() {}
 
     OSDString osdString;
 };
@@ -1017,7 +1008,7 @@ public:
     {
     }
 
-    RoutingChange(const CECFrame& frame, int startPos = 2)
+    RoutingChange(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
         : from(frame, startPos)
         , to(frame, startPos + PhysicalAddress::MAX_LEN)
     {
@@ -1031,7 +1022,7 @@ public:
 class RoutingInformation {
 public:
     RoutingInformation() = default;
-    RoutingInformation(const CECFrame& frame, int startPos = 2)
+    RoutingInformation(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
     : toSink(frame, startPos) {}
 
     PhysicalAddress toSink;
@@ -1043,7 +1034,12 @@ public:
         : toSink(toSink1){
     }
 
-    SetStreamPath(const CECFrame& frame, int startPos = 0)
+    // startPos must default to CECFrame::PAYLOAD_POS (i.e. skip the header + opcode bytes), matching
+    // every other sibling *(const CECFrame&, int) constructor in this file. MessageDecoder::decode()
+    // calls SetStreamPath(in) relying on this default, passing the *full* raw frame
+    // (in[CECFrame::HEADER_POS]=header, in[CECFrame::OPCODE_POS]=opcode) — a default of 0 here would
+    // read toSink from the header/opcode bytes instead of the actual physical-address payload.
+    SetStreamPath(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
         : toSink(frame, startPos){
     }
 
@@ -1053,7 +1049,7 @@ public:
 class GiveDevicePowerStatus : public DataBlock {
 public:
     GiveDevicePowerStatus() = default;
-    GiveDevicePowerStatus(const CECFrame& frame, int startPos = 2) {}
+    GiveDevicePowerStatus(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return GIVE_DEVICE_POWER_STATUS; }
 };
 
@@ -1064,7 +1060,18 @@ public:
         , deviceType(devType){
     }
 
-    ReportPhysicalAddress(const CECFrame& frame, int startPos = 0)
+    // startPos must default to CECFrame::PAYLOAD_POS (i.e. skip the header + opcode bytes), matching
+    // every other sibling *(const CECFrame&, int) constructor in this file. MessageDecoder::decode()
+    // calls ReportPhysicalAddress(in) relying on this default, passing the *full* raw frame
+    // (in[CECFrame::HEADER_POS]=header, in[CECFrame::OPCODE_POS]=opcode). With the previous bare
+    // literal default of 0, physicalAddress was constructed from the header+opcode bytes instead of
+    // the actual 2-byte physical-address payload that follows them — e.g. for frame
+    // {0x5F, 0x84, 0x10, 0x00, 0x05} (header=0x5F, opcode=0x84 REPORT_PHYSICAL_ADDRESS, PA=0x1000,
+    // deviceType=0x05), physicalAddress silently became {0x5F, 0x84} ("5f84") instead of {0x10, 0x00},
+    // so every ARC/routing check comparing the reported physical address against an expected port
+    // address (see HdmiCecSinkImplementation.cpp's InitiateArc handling) always failed to match and
+    // silently no-op'd — no crash, no compile error, just wrong data flowing through.
+    ReportPhysicalAddress(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
         : physicalAddress(frame, startPos)
         , deviceType(frame, startPos + PhysicalAddress::MAX_LEN){
     }
@@ -1079,7 +1086,7 @@ public:
         : vendorId(vendor) {
     }
 
-    DeviceVendorID(const CECFrame& frame, int startPos = 2)
+    DeviceVendorID(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
         : vendorId([&]{
             const uint8_t* buf = nullptr;
             size_t len = 0;
@@ -1100,7 +1107,7 @@ public:
     }
 
     // Improve frame parsing with proper bounds checking
-    ReportPowerStatus(const CECFrame& frame, int startPos = 2)
+    ReportPowerStatus(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
         : status([&]{
             if (frame.length() > (size_t)startPos) {
                 uint8_t powerByte = frame[startPos];
@@ -1132,7 +1139,7 @@ public:
     }
 
     // Add frame parsing constructor
-    FeatureAbort(const CECFrame& frame, int startPos = 2)
+    FeatureAbort(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
         : feature(frame.length() > (size_t)startPos ? frame[startPos] : 0)
         , reason(frame.length() > (size_t)startPos + 1 ? frame[startPos + 1] : 0)
     {}
@@ -1144,21 +1151,21 @@ public:
 class Abort : public DataBlock {
 public:
     Abort() = default;
-    Abort(const CECFrame& frame, int startPos = 2) {}
+    Abort(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return ABORT; }
 };
 
 class UserControlReleased : public DataBlock {
 public:
     UserControlReleased() = default;
-    UserControlReleased(const CECFrame& frame, int startPos = 2) {}
+    UserControlReleased(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return USER_CONTROL_RELEASED; }
 };
 
 class Polling : public DataBlock {
 public:
     Polling() = default;
-    Polling(const CECFrame& frame, int startPos = 2) {}
+    Polling(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return POLLING; }
 };
 
@@ -1168,7 +1175,7 @@ public:
 
     }
 
-    RequestShortAudioDescriptor(const CECFrame& frame, int startPos = 2) {
+    RequestShortAudioDescriptor(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {
 
     }
 };
@@ -1179,7 +1186,7 @@ public:
         : uiCommand(command){
     }
 
-    UserControlPressed(const CECFrame& frame, int startPos = 2)
+    UserControlPressed(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
     : uiCommand([&]{
         const uint8_t* buf = nullptr;
         size_t len = 0;
@@ -1196,7 +1203,7 @@ public:
 
     ReportAudioStatus() = default;
 
-    ReportAudioStatus(const CECFrame& frame, int startPos = 2) {
+    ReportAudioStatus(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {
         if (frame.length() > (size_t)startPos) {
             uint8_t audioStatusByte = frame[startPos];
             // Create AudioStatus with the parsed byte using the constructor
@@ -1213,7 +1220,7 @@ public:
 
     SetSystemAudioMode() = default;
 
-    SetSystemAudioMode(const CECFrame& frame, int startPos = 2) {
+    SetSystemAudioMode(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {
         if (frame.length() > (size_t)startPos) {
             uint8_t statusByte = frame[startPos];
             // Create SystemAudioStatus with the parsed byte
@@ -1229,7 +1236,7 @@ public:
     Op_t opCode(void) const { return REPORT_SHORT_AUDIO_DESCRIPTOR; }
 
     ReportShortAudioDescriptor() = default;
-    ReportShortAudioDescriptor(const CECFrame& frame, int startPos = 2) {}
+    ReportShortAudioDescriptor(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
 
     std::vector<ShortAudioDescriptor> shortAudioDescriptor;
     uint8_t numberofdescriptor;
@@ -1238,14 +1245,14 @@ public:
 class InitiateArc : public DataBlock {
 public:
     InitiateArc() = default;
-    InitiateArc(const CECFrame& frame, int startPos = 2) {}
+    InitiateArc(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return INITIATE_ARC; }
 };
 
 class TerminateArc {
     public:
     TerminateArc() = default;
-    TerminateArc(const CECFrame& frame, int startPos = 2) {}
+    TerminateArc(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return TERMINATE_ARC; }
 };
 
@@ -1272,7 +1279,7 @@ public:
     SetOSDName(OSDName& OsdName)
         : osdName(OsdName){};
 
-    SetOSDName(const CECFrame& frame, int startPos = 2)
+    SetOSDName(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
     : osdName([&]{
         const uint8_t* buf = nullptr;
         size_t len = 0;
@@ -1296,7 +1303,7 @@ public:
     Op_t opCode(void) const {return REPORT_FEATURES;}
     ReportFeatures(const Version &ver_sion,const AllDeviceTypes &allDevice_Types,const std::vector<RcProfile> rc_Profile,std::vector<DeviceFeatures> device_Features) : version(ver_sion), allDeviceTypes(allDevice_Types) {}
 
-    ReportFeatures(const CECFrame& frame, int startPos = 2) : version(Version::V_1_4), allDeviceTypes(0) {}
+    ReportFeatures(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) : version(Version::V_1_4), allDeviceTypes(0) {}
 
     Version version;
     AllDeviceTypes allDeviceTypes;
@@ -1375,7 +1382,7 @@ public:
     }
 
     // Improve frame parsing for optional physical address
-    SystemAudioModeRequest(const CECFrame& frame, int startPos = 2)
+    SystemAudioModeRequest(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
         : _physicaladdress([&]{
             if (frame.length() > (size_t)startPos + 1) {
                 // Has physical address parameter
@@ -1422,28 +1429,28 @@ public:
 class RequestArcInitiation : public DataBlock {
 public:
     RequestArcInitiation() = default;
-    RequestArcInitiation(const CECFrame& frame, int startPos = 2) {}
+    RequestArcInitiation(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return REQUEST_ARC_INITIATION; }
 };
 
 class ReportArcInitiation : public DataBlock {
 public:
     ReportArcInitiation() = default;
-    ReportArcInitiation(const CECFrame& frame, int startPos = 2) {}
+    ReportArcInitiation(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return REPORT_ARC_INITIATED; }
 };
 
 class RequestArcTermination : public DataBlock {
 public:
     RequestArcTermination() = default;
-    RequestArcTermination(const CECFrame& frame, int startPos = 2) {}
+    RequestArcTermination(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return REQUEST_ARC_TERMINATION; }
 };
 
 class ReportArcTermination : public DataBlock {
 public:
     ReportArcTermination() = default;
-    ReportArcTermination(const CECFrame& frame, int startPos = 2) {}
+    ReportArcTermination(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
     Op_t opCode(void) const { return REPORT_ARC_TERMINATED; }
 };
 
@@ -1453,7 +1460,7 @@ public:
     Op_t opCode(void) const {return REQUEST_CURRENT_LATENCY;}
     RequestCurrentLatency(const PhysicalAddress &physicaladdres = {0xf,0xf,0xf,0xf} ): physicaladdress(physicaladdres) {}
 
-    RequestCurrentLatency(const CECFrame& frame, int startPos = 2)
+    RequestCurrentLatency(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS)
     : physicaladdress(frame, startPos) {}
 
     PhysicalAddress physicaladdress;
@@ -1465,7 +1472,7 @@ public:
     Op_t opCode(void) const {return REPORT_CURRENT_LATENCY;}
     ReportCurrentLatency(const PhysicalAddress &physicaladdress, uint8_t videoLatency, uint8_t latencyFlags, uint8_t audioOutputDelay = 0){}
 
-    ReportCurrentLatency(const CECFrame& frame, int startPos = 2) {}
+    ReportCurrentLatency(const CECFrame& frame, int startPos = CECFrame::PAYLOAD_POS) {}
 };
 
 class MessageEncoderImpl {

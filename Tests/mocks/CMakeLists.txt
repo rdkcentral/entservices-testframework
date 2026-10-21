@@ -99,7 +99,6 @@ else(L2_TEST_OOP_RPC)
         libusb.cpp
         DRMScreenCapture.cpp
         systemaudioplatform.cpp
-        dsFPD.cpp
         MfrMock.cpp
         PowerManagerHalMock.cpp
         RenderSession.cpp
@@ -111,7 +110,7 @@ else(L2_TEST_OOP_RPC)
     if(RDK_SERVICES_L1_TEST)
         list(APPEND MODULE_SOURCES
             MotionDetection.cpp
-            devicesettings.cpp
+            drm.cpp
             HdmiCec.cpp
             thunder/Module.cpp
             Dobby.cpp
@@ -130,7 +129,7 @@ else(L2_TEST_OOP_RPC)
 
     if(RDK_SERVICE_L2_TEST AND NOT RDK_SERVICES_L1_TEST AND NOT RDK_SERVICE_CPC_L2_TEST)
         list(APPEND MODULE_SOURCES
-            devicesettings.cpp
+            drm.cpp
             HdmiCec.cpp
             Dobby.cpp
             tr181api.cpp
@@ -145,7 +144,7 @@ else(L2_TEST_OOP_RPC)
 	
     if(RDK_SERVICE_CPC_L2_TEST AND NOT RDK_SERVICES_L1_TEST)
         list(APPEND MODULE_SOURCES
-            devicesettings.cpp
+            drm.cpp
             HdmiCec.cpp
             Dobby.cpp
             tr181api.cpp

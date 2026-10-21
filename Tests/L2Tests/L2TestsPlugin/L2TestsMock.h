@@ -31,41 +31,31 @@
 #include "WrapsMock.h"
 #include "RBusMock.h"
 #include "TelemetryMock.h"
-#include "VideoOutputPortConfigMock.h"
-#include "VideoOutputPortMock.h"
-#include "HostMock.h"
-#include "ManagerMock.h"
 #include "UdevMock.h"
 #include "btmgrMock.h"
-#include "HdmiInputMock.h"
 #include "libUSBMock.h"
-#include "devicesettings.h"
 #include "tvSettingsMock.h"
 #include "Tr181ApiMock.h"
-#include "AudioOutputPortMock.h"
-#include "AudioStereoModeMock.h"
-#include "VideoDeviceMock.h"
-#include "VideoDFCMock.h"
-#include "DisplayMock.h"
-#include "ManagerMock.h"
-#include "VideoResolutionMock.h"
-#include "FrontPanelConfigMock.h"
-#include "AudioOutputPortTypeMock.h"
-#include "VideoOutputPortTypeMock.h"
 #include "EssRMgrMock.h"
 #include "RdkLoggerMilestoneMock.h"
 #include "DRMScreenCaptureMock.h"
-#include "dsFPDMock.h"
 #include "systemaudioplatformmock.h"
 #include "RenderSessionMock.h"
 #include "DobbyMock.h"
 #include "OmiMock.h"
 #include "PowerManagerHalMock.h"
 #include "MfrMock.h"
-#include "FrontPanelIndicatorMock.h"
 #include "HdmiCecMock.h"
-#include "ColorMock.h"
 
+// DeviceSettings HAL Mocks (rdk-halif-device_settings 6.0.1)
+#include "devicesettings/DsAudioHALMock.h"
+#include "devicesettings/DsCompositeInHALMock.h"
+#include "devicesettings/DsDisplayHALMock.h"
+#include "devicesettings/DsFPDHALMock.h"
+#include "devicesettings/DsHdmiInHALMock.h"
+#include "devicesettings/DsHostHALMock.h"
+#include "devicesettings/DsVideoDeviceHALMock.h"
+#include "devicesettings/DsVideoPortHALMock.h"
 
 #ifdef RDK_SERVICE_CPC_L2_TEST
 #include "sec_securityMock.h"
@@ -89,32 +79,16 @@ protected:
         readprocImplMock *p_readprocImplMock = nullptr ;
         ProcImpl         *p_procImpl           = nullptr ;
         WrapsImplMock    *p_wrapsImplMock = nullptr ;
-        HostImplMock     *p_hostImplMock = nullptr ;
-        VideoOutputPortConfigImplMock *p_videoOutputPortConfigImplMock = nullptr ;
-        ManagerImplMock  *p_managerImplMock = nullptr ;
-        VideoOutputPortMock *p_videoOutputPortMock = nullptr;
         UdevImplMock     *p_udevImplMock = nullptr ;
         RBusApiImplMock *p_rBusApiImplMock = nullptr;
         TelemetryApiImplMock   *p_telemetryApiImplMock = nullptr ;
         BtmgrImplMock *p_btmgrImplMock = nullptr;
-        HdmiInputImplMock   *p_hdmiInputImplMock = nullptr ;
         libUSBImplMock   *p_libUSBApiImplMock = nullptr ;
         TvSettingsImplMock   *p_tvSettingsImplMock = nullptr ;
         Tr181ApiImplMock *p_tr181ApiImplMock = nullptr ;
-        AudioOutputPortMock *p_audioOutputPortMock = nullptr;
-        AudioStereoModeMock *p_audioStereoModeMock = nullptr;
-        VideoDeviceMock *p_videoDeviceMock = nullptr;
-        VideoDFCMock *p_videoDFCMock = nullptr;
-        DisplayMock  *p_displayMock = nullptr ;
-        VideoResolutionMock      *p_videoResolutionMock = nullptr ;
-        FrontPanelConfigMock   *p_frontPanelConfigImplMock = nullptr;
-        FrontPanelIndicatorMock *p_frontPanelIndicatorMock = nullptr;
-        AudioOutputPortTypeMock        *p_audioOutputPortTypeMock = nullptr ;
-        VideoOutputPortTypeMock        *p_videoOutputPortTypeMock = nullptr ;
 	EssRMgrMock      *p_essRMgrMock = nullptr;
         RdkLoggerMilestoneImplMock *p_rdkloggerImplMock = nullptr;
         DRMScreenCaptureApiImplMock *p_drmScreenCaptureApiImplMock = nullptr;
-	dsFPDMock *p_dsFPDMock = nullptr;
         SystemAudioPlatformAPIMock *p_systemAudioPlatformAPIMock = nullptr;
         RenderSessionMock *p_renderSessionMock = nullptr;
         DobbyProxyMock *p_dobbyProxyMock = nullptr;
@@ -126,7 +100,17 @@ protected:
         LibCCECImplMock *p_libCCECMock = nullptr;
         MessageEncoderMock *p_messageEncoderMock = nullptr;
         MessageDecoderMock *p_messageDecoderMock = nullptr;
-        ColorMock *p_colorImplMock = nullptr ;
+        
+        // DeviceSettings HAL Mocks
+        DsAudioHalMock *p_dsAudioHalMock = nullptr;
+        DsCompositeInHalMock *p_dsCompositeInHalMock = nullptr;
+        DsDisplayHalMock *p_dsDisplayHalMock = nullptr;
+        DsFPDHalMock *p_dsFPDHalMock = nullptr;
+        DsHdmiInHalMock *p_dsHdmiInHalMock = nullptr;
+        DsHostHalMock *p_dsHostHalMock = nullptr;
+        DsVideoDeviceHalMock *p_dsVideoDeviceHalMock = nullptr;
+        DsVideoPortHalMock *p_dsVideoPortHalMock = nullptr;
+        
 #ifdef RDK_SERVICE_CPC_L2_TEST        
         SecSecurityApiImplMock *p_secSecurityApiImplMock  = nullptr ;
         KeyProvisionObjectImplMock *p_keyProvisionObjectImplMock  = nullptr ;
@@ -229,6 +213,35 @@ protected:
          * @return Zero (Core::ERROR_NONE) on succes or another value on error
          */
         uint32_t DeactivateService(const char *callsign);
+
+        /**
+         * @brief Get the state of a plugin
+         *
+         * @param[in] callsign Service callsign
+         * @param[out] state Plugin state (e.g., "activated", "deactivated", "suspended")
+         * @return Zero (Core::ERROR_NONE) on success or another value on error
+         */
+        uint32_t GetPluginState(const char *callsign, std::string &state);
+
+        /**
+         * @brief Wait for a plugin to reach a specific state
+         *
+         * @param[in] callsign Service callsign
+         * @param[in] expectedState Expected state to wait for
+         * @param[in] timeoutMs Timeout in milliseconds
+         * @return Zero (Core::ERROR_NONE) on success, ERROR_TIMEDOUT on timeout
+         */
+        uint32_t WaitForPluginState(const char *callsign, const char *expectedState, uint32_t timeoutMs);
+
+        /**
+         * @brief Activate a service with retry logic
+         *
+         * @param[in] callsign Service callsign
+         * @param[in] maxRetries Maximum number of retries
+         * @param[in] retryDelayMs Delay between retries in milliseconds
+         * @return Zero (Core::ERROR_NONE) on success or another value on error
+         */
+        uint32_t ActivateServiceWithRetry(const char *callsign, uint32_t maxRetries = 3, uint32_t retryDelayMs = 500);
 
 };
 
