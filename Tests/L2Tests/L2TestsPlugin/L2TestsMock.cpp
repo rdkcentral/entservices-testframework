@@ -67,6 +67,7 @@ L2TestMocks::L2TestMocks()
    p_messageEncoderMock = new NiceMock<MessageEncoderMock>;
    p_messageDecoderMock = new NiceMock<MessageDecoderMock>;
    
+#ifdef DSPLUGINMOCKS
    // DeviceSettings HAL Mocks
    p_dsAudioHalMock = new NiceMock<DsAudioHalMock>;
    p_dsCompositeInHalMock = new NiceMock<DsCompositeInHalMock>;
@@ -76,6 +77,7 @@ L2TestMocks::L2TestMocks()
    p_dsHostHalMock = new NiceMock<DsHostHalMock>;
    p_dsVideoDeviceHalMock = new NiceMock<DsVideoDeviceHalMock>;
    p_dsVideoPortHalMock = new NiceMock<DsVideoPortHalMock>;
+#endif
 
 #ifdef RDK_SERVICE_CPC_L2_TEST    
     p_secSecurityApiImplMock      = new NiceMock <SecSecurityApiImplMock>;

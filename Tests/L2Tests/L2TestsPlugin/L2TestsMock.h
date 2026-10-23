@@ -100,7 +100,7 @@ protected:
         LibCCECImplMock *p_libCCECMock = nullptr;
         MessageEncoderMock *p_messageEncoderMock = nullptr;
         MessageDecoderMock *p_messageDecoderMock = nullptr;
-        
+#ifdef DSPLUGINMOCKS
         // DeviceSettings HAL Mocks
         DsAudioHalMock *p_dsAudioHalMock = nullptr;
         DsCompositeInHalMock *p_dsCompositeInHalMock = nullptr;
@@ -110,7 +110,8 @@ protected:
         DsHostHalMock *p_dsHostHalMock = nullptr;
         DsVideoDeviceHalMock *p_dsVideoDeviceHalMock = nullptr;
         DsVideoPortHalMock *p_dsVideoPortHalMock = nullptr;
-        
+#endif
+
 #ifdef RDK_SERVICE_CPC_L2_TEST        
         SecSecurityApiImplMock *p_secSecurityApiImplMock  = nullptr ;
         KeyProvisionObjectImplMock *p_keyProvisionObjectImplMock  = nullptr ;
