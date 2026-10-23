@@ -3,6 +3,10 @@ name: Shared Backport PR
 # Reusable: github.event / github.repository / GITHUB_TOKEN all belong to the caller repo.
 on:
   workflow_call:
+    secrets:
+      RDKCM_DEPLOY_KEY:
+        description: SSH deploy key for repository Git operations
+        required: true
 
 permissions:
   contents: write
@@ -25,7 +29,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          ssh-key: ${{ secrets.RDKCM_DEPLOY_KEY }}
 
       # ── Extract and validate backport_to + ticket ────────────────────────
       - name: Extract PR info and validate backport_to
@@ -247,7 +251,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          ssh-key: ${{ secrets.RDKCM_DEPLOY_KEY }}
 
       - name: Configure Git
         run: |
