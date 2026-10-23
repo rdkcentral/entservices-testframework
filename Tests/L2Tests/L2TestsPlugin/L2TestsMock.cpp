@@ -124,7 +124,7 @@ L2TestMocks::L2TestMocks()
     Connection::setImpl(p_connectionMock);
     MessageEncoder::setImpl(p_messageEncoderMock);
     MessageDecoder::setImpl(p_messageDecoderMock);
-    
+#ifdef DSPLUGINMOCKS    
     // DeviceSettings HAL Mocks - Register and set up common behaviors
     DsAudioApi::setImpl(p_dsAudioHalMock);
     ON_CALL(*p_dsAudioHalMock, dsAudioPortInit()).WillByDefault(::testing::Return(dsERR_NONE));
@@ -157,7 +157,7 @@ L2TestMocks::L2TestMocks()
     DsHostApi::setImpl(p_dsHostHalMock);
     ON_CALL(*p_dsHostHalMock, dsHostInit()).WillByDefault(::testing::Return(dsERR_NONE));
     ON_CALL(*p_dsHostHalMock, dsHostTerm()).WillByDefault(::testing::Return(dsERR_NONE));
-    
+#endif    
 #ifdef RDK_SERVICE_CPC_L2_TEST    
     SecSecurityApi::setImpl(p_secSecurityApiImplMock);
     secclient::KeyProvisionObject::setImpl(p_keyProvisionObjectImplMock);
@@ -386,7 +386,8 @@ L2TestMocks::~L2TestMocks()
       delete p_messageDecoderMock;
       p_messageDecoderMock = nullptr;
    }
-   
+
+#ifdef DSPLUGINMOCKS
    // DeviceSettings HAL Mocks
    if (p_dsAudioHalMock != nullptr)
    {
@@ -435,7 +436,7 @@ L2TestMocks::~L2TestMocks()
       delete p_dsHostHalMock;
       p_dsHostHalMock = nullptr;
    }
-
+#endif
 #ifdef RDK_SERVICE_CPC_L2_TEST
    if (p_secSecurityApiImplMock != nullptr)
    {
