@@ -216,7 +216,8 @@ L2TestMocks::~L2TestMocks()
    LibCCEC::setImpl(nullptr);
    MessageEncoder::setImpl(nullptr);
    MessageDecoder::setImpl(nullptr);
-   
+
+#ifdef DSPLUGINMOCKS
    // DeviceSettings HAL Mocks
     DsAudioApi::setImpl(nullptr);
     DsCompositeInApi::setImpl(nullptr);
@@ -226,6 +227,7 @@ L2TestMocks::~L2TestMocks()
     DsVideoDeviceApi::setImpl(nullptr);
     DsVideoPortApi::setImpl(nullptr);
     DsHostApi::setImpl(nullptr);
+#endif
 
 #ifdef RDK_SERVICE_CPC_L2_TEST   
    SecSecurityApi::setImpl(nullptr);

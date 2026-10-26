@@ -47,6 +47,7 @@
 #include "MfrMock.h"
 #include "HdmiCecMock.h"
 
+#ifdef DSPLUGINMOCKS
 // DeviceSettings HAL Mocks (rdk-halif-device_settings 6.0.1)
 #include "devicesettings/DsAudioHALMock.h"
 #include "devicesettings/DsCompositeInHALMock.h"
@@ -56,6 +57,7 @@
 #include "devicesettings/DsHostHALMock.h"
 #include "devicesettings/DsVideoDeviceHALMock.h"
 #include "devicesettings/DsVideoPortHALMock.h"
+#endif
 
 #ifdef RDK_SERVICE_CPC_L2_TEST
 #include "sec_securityMock.h"
