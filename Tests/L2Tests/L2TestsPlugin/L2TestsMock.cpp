@@ -159,6 +159,7 @@ L2TestMocks::L2TestMocks()
     ON_CALL(*p_dsHostHalMock, dsHostTerm()).WillByDefault(::testing::Return(dsERR_NONE));
 #endif
 
+
 #ifdef RDK_SERVICE_CPC_L2_TEST    
     SecSecurityApi::setImpl(p_secSecurityApiImplMock);
     secclient::KeyProvisionObject::setImpl(p_keyProvisionObjectImplMock);
