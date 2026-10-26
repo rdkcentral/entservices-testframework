@@ -47,6 +47,7 @@
 #include "MfrMock.h"
 #include "HdmiCecMock.h"
 
+#ifdef DEVICESETTINGS_PLUGIN_MOCKS
 // DeviceSettings HAL Mocks (rdk-halif-device_settings 6.0.1)
 #include "devicesettings/DsAudioHALMock.h"
 #include "devicesettings/DsCompositeInHALMock.h"
@@ -56,6 +57,7 @@
 #include "devicesettings/DsHostHALMock.h"
 #include "devicesettings/DsVideoDeviceHALMock.h"
 #include "devicesettings/DsVideoPortHALMock.h"
+#endif
 
 #ifdef RDK_SERVICE_CPC_L2_TEST
 #include "sec_securityMock.h"
@@ -100,7 +102,7 @@ protected:
         LibCCECImplMock *p_libCCECMock = nullptr;
         MessageEncoderMock *p_messageEncoderMock = nullptr;
         MessageDecoderMock *p_messageDecoderMock = nullptr;
-        
+#ifdef DEVICESETTINGS_PLUGIN_MOCKS
         // DeviceSettings HAL Mocks
         DsAudioHalMock *p_dsAudioHalMock = nullptr;
         DsCompositeInHalMock *p_dsCompositeInHalMock = nullptr;
@@ -110,7 +112,8 @@ protected:
         DsHostHalMock *p_dsHostHalMock = nullptr;
         DsVideoDeviceHalMock *p_dsVideoDeviceHalMock = nullptr;
         DsVideoPortHalMock *p_dsVideoPortHalMock = nullptr;
-        
+#endif
+
 #ifdef RDK_SERVICE_CPC_L2_TEST        
         SecSecurityApiImplMock *p_secSecurityApiImplMock  = nullptr ;
         KeyProvisionObjectImplMock *p_keyProvisionObjectImplMock  = nullptr ;
