@@ -47,7 +47,7 @@
 #include "MfrMock.h"
 #include "HdmiCecMock.h"
 
-#ifdef DSPLUGINMOCKS
+#ifdef DEVICESETTINGS_PLUGIN_MOCKS
 // DeviceSettings HAL Mocks (rdk-halif-device_settings 6.0.1)
 #include "devicesettings/DsAudioHALMock.h"
 #include "devicesettings/DsCompositeInHALMock.h"
@@ -102,7 +102,7 @@ protected:
         LibCCECImplMock *p_libCCECMock = nullptr;
         MessageEncoderMock *p_messageEncoderMock = nullptr;
         MessageDecoderMock *p_messageDecoderMock = nullptr;
-#ifdef DSPLUGINMOCKS
+#ifdef DEVICESETTINGS_PLUGIN_MOCKS
         // DeviceSettings HAL Mocks
         DsAudioHalMock *p_dsAudioHalMock = nullptr;
         DsCompositeInHalMock *p_dsCompositeInHalMock = nullptr;

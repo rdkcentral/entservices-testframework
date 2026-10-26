@@ -67,7 +67,7 @@ L2TestMocks::L2TestMocks()
    p_messageEncoderMock = new NiceMock<MessageEncoderMock>;
    p_messageDecoderMock = new NiceMock<MessageDecoderMock>;
    
-#ifdef DSPLUGINMOCKS
+#ifdef DEVICESETTINGS_PLUGIN_MOCKS
    // DeviceSettings HAL Mocks
    p_dsAudioHalMock = new NiceMock<DsAudioHalMock>;
    p_dsCompositeInHalMock = new NiceMock<DsCompositeInHalMock>;
@@ -124,7 +124,7 @@ L2TestMocks::L2TestMocks()
     Connection::setImpl(p_connectionMock);
     MessageEncoder::setImpl(p_messageEncoderMock);
     MessageDecoder::setImpl(p_messageDecoderMock);
-#ifdef DSPLUGINMOCKS   
+#ifdef DEVICESETTINGS_PLUGIN_MOCKS
     // DeviceSettings HAL Mocks - Register and set up common behaviors
     DsAudioApi::setImpl(p_dsAudioHalMock);
     ON_CALL(*p_dsAudioHalMock, dsAudioPortInit()).WillByDefault(::testing::Return(dsERR_NONE));
@@ -217,7 +217,7 @@ L2TestMocks::~L2TestMocks()
    MessageEncoder::setImpl(nullptr);
    MessageDecoder::setImpl(nullptr);
 
-#ifdef DSPLUGINMOCKS
+#ifdef DEVICESETTINGS_PLUGIN_MOCKS
    // DeviceSettings HAL Mocks
     DsAudioApi::setImpl(nullptr);
     DsCompositeInApi::setImpl(nullptr);
@@ -391,7 +391,7 @@ L2TestMocks::~L2TestMocks()
       p_messageDecoderMock = nullptr;
    }
 
-#ifdef DSPLUGINMOCKS
+#ifdef DEVICESETTINGS_PLUGIN_MOCKS
    // DeviceSettings HAL Mocks
    if (p_dsAudioHalMock != nullptr)
    {
