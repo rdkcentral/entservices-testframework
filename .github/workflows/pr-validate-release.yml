@@ -22,9 +22,13 @@ jobs:
 
       - name: Validate backport_to
         env:
-          PR_BODY:   ${{ github.event.pull_request.body }}
-          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_BODY:    ${{ github.event.pull_request.body }}
+          PR_BRANCH:  ${{ github.event.pull_request.head.ref }}
+          PR_TITLE:   ${{ github.event.pull_request.title }}
+          PR_NUMBER:  ${{ github.event.pull_request.number }}
+          GH_TOKEN:   ${{ secrets.GITHUB_TOKEN }}
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          JIRA_URL:   https://ccp.sys.comcast.net
         run: |
           set -euo pipefail
           
@@ -124,11 +128,131 @@ jobs:
           echo ""
 
           # ────────────────────────────────────────────────────────────────────
+          # Source ticket: the develop PR's own ticket, same regex backport.yml
+          # uses. This is what gets cloned for any target left without its own
+          # explicit (RDKEMW-xxxxx) annotation.
+          # ────────────────────────────────────────────────────────────────────
+          SOURCE_TICKET=$(echo "$PR_TITLE" | grep -oE '[A-Z]+-[0-9]+' | head -1 || true)
+          if [ -z "$SOURCE_TICKET" ]; then
+            SOURCE_TICKET=$(echo "$PR_BRANCH" | grep -oE '[A-Z]+-[0-9]+' | head -1 || true)
+          fi
+          echo "  Source ticket: ${SOURCE_TICKET:-<none found>}"
+          echo ""
+
+          # ────────────────────────────────────────────────────────────────────
+          # Clone the source ticket into a new Jira ticket for a given target
+          # label (e.g. "8.6.3.0"). Only called when a target has no ticket of
+          # its own. Fetches the source once and reuses it for every target.
+          # ────────────────────────────────────────────────────────────────────
+          SOURCE_FETCHED=false
+
+          fetch_source_ticket() {
+            [ "$SOURCE_FETCHED" = true ] && return 0
+
+            echo "    ▶ Fetching source ticket $SOURCE_TICKET to clone..." >&2
+            local resp http_code body
+            resp=$(curl -sS -w '\n%{http_code}' --max-time 15 \
+              -H "Authorization: Bearer $JIRA_TOKEN" -H "Accept: application/json" \
+              "$JIRA_URL/rest/api/2/issue/$SOURCE_TICKET?fields=*all")
+            http_code=$(tail -n1 <<<"$resp")
+            body=$(sed '$d' <<<"$resp")
+
+            if [ "$http_code" != "200" ]; then
+              echo "    ❌ Could not fetch source ticket $SOURCE_TICKET (status $http_code)" >&2
+              return 1
+            fi
+
+            echo "$body" > /tmp/source_issue.json
+            SOURCE_PROJECT=$(jq -r '.fields.project.key' <<<"$body")
+            SOURCE_SUMMARY=$(jq -r '.fields.summary' <<<"$body" | sed -E 's/^\[[^]]*\]\s*//')
+            SOURCE_DESCRIPTION=$(jq -r '.fields.description // ""' <<<"$body")
+
+            # Required fields for a standalone "Task" in this project — cloning
+            # never reuses the source's own issue type (e.g. Sub-task needs a parent).
+            curl -sS --max-time 15 -H "Authorization: Bearer $JIRA_TOKEN" -H "Accept: application/json" \
+              "$JIRA_URL/rest/api/2/issue/createmeta?projectKeys=$SOURCE_PROJECT&expand=projects.issuetypes.fields" \
+              | jq -c '.projects[0].issuetypes[]? | select(.name == "Task") | .fields | with_entries(.value |= {required, name, type: .schema.type})' \
+              > /tmp/meta.json
+            [ -s /tmp/meta.json ] || echo '{}' > /tmp/meta.json
+
+            SOURCE_FETCHED=true
+          }
+
+          clone_jira_ticket() {
+            local target_label="$1"
+            fetch_source_ticket || return 1
+
+            local new_title="[$target_label] $SOURCE_SUMMARY"
+
+            # Copy whatever value the source ticket already has for each
+            # required field — e.g. "Responsible Team" — instead of guessing.
+            local extra
+            extra=$(jq -n --slurpfile ref /tmp/source_issue.json --slurpfile meta /tmp/meta.json '
+              ($ref[0]) as $ref | ($meta[0]) as $meta |
+              def norm:
+                if type == "array" then [.[] | if type == "object" then {id: .id} else . end]
+                elif type == "object" then (if .id then {id: .id} elif .name then {name: .name} elif .value then {value: .value} else empty end)
+                else . end;
+              reduce ($meta | keys_unsorted[]) as $k ({};
+                if (["project","issuetype","parent","summary","description","reporter"] | index($k)) then .
+                elif (($meta[$k].required // false) | not) then .
+                elif ($ref.fields[$k] // null) == null then .
+                else . + {($k): ($ref.fields[$k] | norm)} end)')
+
+            # Required text fields the source itself left blank get the new title.
+            local filled
+            filled=$(jq -n --arg summary "$new_title" --argjson meta "$(cat /tmp/meta.json)" --argjson extra "$extra" '
+              reduce ($meta | to_entries[] | select(.value.required and .value.type == "string") | .key) as $k ({};
+                if (["project","issuetype","parent","summary","description","reporter"] | index($k)) then .
+                elif $extra[$k] != null then .
+                else . + {($k): $summary} end)')
+
+            local payload resp key
+            payload=$(jq -n \
+              --arg project "$SOURCE_PROJECT" --arg summary "$new_title" --arg desc "$SOURCE_DESCRIPTION" \
+              --argjson extra "$extra" --argjson filled "$filled" \
+              '{fields: ({project: {key: $project}, issuetype: {name: "Task"}, summary: $summary, description: $desc} + $extra + $filled)}')
+
+            resp=$(curl -sS -X POST --max-time 15 \
+              -H "Authorization: Bearer $JIRA_TOKEN" -H "Content-Type: application/json" -H "Accept: application/json" \
+              --data "$payload" "$JIRA_URL/rest/api/2/issue")
+            key=$(jq -r '.key // empty' <<<"$resp")
+
+            if [ -z "$key" ]; then
+              # Jira sometimes enforces a required field createmeta never listed —
+              # if its error names the field(s), fill from the title and retry once.
+              local missing retry_payload
+              missing=$(jq -r '.errors // {} | keys | join(" ")' <<<"$resp")
+              if [ -z "$missing" ]; then
+                echo "    ❌ Failed to create ticket: $(jq -c . <<<"$resp")" >&2
+                return 1
+              fi
+
+              echo "    ⚠️  Jira needs field(s) createmeta didn't list: $missing — retrying once" >&2
+              retry_payload=$(jq -n --argjson base "$payload" --arg summary "$new_title" --arg keys "$missing" '
+                $base | .fields += (reduce ($keys | split(" ") | map(select(length > 0))[]) as $k ({}; . + {($k): $summary}))')
+
+              resp=$(curl -sS -X POST --max-time 15 \
+                -H "Authorization: Bearer $JIRA_TOKEN" -H "Content-Type: application/json" -H "Accept: application/json" \
+                --data "$retry_payload" "$JIRA_URL/rest/api/2/issue")
+              key=$(jq -r '.key // empty' <<<"$resp")
+
+              if [ -z "$key" ]; then
+                echo "    ❌ Retry also failed: $(jq -c . <<<"$resp")" >&2
+                return 1
+              fi
+            fi
+
+            echo "    ✅ Cloned $SOURCE_TICKET → $key ($JIRA_URL/browse/$key)" >&2
+            echo "$key"
+          }
+
+          # ────────────────────────────────────────────────────────────────────
           # Rule 4: Split comma-separated targets, validate each, map to branch.
           # 'none' is only valid on its own, not combined with real targets.
           # ────────────────────────────────────────────────────────────────────
           echo "▶ Rule 4: Validating target(s)..."
-          echo "  Optional target ticket: branch(RDKEMW-12345); otherwise the source PR ticket is used."
+          echo "  Optional target ticket: branch(RDKEMW-12345); otherwise one is auto-created by cloning $SOURCE_TICKET."
 
           IFS=',' read -ra RAW_LIST <<< "$VERSION"
           CLEAN_LIST=()
@@ -164,6 +288,8 @@ jobs:
 
           SUPPORT_BRANCHES=()
           declare -A SEEN_BRANCHES=()
+          OUTPUT_TOKENS=()
+          BODY_CHANGED=false
           for v in "${CLEAN_LIST[@]}"; do
             target="$v"
             target_ticket=""
@@ -229,15 +355,44 @@ jobs:
                 exit 1
               fi
               echo "  ℹ️  Duplicate target '$b' ignored"
+              OUTPUT_TOKENS+=("$v")
               continue
             fi
             SEEN_BRANCHES[$b]="$target_ticket"
             SUPPORT_BRANCHES+=("$b")
             if [ -n "$target_ticket" ]; then
               echo "  ✅ Ticket for $b: $target_ticket (feature/$target_ticket)"
+              OUTPUT_TOKENS+=("$v")
+            else
+              echo "  ℹ️  No ticket given for $b — cloning from $SOURCE_TICKET"
+              target_ticket=$(clone_jira_ticket "$target")
+              if [ -z "$target_ticket" ]; then
+                echo "  ❌ VALIDATION FAILED: Could not create a Jira ticket for target '$b'"
+                exit 1
+              fi
+              SEEN_BRANCHES[$b]="$target_ticket"
+              OUTPUT_TOKENS+=("${target}(${target_ticket})")
+              BODY_CHANGED=true
             fi
           done
           echo ""
+
+          # ────────────────────────────────────────────────────────────────────
+          # Persist any newly-created tickets into the PR body itself, using the
+          # same branch(TICKET) syntax a user would type manually. backport.yml
+          # reads this body unchanged later — no other file needs to change.
+          # ────────────────────────────────────────────────────────────────────
+          if [ "$BODY_CHANGED" = true ]; then
+            NEW_VERSION=$(IFS=,; echo "${OUTPUT_TOKENS[*]}")
+            LABEL_PREFIX=$(echo "$RAW_LINE" | grep -oiE '^\s*backport_to\s*:\s*')
+            NEW_LINE="${LABEL_PREFIX}${NEW_VERSION}"
+            NEW_BODY="${PR_BODY//$RAW_LINE/$NEW_LINE}"
+
+            echo "▶ Writing newly-created ticket(s) back into the PR description..."
+            gh pr edit "$PR_NUMBER" --body "$NEW_BODY"
+            echo "  ✅ PR body updated: backport_to: $NEW_VERSION"
+            echo ""
+          fi
 
           # ────────────────────────────────────────────────────────────────────
           # Rule 5: Verify every target branch exists on remote
