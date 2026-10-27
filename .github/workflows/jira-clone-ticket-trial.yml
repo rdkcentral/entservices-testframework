@@ -249,10 +249,44 @@ jobs:
 
           KEY=$(jq -r '.key // empty' <<<"$RESP")
 
+          # Jira's createmeta doesn't always expose every required field (seen
+          # with customfield_11643 here) — if Jira's own error response names
+          # still-missing fields, fill them from the summary and retry once.
           if [ -z "$KEY" ]; then
-            echo "❌ Failed to create cloned ticket" >&2
-            jq . <<<"$RESP" >&2 2>/dev/null || echo "$RESP" >&2
-            exit 1
+            STILL_MISSING=$(jq -r '.errors // {} | keys | join(" ")' <<<"$RESP")
+
+            if [ -z "$STILL_MISSING" ]; then
+              echo "❌ Failed to create cloned ticket" >&2
+              jq . <<<"$RESP" >&2 2>/dev/null || echo "$RESP" >&2
+              exit 1
+            fi
+
+            echo "  ⚠️  Jira reported still-missing field(s) not caught by createmeta: $STILL_MISSING"
+            echo "  Retrying once, filled from summary..."
+
+            RETRY_FILLED=$(jq -n --arg summary "$NEW_TITLE" --arg keys "$STILL_MISSING" '
+              reduce ($keys | split(" ") | map(select(length > 0))[]) as $k ({}; . + {($k): $summary})')
+
+            RETRY_PAYLOAD=$(jq -n --argjson base "$PAYLOAD" --argjson retry "$RETRY_FILLED" \
+              '$base | .fields += $retry')
+
+            echo "▶ Retry payload:"
+            jq . <<<"$RETRY_PAYLOAD"
+
+            RESP=$(curl -sS -X POST --max-time 15 \
+              -H "Authorization: Bearer $JIRA_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "Accept: application/json" \
+              --data "$RETRY_PAYLOAD" \
+              "$JIRA_URL/rest/api/2/issue")
+
+            KEY=$(jq -r '.key // empty' <<<"$RESP")
+
+            if [ -z "$KEY" ]; then
+              echo "❌ Retry also failed to create cloned ticket" >&2
+              jq . <<<"$RESP" >&2 2>/dev/null || echo "$RESP" >&2
+              exit 1
+            fi
           fi
 
           echo "✅ Created: $KEY"
