@@ -3,6 +3,10 @@ name: Shared PR - Validate Backport Target
 # Reusable: github.event / github.repository / GITHUB_TOKEN all belong to the caller repo.
 on:
   workflow_call:
+    secrets:
+      JIRA_TOKEN:
+        description: Jira personal access token, used to clone a ticket when a backport target has none
+        required: true
 
 permissions:
   contents: read
