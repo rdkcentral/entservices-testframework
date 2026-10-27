@@ -173,10 +173,26 @@ jobs:
 
             # Required fields for a standalone "Task" in this project — cloning
             # never reuses the source's own issue type (e.g. Sub-task needs a parent).
-            curl -sS --max-time 15 -H "Authorization: Bearer $JIRA_TOKEN" -H "Accept: application/json" \
-              "$JIRA_URL/rest/api/2/issue/createmeta?projectKeys=$SOURCE_PROJECT&expand=projects.issuetypes.fields" \
+            # The classic createmeta endpoint is unreliable on some Jira Server/DC
+            # versions (returns no fields some runs, for no visible reason) — fall
+            # back to the per-project issuetypes endpoint when that happens.
+            api() {
+              curl -sS --max-time 15 -H "Authorization: Bearer $JIRA_TOKEN" -H "Accept: application/json" "$JIRA_URL$1"
+            }
+
+            api "/rest/api/2/issue/createmeta?projectKeys=$SOURCE_PROJECT&expand=projects.issuetypes.fields" \
               | jq -c '.projects[0].issuetypes[]? | select(.name == "Task") | .fields | with_entries(.value |= {required, name, type: .schema.type})' \
               > /tmp/meta.json
+
+            if [ ! -s /tmp/meta.json ] || [ "$(cat /tmp/meta.json)" = "null" ]; then
+              echo "    (classic createmeta returned nothing — trying per-project issuetypes endpoint)" >&2
+              TYPE_ID=$(api "/rest/api/2/issue/createmeta/$SOURCE_PROJECT/issuetypes?maxResults=200" | jq -r '.values[]? | select(.name == "Task") | .id' | head -1)
+              if [ -n "$TYPE_ID" ]; then
+                api "/rest/api/2/issue/createmeta/$SOURCE_PROJECT/issuetypes/$TYPE_ID?maxResults=200" \
+                  | jq -c '[.values[]? | {key: (.fieldId // .key), value: {required: .required, name: .name, type: .schema.type}}] | from_entries' \
+                  > /tmp/meta.json
+              fi
+            fi
             [ -s /tmp/meta.json ] || echo '{}' > /tmp/meta.json
 
             SOURCE_FETCHED=true
