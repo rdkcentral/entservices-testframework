@@ -205,13 +205,31 @@ jobs:
         run: |
           set -euo pipefail
 
+          # Required fields the source ticket left blank (nothing to copy) get
+          # filled with the new summary, same fallback create-jira-subtasks.sh uses.
+          TEXT_FALLBACK_KEYS=$(jq -rn --argjson extra "$EXTRA_FIELDS" --slurpfile meta /tmp/meta.json '
+            [$meta[0] | to_entries[]
+             | select(.value.required and .value.type == "string")
+             | . as $e
+             | select(["project","issuetype","parent","summary","description","reporter"] | index($e.key) | not)
+             | select($extra[$e.key] == null)
+             | $e.key] | join(" ")')
+
+          if [ -n "$TEXT_FALLBACK_KEYS" ]; then
+            echo "  Required text field(s) left blank by source — filling with summary: $TEXT_FALLBACK_KEYS"
+          fi
+
+          FILLED=$(jq -n --arg summary "$NEW_TITLE" --arg keys "$TEXT_FALLBACK_KEYS" '
+            reduce ($keys | split(" ") | map(select(length > 0))[]) as $k ({}; . + {($k): $summary})')
+
           PAYLOAD=$(jq -n \
             --arg project "$PROJECT_KEY" \
             --arg itype   "$ISSUE_TYPE" \
             --arg summary "$NEW_TITLE" \
             --arg desc    "$DESCRIPTION" \
             --argjson extra "$EXTRA_FIELDS" \
-            '{fields: ({project: {key: $project}, issuetype: {name: $itype}, summary: $summary, description: $desc} + $extra)}')
+            --argjson filled "$FILLED" \
+            '{fields: ({project: {key: $project}, issuetype: {name: $itype}, summary: $summary, description: $desc} + $extra + $filled)}')
 
           echo "▶ Payload to create:"
           jq . <<<"$PAYLOAD"
