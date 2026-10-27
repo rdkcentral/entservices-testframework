@@ -45,9 +45,8 @@ jobs:
           if [ -n "$LABEL_OVERRIDE" ]; then
             LABEL="$LABEL_OVERRIDE"
           else
-            # support/8.6.3.0 -> 8.6.3.0 -> 8.6 (major.minor only)
-            STRIPPED=$(echo "$TARGET_BRANCH" | sed -E 's#^(support|release)/##')
-            LABEL=$(echo "$STRIPPED" | grep -oE '^[0-9]+\.[0-9]+' || echo "$STRIPPED")
+            # support/8.6.3.0 -> 8.6.3.0 (full version, no truncation)
+            LABEL=$(echo "$TARGET_BRANCH" | sed -E 's#^(support|release)/##')
           fi
 
           echo "Derived label: [$LABEL]"
@@ -57,7 +56,7 @@ jobs:
         id: source
         env:
           JIRA_TOKEN:    ${{ secrets.JIRA_TOKEN }}
-          SOURCE_TICKET: ${{ inputs.source_ticket || 'RDKEMW-26905' }}
+          SOURCE_TICKET: ${{ inputs.source_ticket || 'RDKEMW-22693' }}
         run: |
           set -euo pipefail
 
@@ -123,10 +122,13 @@ jobs:
         env:
           JIRA_TOKEN:  ${{ secrets.JIRA_TOKEN }}
           PROJECT_KEY: ${{ steps.source.outputs.project_key }}
-          ISSUE_TYPE:  ${{ steps.source.outputs.issue_type }}
+          # Always a standalone Task, regardless of the source ticket's own type
+          # (e.g. Sub-task), since a clone has no parent to attach to.
+          ISSUE_TYPE:  "Task"
           NEW_TITLE:   ${{ steps.title.outputs.title }}
           DESCRIPTION: ${{ steps.source.outputs.description }}
-          DRY_RUN:     ${{ inputs.dry_run || 'true' }}
+          # TEMP: one real demo creation, as explicitly requested — revert to 'true' right after
+          DRY_RUN:     ${{ inputs.dry_run || 'false' }}
         run: |
           set -euo pipefail
 
