@@ -1,0 +1,159 @@
+name: Jira Clone Ticket (Trial)
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ticket:
+        description: "Existing ticket to clone from (e.g. RDKEMW-12345)"
+        required: true
+      target_branch:
+        description: "Backport target branch (e.g. support/8.6.3.0)"
+        required: true
+      label_override:
+        description: "Optional label for the new title, e.g. '8.6'. Leave empty to derive from target_branch"
+        required: false
+        default: ""
+      dry_run:
+        description: "If true, only print what would be created"
+        required: false
+        default: "true"
+
+permissions:
+  contents: read
+
+jobs:
+  clone-ticket:
+    runs-on: ubuntu-latest
+    env:
+      JIRA_URL: https://ccp.sys.comcast.net
+    steps:
+
+      - name: Derive label from target branch
+        id: label
+        env:
+          TARGET_BRANCH:  ${{ inputs.target_branch }}
+          LABEL_OVERRIDE: ${{ inputs.label_override }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "$LABEL_OVERRIDE" ]; then
+            LABEL="$LABEL_OVERRIDE"
+          else
+            # support/8.6.3.0 -> 8.6.3.0 -> 8.6 (major.minor only)
+            STRIPPED=$(echo "$TARGET_BRANCH" | sed -E 's#^(support|release)/##')
+            LABEL=$(echo "$STRIPPED" | grep -oE '^[0-9]+\.[0-9]+' || echo "$STRIPPED")
+          fi
+
+          echo "Derived label: [$LABEL]"
+          echo "label=$LABEL" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch source ticket
+        id: source
+        env:
+          JIRA_TOKEN:    ${{ secrets.JIRA_TOKEN }}
+          SOURCE_TICKET: ${{ inputs.source_ticket }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${JIRA_TOKEN:-}" ]; then
+            echo "❌ JIRA_TOKEN secret is not set" >&2
+            exit 1
+          fi
+
+          echo "▶ Fetching $SOURCE_TICKET ..."
+          RESP=$(curl -sS -w '\n%{http_code}' --max-time 15 \
+            -H "Authorization: Bearer $JIRA_TOKEN" \
+            -H "Accept: application/json" \
+            "$JIRA_URL/rest/api/2/issue/$SOURCE_TICKET?fields=project,summary,description,issuetype,priority,components,labels")
+
+          HTTP_CODE=$(tail -n1 <<<"$RESP")
+          BODY=$(sed '$d' <<<"$RESP")
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "❌ Could not fetch $SOURCE_TICKET (status $HTTP_CODE)" >&2
+            echo "$BODY" >&2
+            exit 1
+          fi
+
+          PROJECT_KEY=$(jq -r '.fields.project.key' <<<"$BODY")
+          ISSUE_TYPE=$(jq -r '.fields.issuetype.name' <<<"$BODY")
+          SUMMARY=$(jq -r '.fields.summary' <<<"$BODY")
+          DESCRIPTION=$(jq -r '.fields.description // ""' <<<"$BODY")
+
+          echo "  Project    : $PROJECT_KEY"
+          echo "  Issue type : $ISSUE_TYPE"
+          echo "  Summary    : $SUMMARY"
+
+          echo "$BODY" > /tmp/source_issue.json
+          echo "project_key=$PROJECT_KEY"   >> "$GITHUB_OUTPUT"
+          echo "issue_type=$ISSUE_TYPE"     >> "$GITHUB_OUTPUT"
+          {
+            echo "summary<<EOF"
+            echo "$SUMMARY"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          {
+            echo "description<<EOF"
+            echo "$DESCRIPTION"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Build cloned title
+        id: title
+        env:
+          SOURCE_SUMMARY: ${{ steps.source.outputs.summary }}
+          LABEL:          ${{ steps.label.outputs.label }}
+        run: |
+          set -euo pipefail
+
+          # Strip any existing leading "[...]" tag (e.g. "[develop] ") before re-tagging.
+          STRIPPED=$(echo "$SOURCE_SUMMARY" | sed -E 's/^\[[^]]*\]\s*//')
+          NEW_TITLE="[$LABEL] $STRIPPED"
+
+          echo "New title: $NEW_TITLE"
+          echo "title=$NEW_TITLE" >> "$GITHUB_OUTPUT"
+
+      - name: Create cloned ticket
+        env:
+          JIRA_TOKEN:  ${{ secrets.JIRA_TOKEN }}
+          PROJECT_KEY: ${{ steps.source.outputs.project_key }}
+          ISSUE_TYPE:  ${{ steps.source.outputs.issue_type }}
+          NEW_TITLE:   ${{ steps.title.outputs.title }}
+          DESCRIPTION: ${{ steps.source.outputs.description }}
+          DRY_RUN:     ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+
+          PAYLOAD=$(jq -n \
+            --arg project "$PROJECT_KEY" \
+            --arg itype   "$ISSUE_TYPE" \
+            --arg summary "$NEW_TITLE" \
+            --arg desc    "$DESCRIPTION" \
+            '{fields: {project: {key: $project}, issuetype: {name: $itype}, summary: $summary, description: $desc}}')
+
+          echo "▶ Payload to create:"
+          jq . <<<"$PAYLOAD"
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo ""
+            echo "DRY_RUN=true — not creating. Re-run with dry_run=false to actually clone."
+            exit 0
+          fi
+
+          RESP=$(curl -sS -X POST --max-time 15 \
+            -H "Authorization: Bearer $JIRA_TOKEN" \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/json" \
+            --data "$PAYLOAD" \
+            "$JIRA_URL/rest/api/2/issue")
+
+          KEY=$(jq -r '.key // empty' <<<"$RESP")
+
+          if [ -z "$KEY" ]; then
+            echo "❌ Failed to create cloned ticket" >&2
+            jq . <<<"$RESP" >&2 2>/dev/null || echo "$RESP" >&2
+            exit 1
+          fi
+
+          echo "✅ Created: $KEY"
+          echo "   $JIRA_URL/browse/$KEY"

@@ -1,0 +1,72 @@
+name: Jira Connectivity Check (Trial)
+
+on:
+  workflow_dispatch:
+    inputs:
+      jira_url:
+        description: "Jira base URL to test"
+        required: false
+        default: "https://ccp.sys.comcast.net"
+
+permissions:
+  contents: read
+
+jobs:
+  check-jira:
+    runs-on: ubuntu-latest
+    env:
+      JIRA_URL: ${{ inputs.jira_url }}
+    steps:
+
+      # ── Step 1: plain network reachability, no auth involved ────────────────
+      - name: Check Jira host is reachable
+        run: |
+          set -euo pipefail
+
+          echo "▶ Testing reachability of $JIRA_URL ..."
+          HTTP_CODE=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 "$JIRA_URL" || echo "000")
+
+          echo "  HTTP status: $HTTP_CODE"
+
+          if [ "$HTTP_CODE" = "000" ]; then
+            echo "❌ Could not connect at all (DNS/network/firewall block)."
+            echo "   This usually means the GitHub-hosted runner cannot reach this host"
+            echo "   (e.g. it's an internal/VPN-only endpoint). A self-hosted runner"
+            echo "   on the internal network would be needed instead."
+            exit 1
+          fi
+
+          echo "✅ Host responded (status $HTTP_CODE) — network path is open."
+
+      # ── Step 2: authenticated check, proves the token itself is valid ───────
+      - name: Check Jira token is valid
+        env:
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${JIRA_TOKEN:-}" ]; then
+            echo "❌ JIRA_TOKEN secret is not set — skipping auth check."
+            echo "   Add it under Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+          echo "▶ Calling $JIRA_URL/rest/api/2/myself ..."
+          RESP=$(curl -sS -w '\n%{http_code}' --max-time 15 \
+            -H "Authorization: Bearer $JIRA_TOKEN" \
+            -H "Accept: application/json" \
+            "$JIRA_URL/rest/api/2/myself")
+
+          HTTP_CODE=$(tail -n1 <<<"$RESP")
+          BODY=$(sed '$d' <<<"$RESP")
+
+          echo "  HTTP status: $HTTP_CODE"
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "❌ Authentication failed (status $HTTP_CODE)."
+            echo "$BODY"
+            exit 1
+          fi
+
+          DISPLAY_NAME=$(jq -r '.displayName // .name // "unknown"' <<<"$BODY")
+          echo "✅ Authenticated successfully as: $DISPLAY_NAME"
