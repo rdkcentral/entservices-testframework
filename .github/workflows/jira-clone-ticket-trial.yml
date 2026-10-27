@@ -66,10 +66,12 @@ jobs:
           fi
 
           echo "▶ Fetching $SOURCE_TICKET ..."
+          # fields=*all so we have every custom field available to copy later,
+          # not just the ones we already know we need.
           RESP=$(curl -sS -w '\n%{http_code}' --max-time 15 \
             -H "Authorization: Bearer $JIRA_TOKEN" \
             -H "Accept: application/json" \
-            "$JIRA_URL/rest/api/2/issue/$SOURCE_TICKET?fields=project,summary,description,issuetype,priority,components,labels")
+            "$JIRA_URL/rest/api/2/issue/$SOURCE_TICKET?fields=*all")
 
           HTTP_CODE=$(tail -n1 <<<"$RESP")
           BODY=$(sed '$d' <<<"$RESP")
@@ -118,6 +120,76 @@ jobs:
           echo "New title: $NEW_TITLE"
           echo "title=$NEW_TITLE" >> "$GITHUB_OUTPUT"
 
+      # ── Discover which fields this project+issuetype actually requires ──────
+      - name: Discover required fields for target issue type
+        id: meta
+        env:
+          JIRA_TOKEN:  ${{ secrets.JIRA_TOKEN }}
+          PROJECT_KEY: ${{ steps.source.outputs.project_key }}
+          ISSUE_TYPE:  "Task"
+        run: |
+          set -euo pipefail
+
+          api() {
+            curl -sS --max-time 15 -H "Authorization: Bearer $JIRA_TOKEN" -H "Accept: application/json" "$JIRA_URL$1"
+          }
+
+          echo "▶ Looking up createmeta for $PROJECT_KEY / $ISSUE_TYPE ..."
+
+          api "/rest/api/2/issue/createmeta?projectKeys=$PROJECT_KEY&expand=projects.issuetypes.fields" > /tmp/meta_raw.json
+
+          jq -e --arg itype "$ISSUE_TYPE" \
+            '.projects[0].issuetypes[]? | select(.name == $itype)' \
+            /tmp/meta_raw.json > /tmp/task_meta.json 2>/dev/null || true
+
+          if [ -s /tmp/task_meta.json ]; then
+            jq -c '.fields | with_entries(.value |= {required, name, type: .schema.type})' \
+              /tmp/task_meta.json > /tmp/meta.json
+          else
+            echo "  (classic createmeta had no fields — trying per-project issuetypes endpoint)"
+            api "/rest/api/2/issue/createmeta/$PROJECT_KEY/issuetypes?maxResults=200" > /tmp/types.json
+            TYPE_ID=$(jq -r --arg itype "$ISSUE_TYPE" '.values[]? | select(.name == $itype) | .id' /tmp/types.json | head -1)
+
+            if [ -z "$TYPE_ID" ]; then
+              echo "::warning::Could not resolve issue type id for '$ISSUE_TYPE' in $PROJECT_KEY"
+              echo '{}' > /tmp/meta.json
+            else
+              api "/rest/api/2/issue/createmeta/$PROJECT_KEY/issuetypes/$TYPE_ID?maxResults=200" > /tmp/meta_raw2.json
+              jq -c '[.values[]? | {key: (.fieldId // .key), value: {required: .required, name: .name, type: .schema.type}}] | from_entries' \
+                /tmp/meta_raw2.json > /tmp/meta.json
+            fi
+          fi
+
+          echo "  Required fields for $ISSUE_TYPE in $PROJECT_KEY:"
+          jq -r 'to_entries[] | select(.value.required) | "    \(.key) (\(.value.name))"' /tmp/meta.json
+
+      # ── Copy the source ticket's own values for whatever is required ────────
+      - name: Copy required field values from source ticket
+        id: extra
+        run: |
+          set -euo pipefail
+
+          REF_EXTRA=$(jq -n --slurpfile ref /tmp/source_issue.json --slurpfile meta /tmp/meta.json '
+            ($ref[0]) as $ref | ($meta[0]) as $meta |
+            def norm:
+              if type == "array" then [.[] | if type == "object" then {id: .id} else . end]
+              elif type == "object" then (if .id then {id: .id} elif .name then {name: .name} elif .value then {value: .value} else empty end)
+              else . end;
+            reduce ($meta | keys_unsorted[]) as $k ({};
+              if ((["project","issuetype","parent","summary","description","reporter"] | index($k)) != null) then .
+              elif (($meta[$k].required // false) | not) then .
+              elif ($ref.fields[$k] // null) == null then .
+              else . + {($k): ($ref.fields[$k] | norm)} end)')
+
+          echo "  Copied from source for required fields:"
+          jq . <<<"$REF_EXTRA"
+
+          {
+            echo "fields<<EOF"
+            echo "$REF_EXTRA"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Create cloned ticket
         env:
           JIRA_TOKEN:  ${{ secrets.JIRA_TOKEN }}
@@ -127,6 +199,7 @@ jobs:
           ISSUE_TYPE:  "Task"
           NEW_TITLE:   ${{ steps.title.outputs.title }}
           DESCRIPTION: ${{ steps.source.outputs.description }}
+          EXTRA_FIELDS: ${{ steps.extra.outputs.fields }}
           # TEMP: one real demo creation, as explicitly requested — revert to 'true' right after
           DRY_RUN:     ${{ inputs.dry_run || 'false' }}
         run: |
@@ -137,7 +210,8 @@ jobs:
             --arg itype   "$ISSUE_TYPE" \
             --arg summary "$NEW_TITLE" \
             --arg desc    "$DESCRIPTION" \
-            '{fields: {project: {key: $project}, issuetype: {name: $itype}, summary: $summary, description: $desc}}')
+            --argjson extra "$EXTRA_FIELDS" \
+            '{fields: ({project: {key: $project}, issuetype: {name: $itype}, summary: $summary, description: $desc} + $extra)}')
 
           echo "▶ Payload to create:"
           jq . <<<"$PAYLOAD"
