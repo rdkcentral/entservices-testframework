@@ -1,6 +1,11 @@
 name: Jira Clone Ticket (Trial)
 
 on:
+  # TEMP: lets this run via plain push while the file only exists on this
+  # branch — workflow_dispatch can't be invoked via API until this is on
+  # the default branch. Remove this trigger once that's no longer needed.
+  push:
+    branches: [feature/RDKEMW-26905]
   workflow_dispatch:
     inputs:
       source_ticket:
@@ -31,7 +36,8 @@ jobs:
       - name: Derive label from target branch
         id: label
         env:
-          TARGET_BRANCH:  ${{ inputs.target_branch }}
+          # Hardcoded trial defaults used while inputs.* is empty (plain push event)
+          TARGET_BRANCH:  ${{ inputs.target_branch || 'support/8.6.3.0' }}
           LABEL_OVERRIDE: ${{ inputs.label_override }}
         run: |
           set -euo pipefail
@@ -51,7 +57,7 @@ jobs:
         id: source
         env:
           JIRA_TOKEN:    ${{ secrets.JIRA_TOKEN }}
-          SOURCE_TICKET: ${{ inputs.source_ticket }}
+          SOURCE_TICKET: ${{ inputs.source_ticket || 'RDKEMW-26905' }}
         run: |
           set -euo pipefail
 
@@ -120,7 +126,7 @@ jobs:
           ISSUE_TYPE:  ${{ steps.source.outputs.issue_type }}
           NEW_TITLE:   ${{ steps.title.outputs.title }}
           DESCRIPTION: ${{ steps.source.outputs.description }}
-          DRY_RUN:     ${{ inputs.dry_run }}
+          DRY_RUN:     ${{ inputs.dry_run || 'true' }}
         run: |
           set -euo pipefail
 
