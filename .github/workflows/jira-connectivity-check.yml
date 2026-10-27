@@ -1,6 +1,11 @@
 name: Jira Connectivity Check (Trial)
 
 on:
+  # TEMP: lets this run via plain push while the file only exists on this
+  # branch — workflow_dispatch can't be invoked via API until this is on
+  # the default branch. Remove this trigger once that's no longer needed.
+  push:
+    branches: [feature/RDKEMW-26905]
   workflow_dispatch:
     inputs:
       jira_url:
@@ -15,7 +20,8 @@ jobs:
   check-jira:
     runs-on: ubuntu-latest
     env:
-      JIRA_URL: ${{ inputs.jira_url }}
+      # inputs.jira_url is empty on a plain push (no workflow_dispatch inputs)
+      JIRA_URL: ${{ inputs.jira_url || 'https://ccp.sys.comcast.net' }}
     steps:
 
       # ── Step 1: plain network reachability, no auth involved ────────────────
