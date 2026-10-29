@@ -50,6 +50,9 @@ public:
     MOCK_METHOD(Core::hresult, GetCurrentDisplayFrameRate, (const int32_t handle, string& framerate), (override));
     MOCK_METHOD(Core::hresult, SetDisplayFrameRate, (const int32_t handle, const string& framerate), (override));
 
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, Release, (), (const, override));
+
     BEGIN_INTERFACE_MAP(DeviceSettingsVideoDeviceMock)
     INTERFACE_ENTRY(Exchange::IDeviceSettingsVideoDevice)
     END_INTERFACE_MAP

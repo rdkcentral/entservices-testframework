@@ -58,6 +58,9 @@ public:
     MOCK_METHOD(Core::hresult, GetVRRSupport, (const HDMIInPort port, bool& vrrSupport), (override));
     MOCK_METHOD(Core::hresult, GetVRRStatus, (const HDMIInPort port, HDMIInVRRStatus& vrrStatus), (override));
 
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, Release, (), (const, override));
+
     BEGIN_INTERFACE_MAP(DeviceSettingsHDMIInMock)
     INTERFACE_ENTRY(Exchange::IDeviceSettingsHDMIIn)
     END_INTERFACE_MAP

@@ -54,6 +54,9 @@ public:
     MOCK_METHOD(Core::hresult, SetFPDTimeFormat, (const FPDTimeFormat fpdTimeFormat), (override));
     MOCK_METHOD(Core::hresult, SetFPDMode, (const FPDMode fpdMode), (override));
 
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, Release, (), (const, override));
+
     BEGIN_INTERFACE_MAP(DeviceSettingsFPDMock)
     INTERFACE_ENTRY(Exchange::IDeviceSettingsFPD)
     END_INTERFACE_MAP

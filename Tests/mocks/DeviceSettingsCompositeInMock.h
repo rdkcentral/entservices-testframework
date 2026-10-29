@@ -43,6 +43,9 @@ public:
     MOCK_METHOD(Core::hresult, SelectCompositeInPort, (const CompositeInPort port), (override));
     MOCK_METHOD(Core::hresult, ScaleCompositeInVideo, (const VideoRectangle videoRect), (override));
 
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, Release, (), (const, override));
+
     BEGIN_INTERFACE_MAP(DeviceSettingsCompositeInMock)
     INTERFACE_ENTRY(Exchange::IDeviceSettingsCompositeIn)
     END_INTERFACE_MAP

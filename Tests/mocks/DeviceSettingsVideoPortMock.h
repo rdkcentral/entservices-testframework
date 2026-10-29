@@ -74,6 +74,9 @@ public:
     MOCK_METHOD(Core::hresult, GetPreferredColorDepth, (const int32_t handle, DisplayColorDepth& colorDepth, const bool persist), (override));
     MOCK_METHOD(Core::hresult, SetPreferredColorDepth, (const int32_t handle, const DisplayColorDepth colorDepth, const bool persist), (override));
 
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, Release, (), (const, override));
+
     BEGIN_INTERFACE_MAP(DeviceSettingsVideoPortMock)
     INTERFACE_ENTRY(Exchange::IDeviceSettingsVideoPort)
     END_INTERFACE_MAP

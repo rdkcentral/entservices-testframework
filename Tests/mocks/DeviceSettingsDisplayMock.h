@@ -48,6 +48,9 @@ public:
     MOCK_METHOD(Core::hresult, SetAVIContentType, (const int32_t handle, const DisplayAVIContentType contentType), (override));
     MOCK_METHOD(Core::hresult, SetAVIScanInformation, (const int32_t handle, const DisplayAVIScanInformation scanInfo), (override));
 
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, Release, (), (const, override));
+
     BEGIN_INTERFACE_MAP(DeviceSettingsDisplayMock)
     INTERFACE_ENTRY(Exchange::IDeviceSettingsDisplay)
     END_INTERFACE_MAP

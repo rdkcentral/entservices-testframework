@@ -38,6 +38,9 @@ public:
     MOCK_METHOD(Core::hresult, GetEDID, (uint8_t edId[], const uint16_t edIdLength), (override));
     MOCK_METHOD(Core::hresult, GetMS12ConfigType, (std::string& ms12Config), (override));
 
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, Release, (), (const, override));
+
     BEGIN_INTERFACE_MAP(DeviceSettingsHostMock)
     INTERFACE_ENTRY(Exchange::IDeviceSettingsHost)
     END_INTERFACE_MAP

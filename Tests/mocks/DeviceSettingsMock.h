@@ -53,6 +53,9 @@ public:
     MOCK_METHOD(Core::hresult, Configure, (WPEFramework::PluginHost::IShell* service), (override));
     MOCK_METHOD(Core::hresult, GetDeviceSettingConfigs, (Exchange::IDeviceSettings::DeviceSettingConfigs& configs), (override));
 
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, Release, (), (const, override));
+
     BEGIN_INTERFACE_MAP(DeviceSettingsMock)
     INTERFACE_ENTRY(Exchange::IDeviceSettings)
     INTERFACE_AGGREGATE(Exchange::IDeviceSettingsAudio, DeviceSettingsAudioMock::Get())

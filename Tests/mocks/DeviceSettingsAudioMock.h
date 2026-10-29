@@ -113,6 +113,9 @@ public:
     MOCK_METHOD(Core::hresult, ResetAudioVolumeLeveller, (const int32_t handle), (override));
     MOCK_METHOD(Core::hresult, GetAudioHDMIARCPortId, (const int32_t handle, int32_t& portId), (override));
 
+    MOCK_METHOD(uint32_t, AddRef, (), (const, override));
+    MOCK_METHOD(uint32_t, Release, (), (const, override));
+
     BEGIN_INTERFACE_MAP(DeviceSettingsAudioMock)
     INTERFACE_ENTRY(Exchange::IDeviceSettingsAudio)
     END_INTERFACE_MAP
