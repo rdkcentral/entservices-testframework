@@ -45,7 +45,7 @@ public:
     MOCK_METHOD(Core::hresult, IsVideoPortDisplaySurround, (const int32_t handle, bool& surround), (override));
     MOCK_METHOD(Core::hresult, GetVideoPortDisplaySurroundMode, (const int32_t handle, VideoPortSurroundMode& surroundMode), (override));
     MOCK_METHOD(Core::hresult, EnableVideoPort, (const int32_t handle, const bool enable), (override));
-    MOCK_METHOD(Core::hresult, GetVideoPortResolution, (const int32_t handle, VideoPortResolution& videoPortResolution), (override));
+    MOCK_METHOD(Core::hresult, GetVideoPortResolution, (const int32_t handle, VideoPortResolution& videoPortResolution, const bool persist), (override));
     MOCK_METHOD(Core::hresult, SetVideoPortResolution, (const int32_t handle, const VideoPortResolution& videoPortResolution, const bool persist, const bool forceCompatibility), (override));
     MOCK_METHOD(Core::hresult, EnableHDCPOnVideoPort, (const int32_t handle, const bool hdcpEnable, const uint8_t hdcpKey[], const uint16_t hdcpKeySize), (override));
     MOCK_METHOD(Core::hresult, IsHDCPEnabledOnVideoPort, (const int32_t handle, bool& hdcpEnabled), (override));
