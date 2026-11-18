@@ -42,6 +42,7 @@ public:
     MOCK_METHOD(hresult, GetVendorId, (string &vendorid, bool &success), (override));
     MOCK_METHOD(hresult, PrintDeviceList, (bool &printed, bool &success), (override));
     MOCK_METHOD(hresult, RequestActiveSource, (HdmiCecSinkSuccess &success), (override));
+    MOCK_METHOD(hresult, RequestAudioDevicePowerStatus, (HdmiCecSinkSuccess &success), (override));
     MOCK_METHOD(hresult, RequestShortAudioDescriptor, (HdmiCecSinkSuccess &success), (override));
     MOCK_METHOD(hresult, SendAudioDevicePowerOnMessage, (HdmiCecSinkSuccess &success), (override));
     MOCK_METHOD(hresult, SendGetAudioStatusMessage, (HdmiCecSinkSuccess &success), (override));

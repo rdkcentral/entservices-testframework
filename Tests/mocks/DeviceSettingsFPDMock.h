@@ -46,7 +46,7 @@ public:
     MOCK_METHOD(Core::hresult, SetFPDState, (const FPDIndicator indicator, const FPDState state), (override));
     MOCK_METHOD(Core::hresult, GetFPDState, (const FPDIndicator indicator, FPDState& state), (override));
     MOCK_METHOD(Core::hresult, GetFPDColor, (const FPDIndicator indicator, uint32_t& color), (override));
-    MOCK_METHOD(Core::hresult, SetFPDColor, (const FPDIndicator indicator, const uint32_t color), (override));
+    MOCK_METHOD(Core::hresult, SetFPDColor, (const FPDIndicator indicator, const uint32_t color, const bool persist), (override));
     MOCK_METHOD(Core::hresult, SetFPDTextBrightness, (const FPDTextDisplay textDisplay, const uint32_t brightNess), (override));
     MOCK_METHOD(Core::hresult, GetFPDTextBrightness, (const FPDTextDisplay textDisplay, uint32_t& brightNess), (override));
     MOCK_METHOD(Core::hresult, EnableFPDClockDisplay, (const bool enable), (override));
