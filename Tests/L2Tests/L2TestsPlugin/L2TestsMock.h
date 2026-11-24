@@ -22,6 +22,7 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include "Module.h"
 #include "UtilsJsonRpc.h"
 
 #include "IarmBusMock.h"
